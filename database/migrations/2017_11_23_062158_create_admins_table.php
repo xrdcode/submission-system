@@ -102,6 +102,38 @@ class CreateAdminsTable extends Migration
             $table->foreign('updated_by')->references('id')->on('admins')->onDelete('set null');
 
         });
+
+        Schema::create('message_types', function(Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('description');
+            $table->string('classname');
+            $table->unsignedInteger('message_type_id');
+
+            $table->foreign('created_by')->references('id')->on('admins')->onDelete('set null');
+            $table->foreign('updated_by')->references('id')->on('admins')->onDelete('set null');
+            $table->timestamps();
+
+            $table->foreign('created_by')->references('id')->on('admins')->onDelete('set null');
+            $table->foreign('updated_by')->references('id')->on('admins')->onDelete('set null');
+        });
+
+        Schema::create('flash_message', function(Blueprint $table) {
+            $table->increments('id');
+            $table->string('title');
+            $table->text('text');
+            $table->unsignedInteger('message_type_id');
+
+            $table->foreign('message_type_id')->references('id')->on('message_types')->onDelete('cascade');
+
+            $table->foreign('created_by')->references('id')->on('admins')->onDelete('set null');
+            $table->foreign('updated_by')->references('id')->on('admins')->onDelete('set null');
+            $table->timestamps();
+
+            $table->foreign('created_by')->references('id')->on('admins')->onDelete('set null');
+            $table->foreign('updated_by')->references('id')->on('admins')->onDelete('set null');
+
+        });
     }
 
     /**

@@ -50,7 +50,7 @@ class CreateSubmissionTable extends Migration
             $table->foreign('updated_by')->references('id')->on('admins')->onDelete('set null');
         });
 
-        Schema::create('files', function (Blueprint $table) {
+        Schema::create('file_papers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('type');
@@ -80,7 +80,7 @@ class CreateSubmissionTable extends Migration
             $table->text('abstract');
             $table->boolean('approved')->default(false);
             $table->unsignedInteger('user_id');
-            $table->unsignedInteger('file_id')->nullable();
+            $table->unsignedInteger('file_paper_id')->nullable();
             $table->unsignedInteger('submission_event_id')->nullable();
             $table->unsignedInteger('submission_status_id')->nullable();
             $table->unsignedInteger('workstate_id')->nullable();
@@ -90,7 +90,7 @@ class CreateSubmissionTable extends Migration
             $table->unsignedInteger("updated_by")->nullable();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('file_id')->references('id')->on('files')->onDelete('set null');
+            $table->foreign('file_paper_id')->references('id')->on('file_papers')->onDelete('set null');
             $table->foreign('submission_event_id')->references('id')->on('submission_events')->onDelete('set null');
             $table->foreign('submission_status_id')->references('id')->on('submission_statuses')->onDelete('set null');
             $table->foreign('workstate_id')->references('id')->on('workstates')->onDelete('set null');

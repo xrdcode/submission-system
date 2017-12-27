@@ -13,7 +13,7 @@ class CreatePaymentsTable extends Migration
      */
     public function up()
     {
-        Schema::table('pricing_types', function(Blueprint $table) {
+        Schema::table('pricing_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('description');
@@ -28,7 +28,7 @@ class CreatePaymentsTable extends Migration
 
         });
 
-        Schema::table('pricings', function(Blueprint $table) {
+        Schema::table('pricings', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('submission_event_id');
             $table->unsignedInteger('pricing_types_id');
@@ -44,11 +44,15 @@ class CreatePaymentsTable extends Migration
 
         });
 
-        Schema::create('payment_submissions', function(Blueprint $table) {
-           $table->increments('id');
-           $table->unsignedInteger('submission_id');
-           $table->text('file')->nullable();
-           $table->boolean('verified')->default(false);
+        Schema::create('payment_submissions', function (Blueprint $table) {
+            $table->increments('id');
+
+            $table->unsignedInteger('submission_id');
+            $table->text('file')->nullable();
+            $table->boolean('verified')->default(false);
+
+            $table->unsignedInteger('submission_id');
+            $table->unsignedInteger('pricing_id');
 
             $table->timestamps();
 
@@ -57,13 +61,17 @@ class CreatePaymentsTable extends Migration
 
             $table->foreign('created_by')->references('id')->on('admins')->onDelete('set null');
             $table->foreign('updated_by')->references('id')->on('admins')->onDelete('set null');
+
+            $table->foreign('submission_id')->references('id')->on('submissions')->onDelete('cascade');
+            $table->foreign('pricing_id')->references('id')->on('pricings')->onDelete('cascade');
         });
 
-        Schema::create('general_payments', function(Blueprint $table) {
+        Schema::create('general_payments', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('submission_event_id');
+            $table->unsignedInteger('submission_event_id')->nullable();
             $table->unsignedInteger('pricing_id');
             $table->unsignedInteger('user_id');
+            $table->unsignedInteger('workstate_id');
             $table->text('file')->nullable();
             $table->text('notes')->nullable();
             $table->boolean('verified')->default(false);
@@ -73,6 +81,10 @@ class CreatePaymentsTable extends Migration
             $table->unsignedInteger("updated_by")->nullable();
 
             $table->foreign('updated_by')->references('id')->on('admins')->onDelete('set null');
+            $table->foreign('submission_event_id')->references('id')->on('submission_events')->onDelete('set null');
+            $table->foreign('pricing_id')->references('id')->on('pricings')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('workstate_id')->references('id')->on('workstates')->onDelete('cascade');
         });
     }
 
@@ -83,6 +95,9 @@ class CreatePaymentsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('general_payments');
+        Schema::dropIfExists('payment_submission');
+        Schema::dropIfExists('pricings');
+        Schema::dropIfExists('pricing_type');
     }
 }
