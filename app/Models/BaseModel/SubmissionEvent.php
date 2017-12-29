@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class SubmissionEvent extends Model
 {
+    protected $fillable = ['name','description', 'valid_from','valid_thru'];
+
     public function parent() {
         return $this->belongsTo(SubmissionEvent::class, 'parent_id');
     }
