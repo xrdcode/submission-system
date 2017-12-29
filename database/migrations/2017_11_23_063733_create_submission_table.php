@@ -36,7 +36,7 @@ class CreateSubmissionTable extends Migration
                 ->onDelete('set null');
         });
 
-        Schema::create('workstate', function (Blueprint $table) {
+        Schema::create('workstate_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('description');
@@ -46,6 +46,22 @@ class CreateSubmissionTable extends Migration
             $table->unsignedInteger("created_by")->nullable();
             $table->unsignedInteger("updated_by")->nullable();
 
+            $table->foreign('created_by')->references('id')->on('admins')->onDelete('set null');
+            $table->foreign('updated_by')->references('id')->on('admins')->onDelete('set null');
+        });
+
+        Schema::create('workstates', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('description');
+            $table->unsignedInteger('workstate_type_id')->nullable();
+
+            $table->timestamps();
+
+            $table->unsignedInteger("created_by")->nullable();
+            $table->unsignedInteger("updated_by")->nullable();
+
+            $table->foreign('workstate_type_id')->references('id')->on('workstate_types')->onDelete('set null');
             $table->foreign('created_by')->references('id')->on('admins')->onDelete('set null');
             $table->foreign('updated_by')->references('id')->on('admins')->onDelete('set null');
         });
@@ -116,7 +132,7 @@ class CreateSubmissionTable extends Migration
 
            $table->foreign('created_by')->references('id')->on('admins')->onDelete('set null');
            $table->foreign('updated_by')->references('id')->on('admins')->onDelete('set null');
-           $table->foreign('submission_event_id')->references('id')->on('submission_event_id')->onDelete('set null');
+           $table->foreign('submission_event_id')->references('id')->on('submission_events')->onDelete('set null');
        });
     }
 

@@ -9,6 +9,7 @@
 return  [
     'modules' => [
         'Admin',
-        'AdminManagement'
+        'AdminManagement',
+        'User'
     ]
 ];

@@ -25,24 +25,6 @@ class CreateUsersTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('biodatas', function(Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('user_id')->unique();
-            $table->string('nik');
-            $table->string('identity_number')->nullable();
-            $table->string('identity_type_id')->nullable();
-            $table->timestamps();
-
-            $table->foreign('user_id')
-                ->references('id')->on('users')
-                ->onDelete('delete');
-
-            $table->foreign('identity_type_id')
-                ->references('id')->on('identity_types')
-                ->onDelete('set null');
-
-        });
-
         Schema::create('identity_types', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
@@ -56,6 +38,26 @@ class CreateUsersTable extends Migration
             $table->foreign('created_by')->references('id')->on('admins')->onDelete('set null');
             $table->foreign('updated_by')->references('id')->on('admins')->onDelete('set null');
         });
+
+        Schema::create('biodatas', function(Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('user_id')->unique();
+            $table->string('nik');
+            $table->string('identity_number')->nullable();
+            $table->unsignedInteger('identity_type_id')->nullable();
+            $table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
+
+            $table->foreign('identity_type_id')
+                ->references('id')->on('identity_types')
+                ->onDelete('set null');
+
+        });
+
+
     }
 
 

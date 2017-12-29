@@ -13,7 +13,7 @@ class CreatePaymentsTable extends Migration
      */
     public function up()
     {
-        Schema::table('pricing_types', function (Blueprint $table) {
+        Schema::create('pricing_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('description');
@@ -28,7 +28,7 @@ class CreatePaymentsTable extends Migration
 
         });
 
-        Schema::table('pricings', function (Blueprint $table) {
+        Schema::create('pricings', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('submission_event_id');
             $table->unsignedInteger('pricing_types_id');
@@ -47,10 +47,8 @@ class CreatePaymentsTable extends Migration
         Schema::create('payment_submissions', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->unsignedInteger('submission_id');
             $table->text('file')->nullable();
             $table->boolean('verified')->default(false);
-
             $table->unsignedInteger('submission_id');
             $table->unsignedInteger('pricing_id');
 

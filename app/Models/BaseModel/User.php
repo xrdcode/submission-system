@@ -1,7 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models\BaseModel;
 
+use App\Models\BaseModel\Biodata;
+use App\Models\BaseModel\GeneralPayments;
+use App\Models\BaseModel\Submission;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -26,4 +29,16 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function biodatas() {
+        return $this->hasOne(Biodata::class);
+    }
+
+    public function submissions() {
+        return $this->hasMany(Submission::class);
+    }
+
+    public function general_payments() {
+        return $this->hasMany(GeneralPayments::class);
+    }
 }
