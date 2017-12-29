@@ -15,6 +15,74 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" />
     <link rel="stylesheet" href="{{ asset("css/select2.css") }}">
     <link rel="stylesheet" href="{{ asset("css/select2-bootstrap.css") }}" />
+    <style>
+        .dropdown-large {
+            position: static !important;
+        }
+        .dropdown-menu-large {
+            margin-left: 16px;
+            margin-right: 16px;
+            padding: 20px 0px;
+            min-width: 50%;
+        }
+        .dropdown-menu-large > li > ul {
+            padding: 0;
+            margin: 0;
+        }
+        .dropdown-menu-large > li > ul > li {
+            list-style: none;
+        }
+        .dropdown-menu-large > li > ul > li > a {
+            display: block;
+            padding: 3px 20px;
+            clear: both;
+            font-weight: normal;
+            line-height: 1.428571429;
+            color: #333333;
+            white-space: normal;
+        }
+        .dropdown-menu-large > li ul > li > a:hover,
+        .dropdown-menu-large > li ul > li > a:focus {
+            text-decoration: none;
+            color: #262626;
+            background-color: #f5f5f5;
+        }
+        .dropdown-menu-large .disabled > a,
+        .dropdown-menu-large .disabled > a:hover,
+        .dropdown-menu-large .disabled > a:focus {
+            color: #999999;
+        }
+        .dropdown-menu-large .disabled > a:hover,
+        .dropdown-menu-large .disabled > a:focus {
+            text-decoration: none;
+            background-color: transparent;
+            background-image: none;
+            filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+            cursor: not-allowed;
+        }
+        .dropdown-menu-large .dropdown-header {
+            color: #428bca;
+            font-size: 18px;
+        }
+        @media (max-width: 768px) {
+            .dropdown-menu-large {
+                margin-left: 0 ;
+                margin-right: 0 ;
+            }
+            .dropdown-menu-large > li {
+                margin-bottom: 30px;
+            }
+            .dropdown-menu-large > li:last-child {
+                margin-bottom: 0;
+            }
+            .dropdown-menu-large .dropdown-header {
+                padding: 3px 15px !important;
+            }
+        }
+
+
+
+    </style>
     @yield("styles")
 </head>
 <body>
@@ -40,7 +108,92 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    &nbsp;
+                    &nbsp;<li class="dropdown dropdown-large">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Master<span class="caret"></span></a>
+                        <ul class="dropdown-menu dropdown-menu-large row">
+                            <li class="col-md-4">
+                                <ul>
+                                    <li class="dropdown-header">Admin</li>
+                                    <li><a href="{{ route('admin.manageadmin') }}">Manage Admin</a></li>
+                                    <li><a href="{{ route('admin.managegroup') }}">Manage Group</a></li>
+                                    <li><a href="{{ route('admin.managerole') }}">Manage Role</a></li>
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header">Module</li>
+                                    <li><a href="{{ route('module.manage') }}">Manage</a></li>
+                                </ul>
+                            </li>
+                            <li class="col-md-4">
+                                <ul>
+                                    <li class="dropdown-header">System</li>
+                                    <li><a href="#">Setting</a></li>
+                                    <li><a href="#">Flash Message</a></li>
+                                    <li class="divider"></li>
+                                </ul>
+                            </li>
+                            <li class="col-md-4">
+                                <ul>
+                                    <li class="dropdown-header">Master</li>
+                                    <li><a href="#">Identity Type</a></li>
+                                    <li><a href="#">Submission Status</a></li>
+                                    <li><a href="#">Workstate</a></li>
+                                    <li class="divider"></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown dropdown-large">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Submission<span class="caret"></span></a>
+                        <ul class="dropdown-menu dropdown-menu-large row">
+                            <li class="col-md-4">
+                                <ul>
+                                    <li class="dropdown-header">Events</li>
+                                    <li><a href="#">Event List</a></li>
+                                    <li><a href="#">Schedule</a></li>
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header">Submission</li>
+                                    <li><a href="#">Submission List</a></li>
+                                </ul>
+                            </li>
+                            <li class="col-md-4">
+                                <ul>
+                                    <li class="dropdown-header">Room</li>
+                                    <li><a href="#">Room List</a></li>
+                                    <li><a href="#">Submission Room</a></li>
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header">Participant</li>
+                                    <li><a href="#">User List</a></li>
+                                </ul>
+                            </li>
+                            <li class="col-md-4">
+                                <ul>
+                                    <li class="dropdown-header">Pricing</li>
+                                    <li><a href="#">Manage Pricing</a></li>
+                                    <li><a href="#">Pricing Type</a></li>
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header">Payments</li>
+                                    <li><a href="#">General Payment</a></li>
+                                    <li><a href="#">Submission Payment</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown dropdown-large">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reports<span class="caret"></span></a>
+                        <ul class="dropdown-menu dropdown-menu-large row">
+                            <li class="col-md-4">
+                                <ul>
+                                    <li><a href="#">Payment Mutation</a></li>
+                                    <li><a href="#">Participant Data</a></li>
+                                </ul>
+                            </li>
+                            <li class="col-md-4">
+                                <ul>
+                                    <li><a href="#">A</a></li>
+                                    <li><a href="#">B</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
@@ -49,6 +202,7 @@
                     @if (Auth::guest('admin'))
                         <li><a href="{{ route('admin.login') }}">Login</a></li>
                     @else
+
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 {{ Auth::user()->name }} <span class="caret"></span>
