@@ -13,9 +13,18 @@ function ajaxSaveUpdate(id) {
                 if(!data.errors) {
                     $(me).find('.has-error').removeClass('has-error');
                     $(me).find('.help-block').remove();
+
+                    if($(me).closest('.modal').length > 0) {
+                        $(me).closest('.modal').modal('hide');
+                    }
+                    showAlert("Data has been saved !", "success", "Success:");
                 } else {
-                    showValidationError(data, me);
+                    showValidationError(data, me)
+
                 }
+            },
+            error: function(xHr) {
+                showAlert("Oooops.. something when wrong..", "danger", "Error:");
             }
         });
 
@@ -38,7 +47,16 @@ function showValidationError(data, form) {
     });
 }
 
-
+function showAlert(message, type, title) {
+    $.notify({
+        title: title,
+        message : message,
+        mouse_over : 'pause'
+    },{
+        type : type,
+        newest_on_top : true
+    });
+}
 
 function generateHelpBlock(val) {
     return '<span class="help-block">' +

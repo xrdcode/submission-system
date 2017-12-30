@@ -19,11 +19,11 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         Edit User
-                        <a href="{{ route('module.manage') }}" class="btn btn-info btn-sm pull-right">Back</a>
+                        <a href="{{ route('admin.module') }}" class="btn btn-info btn-sm pull-right">Back</a>
                     </div>
 
                     <div class="panel-body">
-                        <form id="editmodule" class="form-horizontal" method="POST" action="{{ route('module.manage.update', $module->id) }}">
+                        <form id="editmodule" class="form-horizontal" method="POST" action="{{ route('admin.module.update', $module->id) }}">
                             {{ csrf_field() }}
 
                             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">

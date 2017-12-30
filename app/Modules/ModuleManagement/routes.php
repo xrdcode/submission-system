@@ -8,8 +8,8 @@
 
 Route::group(
     [
-        'prefix' => 'module/manage',
-        'as' => 'module.manage',
+        'prefix' => 'admin/module',
+        'as' => 'admin.module',
         'namespace' => 'App\Modules\ModuleManagement\Controllers',
         'middleware' => ['web', 'auth:admin']
     ], function () {
@@ -22,6 +22,7 @@ Route::group(
     Route::get('/newmodule', ['as' => '.newmodule', 'uses' => 'EditController@newmodule', 'middleware' => []]);;
     Route::post('/store', ['as' => '.store', 'uses' => 'EditController@store', 'middleware' => []]);;
     Route::get('/activate/{id}', ['as' => '.activate', 'uses' => 'EditController@activate', 'middleware' => []]);;
+    Route::get('/dt', ['as' => '.dt', 'uses' => 'ListController@DTModule', 'middleware' => []]);;
 
     Route::get('/detail/{id}', ['as' => '.detail', 'uses' => 'DetailController@index', 'middleware' => []]);
 });

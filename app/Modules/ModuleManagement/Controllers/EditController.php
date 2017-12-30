@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use Carbon\Carbon;
+use Yajra\Datatables\Datatables;
 
 class EditController extends Controller
 {
@@ -34,7 +35,7 @@ class EditController extends Controller
 
     public function newmodule() {
         $data = [
-            'action' => route('module.manage.store'),
+            'action' => route('admin.module.store'),
             // 'class' => 'modal-lg', //Kelas Modal
             'modalId'   => 'modulemodal',
             'title'     => 'Register New Module'
@@ -92,6 +93,8 @@ class EditController extends Controller
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
         }
     }
+
+
 
 
 }

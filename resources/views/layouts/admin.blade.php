@@ -11,10 +11,14 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
+    <link rel="stylesheet" href="{{ asset("css/animate.css") }}" />
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" />
     <link rel="stylesheet" href="{{ asset("css/select2.css") }}">
     <link rel="stylesheet" href="{{ asset("css/select2-bootstrap.css") }}" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.16/datatables.min.css"/>
+
+
     <style>
         .dropdown-large {
             position: static !important;
@@ -38,14 +42,14 @@
             clear: both;
             font-weight: normal;
             line-height: 1.428571429;
-            color: #333333;
+            color: #EEEEEE;
             white-space: normal;
         }
         .dropdown-menu-large > li ul > li > a:hover,
         .dropdown-menu-large > li ul > li > a:focus {
             text-decoration: none;
-            color: #262626;
-            background-color: #f5f5f5;
+            color: #CCCCCC;
+            /*background-color: #f5f5f5;*/
         }
         .dropdown-menu-large .disabled > a,
         .dropdown-menu-large .disabled > a:hover,
@@ -61,7 +65,7 @@
             cursor: not-allowed;
         }
         .dropdown-menu-large .dropdown-header {
-            color: #428bca;
+            color: #FFFFFF;
             font-size: 18px;
         }
         @media (max-width: 768px) {
@@ -80,7 +84,33 @@
             }
         }
 
+        .datepicker-dropdown th, .datepicker-dropdown td {
+            color: #EFEFEF;
+        }
 
+        .datepicker-dropdown .old {
+            color: #BBBBBB;
+        }
+
+        .datepicker-dropdown .month:hover {
+            color: #333333;
+        }
+
+        .datepicker-dropdown .focused {
+            color: #333333;
+        }
+        .datepicker-dropdown .datepicker-switch:hover {
+            color: #333333;
+        }
+
+        [data-notify="progressbar"] {
+            margin-bottom: 0px;
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            width: 100%;
+            height: 5px;
+        }
 
     </style>
     @yield("styles")
@@ -119,7 +149,7 @@
                                     <li><a href="{{ route('admin.managerole') }}">Manage Role</a></li>
                                     <li class="divider"></li>
                                     <li class="dropdown-header">Module</li>
-                                    <li><a href="{{ route('module.manage') }}">Manage</a></li>
+                                    <li><a href="{{ route('admin.module') }}">Manage</a></li>
                                 </ul>
                             </li>
                             <li class="col-md-4">
@@ -230,12 +260,17 @@
     @yield('content')
 </div>
 
+<div id="modal-container">
+
+</div>
+
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
-<script src="{{ asset('js/ajaxcall.js') }}"></script>
-
+<script src="{{ asset('js/ssmath.js') }}"></script>
 <script src="{{ asset("js/select2.min.js") }}"></script>
+<script src="{{ asset("js/bootstrap-notify.min.js") }}"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.16/datatables.min.js"></script>
 @yield('scripts')
 </body>
 </html>

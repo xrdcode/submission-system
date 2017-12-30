@@ -30,6 +30,12 @@ class ModuleSeeder extends Seeder
                 'description' => "Admin Management Module",
                 'pathname' => "AdminManagement",
                 'active' => true,
+            ],
+            [
+                'name' => "Module Management",
+                'description' => "Module Management Module",
+                'pathname' => "ModuleManagement",
+                'active' => true,
             ]
         ]);
     }

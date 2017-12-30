@@ -13,8 +13,8 @@ class MasterSeeder extends Seeder
     {
         DB::table('identity_types')->insert([
             [
-                'name'          => 'NIK',
-                'description'   => 'Nomor Induk Kependudukan (KTP)'
+                'name'          => 'PASPOR',
+                'description'   => 'Paspor'
             ],
             [
                 'name'          => 'NIDN',
@@ -23,6 +23,10 @@ class MasterSeeder extends Seeder
             [
                 'name'          => 'NIM',
                 'description'   => 'Nomor Induk Mahasiswa'
+            ],
+            [
+                'name'          => 'NO SIM',
+                'description'   => 'Nomor SIM'
             ]
         ]);
 

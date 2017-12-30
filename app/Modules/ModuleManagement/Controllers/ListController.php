@@ -6,6 +6,7 @@ use App\Models\BaseModel\Module;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Constants;
+use Yajra\Datatables\Datatables;
 
 class ListController extends Controller
 {
@@ -29,5 +30,19 @@ class ListController extends Controller
 
     public function search(Request $request) {
 
+    }
+
+    public function DTModule() {
+        $modules = Module::select('id','name','pathname','description');
+        return Datatables::of($modules)
+            ->addColumn('created_by', function($m) {
+                $module = Module::find($m->id);
+                return !empty($module->createdby) ? $module->createdby->name : "-";
+            })
+            ->addColumn('updated_by', function($m) {
+                $module = Module::find($m->id);
+                return !empty($module->updatedby) ? $module->updatedby->name : "-";
+            })
+            ->make(true);
     }
 }

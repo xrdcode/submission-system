@@ -22,24 +22,24 @@ class EditController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['role:SubmissionManagement-Create'])->only(['store','newevent']);
-        $this->middleware(['role:SubmissionManagement-Save'])->only(['update','index','activate']);
+        $this->middleware(['role:EventManagement-Create'])->only(['store','newevent']);
+        $this->middleware(['role:EventManagement-Save'])->only(['update','index','activate']);
     }
 
     public function index($id) {
         $events = SubmissionEvent::findOrFail($id);
-        return view("SubmissionManagement::edit", ["module" => $events]);
+        return view("EventsManagement::events.edit", compact('events'));
     }
 
 
-    public function newevents() {
+    public function newevent() {
         $data = [
-            'action' => route('admin.manageevents.store'),
+            'action' => route('admin.event.store'),
             // 'class' => 'modal-lg', //Kelas Modal
             'modalId'   => 'eventmodal',
             'title'     => 'Create New Event'
         ];
-        return view("SubmissionManagement::new", $data);
+        return view("SubmissionManagement::events.new", compact('data'));
     }
 
     public function update(Request $request, $id) {
