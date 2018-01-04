@@ -104,7 +104,7 @@
                                      <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                                  </div>
                              </div>--}}
-                            <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }}">
+                            <div class="form-group{{ $errors->has('grouplist') ? ' has-error' : '' }}">
                                 <label for="address" class="col-md-4 control-label">Groups</label>
                                 <div class="col-md-6 col-md-4">
                                     {{ Form::select('grouplist[]', $grouplist, $admin->selectedGroup() ,["id" => "grouplist","class" => "form-control select2-multiple", "multiple"]) }}

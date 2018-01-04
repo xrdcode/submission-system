@@ -6,11 +6,13 @@
  * Time: 10:49
  */
 
-namespace Modules\User\Controllers\Submission;
+namespace App\Modules\User\Controllers\Submission;
 
 use App\Http\Controllers\Controller;
 
 class PapersController extends Controller
 {
+    public function index() {
 
+    }
 }

@@ -11,11 +11,11 @@ namespace App\Helper;
 
 class HtmlHelper
 {
-    public static function linkButton($text, $href, $class, $icon = false) {
+    public static function linkButton($text, $href, $class, $attr, $icon = false) {
         if($icon) {
-            return '<a href="'. $href . '" class="btn ' . $class . ' "><i class="glyphicon ' . $icon . '"></i> ' . $text . '</a>';
+            return '<a href="'. $href . '" class="btn ' . $class . '""' . $attr . '"><i class="glyphicon ' . $icon . '"></i> ' . $text . '</a>';
         } else {
-            return '<a href="'. $href . '" class="btn ' . $class . '">' . $text . '</a>';
+            return '<a href="'. $href . '" class="btn ' . $class . '""' . $attr . '">' . $text . '</a>';
         }
     }
 

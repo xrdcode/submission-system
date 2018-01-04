@@ -23,7 +23,22 @@ Route::group(
     Route::post('/store', ['as' => '.store', 'uses' => 'EditController@store', 'middleware' => []]);;
     Route::get('/activate/{id}', ['as' => '.activate', 'uses' => 'EditController@activate', 'middleware' => []]);;
 
-    Route::get('/detail/{id}', ['as' => '.detail', 'uses' => 'DetailController@index', 'middleware' => []]);
+    //Route::get('/detail/{id}', ['as' => '.detail', 'uses' => 'DetailController@index', 'middleware' => []]);
+
+    Route::get('/dt', ['as' => '.dt', 'uses' => 'ListController@DTEvents', 'middleware' => []]);
+});
+
+Route::group(
+    [
+        'prefix' => 'admin/submission',
+        'as' => 'admin.submission',
+        'namespace' => 'App\Modules\SubmissionManagement\Controllers\Submission',
+        'middleware' => ['web', 'auth:admin']
+    ], function () {
+    Route::get('/', ['uses' => 'ListController@index', 'middleware' => []]);
+    Route::get('/search', ['as' => '.search', 'uses' => 'ListController@search', 'middleware' => []]);
+
+    //Route::get('/detail/{id}', ['as' => '.detail', 'uses' => 'DetailController@index', 'middleware' => []]);
 
     Route::get('/dt', ['as' => '.dt', 'uses' => 'ListController@DTEvents', 'middleware' => []]);
 });

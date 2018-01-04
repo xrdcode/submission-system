@@ -64,6 +64,23 @@
                     }
                 });
             });
+
+            $('body').on('click','a.btn-edit', function(e) {
+                e.preventDefault()
+
+                $.ajax({
+                    url: $(this).attr('href'),
+                    method: 'GET',
+                    success: function(response) {
+                        $("#modal-container").html(response);
+                        $(".modal", "#modal-container").modal();
+                    },
+                    error: function(xHr) {
+                        console.log(xHr);
+                    }
+                });
+            });
+
         });
     </script>
 

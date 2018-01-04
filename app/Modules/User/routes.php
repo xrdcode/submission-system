@@ -8,14 +8,33 @@
 
 // DASHBOARD
 
-Route::prefix('user')->middleware(['web','auth:user'])->namespace('App\Modules\User\Controllers')->group(function() {
+Route::prefix('user')->middleware(['web','auth'])->namespace('App\Modules\User\Controllers')->group(function() {
     //USER GET
     Route::get('/', 'DashboardController@index')->name('user');
     Route::get('/dashboard', 'DashboardController@index')->name('user.dashboard');
+
+
+
+
     //Route::get('/profile', 'Profile/ProfileController@index')->name('user.profile');
 
     //USER POST
    // Route::post('/profile/update', 'Profile/ProfileController@update')->name('user.profile.update');
+
+});
+
+Route::group(['prefix' => 'user', 'as' => 'user.submission', 'namespace' => 'App\Modules\User\Controllers\Submission', 'middleware' => ['web','auth']], function() {
+    //Submission
+    Route::get('/submission', 'MainController@index');
+    Route::get('/submission/list', 'MainController@index')->name('.list');
+    Route::get('/submission/register', 'MainController@register')->name('.register');
+    Route::post('/submission/submit', 'MainController@submit')->name('.submit');
+    Route::post('/submission/edit', 'MainController@edit')->name('.edit');
+
+    //Papers
+    Route::get('/submission/{id}/upload', 'PapersController@index')->name('user.submission.upload');
+    Route::post('/submission/{id}/upload', 'PapersController@upload')->name('user.submission.doupload');
+
 
 });
 
@@ -49,6 +68,9 @@ Route::group(['prefix' => "user", 'as' => 'user', 'namespace' => 'App\Modules\Us
     Route::post('/{provider}/callback', 'Social\SocialAuthController@handleProviderCallback')->name('.social.callback');
     Route::get('/{provider}', 'Social\SocialAuthController@redirectToProvider')->name('.social.provider');
 });*/
+
+
+
 
 
 //Dashboard

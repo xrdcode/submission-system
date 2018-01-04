@@ -4,6 +4,10 @@ namespace App\Modules\User\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use App\Models\BaseModel\User;
+
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -25,7 +29,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/user';
 
     /**
      * Create a new controller instance.
@@ -42,6 +46,25 @@ class LoginController extends Controller
         return View("User::login");
     }
 
+    public function username()
+    {
+        return "email";
+    }
+
+    /**
+     * Validate the user login request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     */
+    protected function validateLogin(Request $request)
+    {
+        $this->validate($request, [
+            $this->username() => 'required|string',
+            'password' => 'required|string',
+        ]);
+    }
+
     protected function sendFailedLoginResponse(Request $request)
     {
         $credential = $this->credentials($request, false);
@@ -49,7 +72,11 @@ class LoginController extends Controller
             $user = User::where($this->username(), $request->{$this->username()})->first();
             if(!$user->active) {
                 $errors = [$this->username() => trans('auth.notverified')];
+            } else {
+                $resp = ['success' => true];
+                return response()->json($resp, 200);
             }
+
         } else {
             $errors = [$this->username() => trans('auth.failed')];
         }
@@ -79,4 +106,29 @@ class LoginController extends Controller
             return $req;
         }
     }
+
+    /**
+     * Send the response after the user was authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+
+        $this->clearLoginAttempts($request);
+
+        return $this->authenticated($request, $this->guard()->user())
+            ?: redirect()->intended($this->redirectPath());
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        if($request->expectsJson()) {
+            return response()->json(['success' => true], 200);
+        }
+    }
+
+
 }

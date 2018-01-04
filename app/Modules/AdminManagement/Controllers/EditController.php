@@ -57,22 +57,41 @@ class EditController extends Controller
         return Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
-            //'password' => 'required|string|min:6|confirmed',
             'address' => 'required|string|max:255',
             'phone' => 'required|string|numeric'
         ]);
     }
 
-    /**
-     * Minmal usia pendaftar 17tahun
-     * @return string
-     */
+    protected function newAdminValidator(Request $request) {
+        return Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'address' => 'required|string|max:255',
+            'phone' => 'required|string|numeric',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+    }
+
     protected function maxYear() {
         return Carbon::now()->addYears('-17')->addDays('1')->toDateString();
     }
 
     public function store(Request $request) {
         $validator = $this->validator($request);
+        if($validator->passes()) {
+            $admin = Admin::create([
+                'name' => $request->get('name'),
+                'email' => $request->get('email'),
+                'address' => $request->get('address'),
+                'phone' => $request->get('phone'),
+                'password' => bcrypt($request->get('password')),
+                'created_by' => Auth::id(),
+                'updated_by' => Auth::id(),
+            ]);
+            return response()->json([$admin]);
+        } else {
+            return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
+        }
     }
 
 

@@ -1,9 +1,9 @@
 $(document).ready(function() {
-    $.ajaxStart(function() {
+    $(document).ajaxStart(function() {
         $('button, .btn').prop('disabled', true);
     });
 
-    $.ajaxComplete(function() {
+    $(document).ajaxComplete(function() {
         $('button, .btn').prop('disabled', false);
     })
 });

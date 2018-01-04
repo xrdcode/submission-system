@@ -29,7 +29,14 @@ class EditController extends Controller
 
     public function index($id) {
         $module = Module::findOrFail($id);
-        return view("ModuleManagement::edit", ["module" => $module]);
+        $data = [
+            'action' => route('admin.module.update', $id),
+            // 'class' => 'modal-lg', //Kelas Modal
+            'modalId'   => 'modulemodal',
+            'title'     => 'Register New Module',
+            'module'    => $module
+        ];
+        return view("ModuleManagement::medit", $data);
     }
 
 

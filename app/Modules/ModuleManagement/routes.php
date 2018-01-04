@@ -24,5 +24,5 @@ Route::group(
     Route::get('/activate/{id}', ['as' => '.activate', 'uses' => 'EditController@activate', 'middleware' => []]);;
     Route::get('/dt', ['as' => '.dt', 'uses' => 'ListController@DTModule', 'middleware' => []]);;
 
-    Route::get('/detail/{id}', ['as' => '.detail', 'uses' => 'DetailController@index', 'middleware' => []]);
+    //Route::get('/detail/{id}', ['as' => '.detail', 'uses' => 'DetailController@index', 'middleware' => []]);
 });

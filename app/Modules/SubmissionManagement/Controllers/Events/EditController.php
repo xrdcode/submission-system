@@ -98,7 +98,7 @@ class EditController extends Controller
         if($validator->passes()) {
             $module = new Module();
             $module = $module->create($request->all());
-            $module->updated_at = Carbon::now()->toDateTimeString();
+            $module->created_by = Auth::user()->id;
             $module->updated_by = Auth::user()->id;
             $module->update();
             return response()->json([$module]);

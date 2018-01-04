@@ -46,6 +46,7 @@ class ListController extends Controller
                 $ev = SubmissionEvent::find($event->id);
                 return empty($ev->updatedby) ? "-" : $ev->updatedby->name ;
             })
+
             ->make(true);
     }
 }

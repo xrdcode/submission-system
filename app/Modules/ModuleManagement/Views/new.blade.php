@@ -59,7 +59,10 @@
     <script src="{{ asset('js/ssmath.js') }}"></script>
     <script type="text/javascript">
 
-        ajaxSaveUpdate("#newmodule");
+        ajaxSaveUpdate("#newmodule", function() {
+            var table = $("#datalist").DataTable();
+            table.draw();
+        });
 
         $('#save').on('click', function(e) {
             e.preventDefault();

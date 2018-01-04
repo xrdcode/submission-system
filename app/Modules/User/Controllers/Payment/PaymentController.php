@@ -6,7 +6,7 @@
  * Time: 10:46
  */
 
-namespace Modules\User\Controllers\Payment;
+namespace App\Modules\User\Controllers\Payment;
 
 use App\Http\Controllers\Controller;
 

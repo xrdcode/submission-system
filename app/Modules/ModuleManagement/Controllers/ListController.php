@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Constants;
 use Yajra\Datatables\Datatables;
+use App\Helper\HtmlHelper;
 
 class ListController extends Controller
 {
@@ -19,17 +20,7 @@ class ListController extends Controller
     }
 
     public function index(Request $request) {
-        if($request->search) {
-            $modules = Module::search($request->search)->paginate($this->pagination);
-        } else {
-            $modules = Module::orderBy('name',  'asc')->paginate($this->pagination);
-        }
-
-        return view("ModuleManagement::index", ["modules" => $modules, 'search' => $request->search] );
-    }
-
-    public function search(Request $request) {
-
+        return view("ModuleManagement::index");
     }
 
     public function DTModule() {
@@ -42,6 +33,9 @@ class ListController extends Controller
             ->addColumn('updated_by', function($m) {
                 $module = Module::find($m->id);
                 return !empty($module->updatedby) ? $module->updatedby->name : "-";
+            })
+            ->addColumn('action', function($m) {
+                return HtmlHelper::linkButton("Edit", route('admin.module.edit', $m->id), "btn-xs btn-default btn-edit","", "glyphicon-edit");
             })
             ->make(true);
     }
