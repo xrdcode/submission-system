@@ -8,7 +8,7 @@
             <label for="name" class="col-md-4 control-label">Name</label>
 
             <div class="col-md-6">
-                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                <input id="name" type="text" class="form-control" name="name" value="{{ $ev->name }}" required autofocus>
 
                 @if ($errors->has('name'))
                     <span class="help-block">
@@ -24,10 +24,10 @@
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-6 col-sm-6">
-                        <input id="valid_from" type="text" class="form-control" name="valid_from" value="{{ old('valid_from') }}" readonly required>
+                        <input id="valid_from" type="text" class="form-control" name="valid_from" value="{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $ev->valid_from)->format("Y-m-d") }}" readonly required>
                     </div>
                     <div class="col-md-6 col-sm-6">
-                        <input id="valid_thru" type="text" class="form-control" name="valid_thru" value="{{ old('valid_thru') }}" readonly required>
+                        <input id="valid_thru" type="text" class="form-control" name="valid_thru" value="{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $ev->valid_thru)->format("Y-m-d") }}" readonly required>
                     </div>
                 </div>
             </div>
@@ -37,30 +37,26 @@
             <label for="address" class="col-md-4 control-label">Description</label>
 
             <div class="col-md-6">
-                <textarea id="description" type="text" class="form-control" name="description" required autofocus>{{ old('description') }}</textarea>
-
-                @if ($errors->has('description'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('description') }}</strong>
-                    </span>
-                @endif
+                <textarea id="description" type="text" class="form-control" name="description" required autofocus>{{ $ev->description }}</textarea>
             </div>
         </div>
 
+        @if(empty($ev->childs->all()))
         <div class="form-group{{ $errors->has('hasparent') ? ' has-error' : '' }}">
-            <label for="address" class="col-md-4 control-label">Has Parent?</label>
+            <label for="hasparent" class="col-md-4 control-label">Has Parent?</label>
 
             <div class="col-md-6">
-                <input id="hasparent" type="checkbox" class="form-inline">
+                <input id="hasparent" type="checkbox" class="form-inline" {{ $ev->parent_id ? "checked" : "" }}>
             </div>
         </div>
 
         <div id="selectparent" class="form-group{{ $errors->has('parent') ? ' has-error' : '' }}" style="display: none">
             <label for="parent" class="col-md-4 control-label">Parent</label>
             <div class="col-md-6 col-md-4">
-                {{ Form::select('parent', $parentlist, [] ,["id" => "parent","class" => "form-control select2-single", "disabled"]) }}
+                {{ Form::select('parent', $ev->myParentList(), [$ev->parent_id] ?: [] ,["id" => "parent","class" => "form-control select2-single", "disabled" => "disabled"]) }}
             </div>
         </div>
+        @endif
 
 
 
@@ -92,16 +88,26 @@
             placeholder: "choose"
         });
 
+        $(".select2-single").select2({
+            placeholder: "choose"
+        });
+
+
+        checkHasparent('#hasparent');
 
         $('#hasparent').change(function() {
-            if($(this).is(':checked')) {
+            checkHasparent(this);
+        });
+
+        function checkHasparent(id) {
+            if($(id).is(':checked')) {
                 $("select#parent").prop('disabled', false);
                 $('#selectparent').fadeIn();
             } else {
                 $("select#parent").prop('disabled', true);
                 $('#selectparent').fadeOut();
             }
-        });
+        }
 
         setupDateRange("#valid_from", "#valid_thru");
     </script>

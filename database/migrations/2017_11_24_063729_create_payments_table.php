@@ -31,7 +31,7 @@ class CreatePaymentsTable extends Migration
         Schema::create('pricings', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('submission_event_id');
-            $table->unsignedInteger('pricing_types_id');
+            $table->unsignedInteger('pricing_type_id');
             $table->unsignedInteger('price');
 
             $table->timestamps();

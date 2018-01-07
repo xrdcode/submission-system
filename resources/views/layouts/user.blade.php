@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" />
     <link rel="stylesheet" href="{{ asset("css/select2.css") }}">
     <link rel="stylesheet" href="{{ asset("css/select2-bootstrap.css") }}" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.16/datatables.min.css"/>
 
 </head>
 <body data-gr-c-s-loaded="true">
@@ -82,8 +83,8 @@
                     <li>
                         <a href="#submissions" class="list-group-item " data-toggle="collapse"><i class="glyphicon glyphicon-list"></i>Submission  <span class="glyphicon glyphicon-chevron-right"></span></a>
                         <div class="collapse" id="submissions">
-                            <a href="" class="list-group-item">Register</a>
-                            <a href="" class="list-group-item">List</a>
+                            <a href="{{ route('user.submission.register') }}" class="list-group-item">Register</a>
+                            <a href="{{ route('user.submission') }}" class="list-group-item">List</a>
                         </div>
                     </li>
                     <li>
@@ -123,6 +124,7 @@
 <script src="{{ asset('js/ssmath.js') }}"></script>
 <script src="{{ asset("js/select2.min.js") }}"></script>
 <script src="{{ asset("js/bootstrap-notify.min.js") }}"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.16/datatables.min.js"></script>
 
 @yield('scripts',"")
 

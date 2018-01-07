@@ -1,6 +1,5 @@
 <?php
-
-namespace App\Modules\ModuleManagement\Controllers;namespace App\Modules\SubmissionManagement\Controllers\Events;
+namespace App\Modules\SubmissionManagement\Controllers\Events;
 use App\Models\BaseModel\SubmissionEvent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -19,19 +18,15 @@ class ListController extends Controller
         //$this->middleware("role:EventsManagement-View");
     }
 
-    public function index(Request $request) {
+    public function index() {
         return view("SubmissionManagement::events.index");
     }
 
-    public function search(Request $request) {
-
-    }
-
     public function DTEvents() {
-        $event = SubmissionEvent::select(['id','name','description','valid_from','valid_thru']);
+        $event = SubmissionEvent::select(['id','name','parent_id','description','valid_from','valid_thru']);
         return Datatables::of($event)
             ->addColumn('action', function ($user) {
-                return HtmlHelper::linkButton(' Edit', route('admin.event.edit', $user->id), 'btn-xs btn-primary', 'glyphicon-edit');
+                return HtmlHelper::linkButton(' Edit', route('admin.event.edit', $user->id), 'btn-xs btn-default btn-edit', 'glyphicon-edit');
             })
             ->addColumn('date_range', function($event) {
                 $from = Carbon::createFromFormat('Y-m-d H:i:s', $event->valid_from);
@@ -46,7 +41,10 @@ class ListController extends Controller
                 $ev = SubmissionEvent::find($event->id);
                 return empty($ev->updatedby) ? "-" : $ev->updatedby->name ;
             })
-
+            ->addColumn('parent', function($event) {
+                $ev = SubmissionEvent::find($event->id);
+                return empty($ev->parent) ? "-" : $ev->parent->name ;
+            })
             ->make(true);
     }
 }

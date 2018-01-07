@@ -15,12 +15,36 @@
     <link rel="stylesheet" href="{{ asset("css/bootstrap.css") }}" />
     {{--<link href="{{ asset('css/app.css') }}" rel="stylesheet">--}}
     <link href="{{ asset('css/sites.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" />
     <style>
+        html {
+            height: 100%;
+        }
+
+
         body {
+            height: 100%;
             padding-top: 40px;
             padding-bottom: 40px;
             background-color: #303641;
             color: #C1C3C6
+        }
+
+        textarea {
+            resize: none !important;
+        }
+
+        .center-block {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+            cursor: not-allowed;
+            background-color: #373e4a;
+            opacity: 1;
         }
     </style>
 </head>

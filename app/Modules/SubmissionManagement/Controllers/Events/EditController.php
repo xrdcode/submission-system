@@ -28,18 +28,27 @@ class EditController extends Controller
 
     public function index($id) {
         $events = SubmissionEvent::findOrFail($id);
-        return view("EventsManagement::events.edit", compact('events'));
+        $data = [
+            'action'        => route('admin.event.update', $id),
+            // 'class' => 'modal-lg', //Kelas Modal
+            'modalId'       => 'eventmodal',
+            'title'         => 'Create New Event',
+            'parentlist'    => SubmissionEvent::parentlist(),
+            'ev'        => $events
+        ];
+        return view("SubmissionManagement::events.medit", $data);
     }
 
 
     public function newevent() {
         $data = [
-            'action' => route('admin.event.store'),
+            'action'        => route('admin.event.store'),
             // 'class' => 'modal-lg', //Kelas Modal
-            'modalId'   => 'eventmodal',
-            'title'     => 'Create New Event'
+            'modalId'       => 'eventmodal',
+            'title'         => 'Create New Event',
+            'parentlist'    => SubmissionEvent::parentlist()
         ];
-        return view("SubmissionManagement::events.new", compact('data'));
+        return view("SubmissionManagement::events.new", $data);
     }
 
     public function update(Request $request, $id) {
@@ -47,15 +56,25 @@ class EditController extends Controller
 
         if($validator->passes()) {
             $event = SubmissionEvent::find($id);
-            $event = $event->create($request->all());
 
-            if(!empty($request->hasparent)) {
-                $event->parent_id = $request->parent_id;
+            if(!empty($request->get('parent'))) {
+                $event->parent_id = $request->get('parent');
+            } else {
+                $event->parent_id = null;
             }
 
             $event->updated_at = Carbon::now()->toDateTimeString();
             $event->updated_by = Auth::user()->id;
-            $event->update($request->only(['name','description','pathname']));
+
+            if(!empty($event->parent_id)) {
+                $event->valid_from = $event->parent->valid_from;
+                $event->valid_thru = $event->parent->valid_thru;
+            } else {
+                $event->valid_from = $request->get('valid_from');
+                $event->valid_thru = $request->get('valid_thru');
+            }
+
+            $event->update($request->only(['name','description']));
             return response()->json([$event]);
         } else {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -69,7 +88,7 @@ class EditController extends Controller
     }
 
     protected function validator(Request $request) {
-        if(!empty($request->hasparent)) {
+        if(!empty($request->get('hasparent'))) {
             return Validator::make($request->all(), [
                 'name' => 'required|string|max:255|unique:modules,name,' . $request->id,
                 'parent_id' => 'required|numeric|max:255',
@@ -96,12 +115,15 @@ class EditController extends Controller
         $validator = $this->validator($request);
 
         if($validator->passes()) {
-            $module = new Module();
-            $module = $module->create($request->all());
-            $module->created_by = Auth::user()->id;
-            $module->updated_by = Auth::user()->id;
-            $module->update();
-            return response()->json([$module]);
+            $submissionevent = new SubmissionEvent();
+            $submissionevent = $submissionevent->create($request->all());
+            $submissionevent->created_by = Auth::user()->id;
+            $submissionevent->updated_by = Auth::user()->id;
+            if(!empty($request->get('parent'))) {
+                $submissionevent->parent_id = $request->get('parent');
+            }
+            $submissionevent->update();
+            return response()->json([$submissionevent]);
         } else {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
         }

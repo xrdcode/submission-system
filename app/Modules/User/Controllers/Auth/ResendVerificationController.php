@@ -46,6 +46,6 @@ class ResendVerificationController extends Controller
 
         dispatch(new SendVerificationEmail($user));
 
-        return view('user.verification');
+        return view('User::verification');
     }
 }

@@ -27,13 +27,16 @@ Route::group(['prefix' => 'user', 'as' => 'user.submission', 'namespace' => 'App
     //Submission
     Route::get('/submission', 'MainController@index');
     Route::get('/submission/list', 'MainController@index')->name('.list');
+    Route::get('/submission/dt', 'MainController@DTSubmission')->name('.dt');
     Route::get('/submission/register', 'MainController@register')->name('.register');
     Route::post('/submission/submit', 'MainController@submit')->name('.submit');
-    Route::post('/submission/edit', 'MainController@edit')->name('.edit');
+    Route::post('/submission/edit', 'MainController@reupload')->name('.edit');
+    Route::get('/submission/abstract/{id}', 'MainController@getAbstractFile')->name('.getabstract');
+    Route::get('/submission/reabstract/{id}', 'MainController@abstractReupload')->name('.abstractreupload');
 
     //Papers
-    Route::get('/submission/{id}/upload', 'PapersController@index')->name('user.submission.upload');
-    Route::post('/submission/{id}/upload', 'PapersController@upload')->name('user.submission.doupload');
+    Route::get('/submission/{id}/upload', 'PapersController@index')->name('.upload');
+    Route::post('/submission/{id}/upload', 'PapersController@upload')->name('.doupload');
 
 
 });
@@ -54,6 +57,7 @@ Route::group(['prefix' => 'user', 'as' => 'user','namespace' => "App\Modules\Use
 });
 
 Route::get('/register',['middleware' => ['web'], 'uses' => 'App\Modules\User\Controllers\Auth\RegisterController@showRegistrationForm'])->name('register');
+Route::get('/register/done',['middleware' => ['web'], 'uses' => 'App\Modules\User\Controllers\Auth\RegisterController@registerEnd'])->name('register.done');
 Route::post('/register',['middleware' => ['web'],'uses' => 'App\Modules\User\Controllers\Auth\RegisterController@register']);
 
 Route::group(['prefix' => "user", 'as' => 'user', 'namespace' => 'App\Modules\User\Controllers\Auth', 'middleware' => ['web','guest']], function() {

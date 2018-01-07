@@ -2,12 +2,13 @@
 
 namespace App\Modules\User\Controllers\Auth;
 
-use App\User;
+use App\Models\BaseModel\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Jobs\SendVerificationEmail;
+use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends Controller
 {
@@ -56,11 +57,22 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
 
+        $request->session()->flash('email',$request->get('email'));
+
         event(new Registered($user = $this->create($request->all())));
 
         dispatch(new SendVerificationEmail($user));
 
-        return view('user.verification');
+        return response()->json(['redirect' => route('register.done')]);
+    }
+
+    public function registerEnd(Request $request) {
+
+        $email = $request->session()->get('email');
+        if(empty($email)) {
+            return response()->redirectToRoute('user.login');
+        }
+        return view("User::signupsuccess", compact('email'));
     }
 
 
@@ -77,7 +89,7 @@ class RegisterController extends Controller
         $user->active = 1;
 
         if ($user->save()) {
-            return view('user.emailconfirm', ['user' => $user]);
+            return view('User::emailconfirm', ['user' => $user]);
         }
     }
 
@@ -95,7 +107,7 @@ class RegisterController extends Controller
             'password' => 'required|string|min:6|confirmed',
             'address' => 'required|string|max:255',
             'phone' => 'required|string|numeric',
-            'birthdate' => 'date|required|before:' . $this->maxYear()
+            'birthdate' => 'required|string',
         ]);
     }
 
@@ -114,7 +126,8 @@ class RegisterController extends Controller
             'address' => $data['address'],
             'phone' => $data['phone'],
             'email_token' => base64_encode($data['email']),
-            'api_token' => str_random(60)
+            'api_token' => str_random(60),
+            'birthdate' => $data['birthdate']
         ]);
 
         return $user;

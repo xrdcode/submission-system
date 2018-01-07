@@ -3,26 +3,27 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <form id="newsubmission" role="form" method="POST" action="{{ route('user.submission.submit') }}" enctype="multipart/form-data">
+            <form id="editsubmission" role="form" method="POST" action="{{ route('user.submission.edit') }}" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <div class="form-group">
                     <label for="submission_event_id">Submission Event</label>
-                    {{ Form::select('submission_event_id', $eventlist, [] ,["id" => "submission_event_id","class" => "form-control select2-single"]) }}
-
+                    <input type="hidden" name="submission_event_id" value="{{ $submission->submission_event_id }}">
+                    <input type="text" class="form-control" name="submission.name" value="{{ $submission->submission_event->name }}" readonly>
                 </div>
                 <div class="form-group">
                     <label for="title">Title</label>
-                    <input class="form-control" id="title" name="title" placeholder="Paper Title" type="text">
+                    <input class="form-control" id="title" name="title" placeholder="Paper Title" type="text" value="{{ $submission->title }}">
                 </div>
                 <div class="form-group">
                     <label for="abstract">Abstract</label>
-                    <textarea required="" class="form-control" placeholder="Abstract" rows="10" cols="30" id="description" name="abstract"></textarea>
+                    <textarea class="form-control" placeholder="Abstract" rows="10" cols="30" id="abstract" name="abstract"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="file">Abstract File (.PDF)</label>
                     <input type="file" required="" class="" placeholder=""  id="description" name="file">
                 </div>
-                <button type="submit" class="btn btn-default">Submit</button>
+                 <input type="hidden" name="id" id="id" value="{{ $submission->id }}">
+               <button type="submit" class="btn btn-default">Submit</button>
             </form>
         </div>
     </div>
@@ -32,10 +33,12 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-            userSaveUpload("#newsubmission",
+            $("#abstract").val('{{ $submission->abstract }}');
+
+            userSaveUpload("#editsubmission",
                 function(d) {
                     if(d.success) {
-                        showAlert('Your submission has been registered','success','Success:')
+                        showAlert('Your submission has been updated','success','Success:')
                         setTimeout(function() {
                             location.href = '{{ route('user.submission') }}'
                         }, 1000);

@@ -1,14 +1,18 @@
-@extends('layouts.app')
+@extends('layouts.login')
 @section('content')
     <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Registration Confirmed</div>
-                <div class="panel-body">
-                    Your Email is successfully verified. Click here to <a href="{{url('/login')}}">login</a>
-                </div>
-            </div>
+        <div class="center-block">
+            Your Email is successfully verified. You'll be redirected to login page or click here to <a href="{{url('/user/login')}}">login</a>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            setTimeout(function() {
+                location.href = '{{ route('user.login') }}';
+            }, 3000);
+        })
+    </script>
 @endsection

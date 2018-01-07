@@ -181,6 +181,7 @@ return [
 
         Collective\Html\HtmlServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
+        App\Providers\CustomValidationProvider::class,
 
 
     ],

@@ -181,7 +181,7 @@
                                     <li><a href="#">Schedule</a></li>
                                     <li class="divider"></li>
                                     <li class="dropdown-header">Submission</li>
-                                    <li><a href="#">Submission List</a></li>
+                                    <li><a href="{{ "#" }}">Submission List</a></li>
                                 </ul>
                             </li>
                             <li class="col-md-4">
@@ -197,7 +197,7 @@
                             <li class="col-md-4">
                                 <ul>
                                     <li class="dropdown-header">Pricing</li>
-                                    <li><a href="#">Manage Pricing</a></li>
+                                    <li><a href="{{ route('admin.pricing') }}">Manage Pricing</a></li>
                                     <li><a href="#">Pricing Type</a></li>
                                     <li class="divider"></li>
                                     <li class="dropdown-header">Payments</li>

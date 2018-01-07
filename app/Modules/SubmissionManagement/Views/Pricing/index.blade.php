@@ -46,15 +46,14 @@
             $('#datalist').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{!! route('admin.event.dt') !!}',
+                ajax: '{!! route('admin.pricing.dt') !!}',
                 columns: [
                     { title: 'id', data: 'id'},
-                    { title: 'Name',data: 'name'},
-                    { title: 'Parent',data: 'parent', orderable: false, searchable: false},
-                    { title: 'Description',data: 'description',},
-                    { title: 'Event Date',data: 'date_range', orderable: false, searchable: false},
-                    { title: 'Created By',data: 'created_by'},
-                    { title: 'Updated By',data: 'updated_by'},
+                    { title: 'Event',data: 'submission_event.name', orderable: false, searchable: false},
+                    { title: 'Category',data: 'pricing_type.name', orderable: false, searchable: false},
+                    { title: 'Price',data: 'price'},
+                    { title: 'Created By',data: 'createdby.name'},
+                    { title: 'Updated By',data: 'updatedby.name'},
                     { data: 'action', orderable: false, searchable: false}
                 ]
 
@@ -63,7 +62,7 @@
 
             $('#btn_new').on('click', function(e) {
                 $.ajax({
-                    url: '{{ route('admin.event.new') }}',
+                    url: '{{ route('admin.pricing.new') }}',
                     method: 'GET',
                     success: function(response) {
                         $("#modal-container").html(response);

@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Submission extends Model
 {
+
+    protected $fillable = ['title','abstract','abstractfile','user_id','submission_event_id','workstate_id'];
+
     public function user() {
         return $this->belongsTo(User::class);
     }
@@ -23,6 +26,6 @@ class Submission extends Model
     }
 
     public function submission_event() {
-        return $this->belongsTo(SubmissionStatus::class);
+        return $this->belongsTo(SubmissionEvent::class);
     }
 }
