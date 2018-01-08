@@ -19,6 +19,7 @@ class UserSeeder extends Seeder
             'address' => str_random(50),
             'api_token' => str_random(60),
             'email_token' => str_random(50),
+            'birthdate' => \Carbon\Carbon::now(),
         ]);
     }
 }
