@@ -17,6 +17,8 @@ class UserSeeder extends Seeder
             'password' => bcrypt('secret'),
             'phone' => "08123" . rand(100, 999) .  rand(100, 999),
             'address' => str_random(50),
+            'api_token' => str_random(60),
+            'email_token' => str_random(50),
         ]);
     }
 }
