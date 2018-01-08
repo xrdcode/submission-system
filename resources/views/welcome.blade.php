@@ -1,6 +1,3 @@
-@extends('layouts.user')
-
-{{--
 <!doctype html>
 <html lang="{{ app()->getLocale() }}">
     <head>
@@ -8,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>{{ config('app.name','XCSMS') }}</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -16,8 +13,8 @@
         <!-- Styles -->
         <style>
             html, body {
-                background-color: #fff;
-                color: #636b6f;
+                background-color: #303641;
+                color: #efefef;
                 font-family: 'Raleway', sans-serif;
                 font-weight: 100;
                 height: 100vh;
@@ -53,7 +50,7 @@
             }
 
             .links > a {
-                color: #636b6f;
+                color: #cdcdcd;
                 padding: 0 25px;
                 font-size: 12px;
                 font-weight: 600;
@@ -69,12 +66,12 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
+            @if (Route::has('/user/login'))
                 <div class="top-right links">
                     @if (Auth::check())
                         <a href="{{ url('/home') }}">Home</a>
                     @else
-                        <a href="{{ url('/login') }}">Login</a>
+                        <a href="{{ url('/user/login') }}">Login</a>
                         <a href="{{ url('/register') }}">Register</a>
                     @endif
                 </div>
@@ -82,18 +79,24 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    XC SMS
                 </div>
-
+                @if(Auth::check())
+                    <h3>
+                        Wellcome back {{ Auth::user()->name }}
+                    </h3>
+                @endif
                 <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+
+                    @if(Auth::check())
+                        <a href="{{ route('user') }}">Go to Dashboard</a>
+                    @else
+                        <a href="{{ route('user.login') }}">Login</a>
+                        <a href="{{ route('register') }}">Register</a>
+                    @endif
                 </div>
             </div>
         </div>
     </body>
 </html>
---}}
+

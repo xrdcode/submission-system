@@ -15,7 +15,7 @@ class PricingType extends Model
     }
 
     public static function getList() {
-        $type = self::all();
+        $type = self::all()->where('active','=',1);
         $tmp = [];
         foreach ($type as $t) {
             $tmp[$t->id] = $t->name;

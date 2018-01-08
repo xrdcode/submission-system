@@ -16,4 +16,13 @@ class Workstate extends Model
         return $this->belongsTo(Admin::class, 'updated_by');
     }
 
+    public static function getList() {
+        $ws = self::all();
+        $tmp = [];
+        foreach ($ws as $w) {
+            $tmp[$w->id] = $w->name;
+        }
+        return $tmp;
+    }
+
 }

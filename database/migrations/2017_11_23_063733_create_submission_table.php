@@ -117,7 +117,7 @@ class CreateSubmissionTable extends Migration
        Schema::create('event_schedules', function(Blueprint $table) {
           $table->increments('id');
           $table->unsignedInteger('submission_event_id')->nullable();
-          $table->string('submission_event_name')->nullable();
+          $table->string('title')->nullable();
           $table->string('description', 200);
           $table->text('detail', 500);
           $table->text('location', 500);

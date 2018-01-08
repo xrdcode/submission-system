@@ -64,3 +64,29 @@ Route::group(
 
     Route::get('/dt', ['as' => '.dt', 'uses' => 'ListController@DTPricing', 'middleware' => []]);
 });
+
+
+Route::group(
+    [
+        'prefix' => 'admin/submission',
+        'as' => 'admin.submission',
+        'namespace' => 'App\Modules\SubmissionManagement\Controllers\Submission',
+        'middleware' => ['web', 'auth:admin']
+    ], function () {
+    Route::get('/', ['uses' => 'ListController@index', 'middleware' => []]);
+    Route::get('/getabstract/{id}', ['as' => '.getabstract', 'uses' => 'ListController@getabstract', 'middleware' => []]);
+    Route::get('/getpaper/{id}', ['as' => '.getpaper', 'uses' => 'ListController@getpaper', 'middleware' => []]);
+    Route::get('/paymentinfo/{id}', ['as' => '.paymentinfo', 'uses' => 'ListController@paymentinfo', 'middleware' => []]);
+
+    Route::get('/attachpaymment/{id}', ['as' => '.attachpayment', 'uses' => 'ListController@attachpayment', 'middleware' => []]);
+
+    Route::post('/setprogress/{id}', ['as' => '.progress', 'uses' => 'EditController@setprogress', 'middleware' => []]);
+    Route::post('/setapproved/{id}', ['as' => '.approve', 'uses' => 'EditController@setapproved', 'middleware' => []]);
+
+    Route::get('/edit/{id}', ['as' => '.edit', 'uses' => 'EditController@index', 'middleware' => []]);
+    Route::post('/edit/{id}', ['as' => '.update', 'uses' => 'EditController@update', 'middleware' => []]);
+
+    Route::post('/store', ['as' => '.store', 'uses' => 'EditController@store', 'middleware' => []]);;
+
+    Route::get('/dt', ['as' => '.dt', 'uses' => 'ListController@DT', 'middleware' => []]);
+});

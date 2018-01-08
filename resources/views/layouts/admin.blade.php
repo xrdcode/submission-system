@@ -177,11 +177,11 @@
                             <li class="col-md-4">
                                 <ul>
                                     <li class="dropdown-header">Events</li>
-                                    <li><a href="#">Event List</a></li>
+                                    <li><a href="{{ route('admin.event') }}">Manage Event</a></li>
                                     <li><a href="#">Schedule</a></li>
                                     <li class="divider"></li>
                                     <li class="dropdown-header">Submission</li>
-                                    <li><a href="{{ "#" }}">Submission List</a></li>
+                                    <li><a href="{{ route('admin.submission') }}">Submission List</a></li>
                                 </ul>
                             </li>
                             <li class="col-md-4">

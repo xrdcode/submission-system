@@ -1,0 +1,93 @@
+@extends('layouts.admin')
+
+@section("content")
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Submission List
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-md-12">
+                            <table id="datalist" class="table table-responsive">
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div id="modal-container">
+
+    </div>
+@endsection
+
+@section("scripts")
+    <script>
+        $(document).ready(function() {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            })
+
+            $('#datalist').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{!! route('admin.submission.dt') !!}',
+                columns: [
+                    { title: 'id', data: 'id'},
+                    { title: 'Title',data: 'title'},
+                    { title: 'User',data: 'user.name'},
+                    { title: 'Event',data: 'submission_event.name', orderable: false, searchable: false},
+                    { title: 'Progress',data: 'progress', orderable: false, searchable: false},
+                    { title: 'Approved',data: 'approved', orderable: false, searchable: false},
+                    // { data: 'action', orderable: false, searchable: false}
+                ]
+
+            });
+
+
+            $('#btn_new').on('click', function(e) {
+                $.ajax({
+                    url: '{{ route('admin.pricing.new') }}',
+                    method: 'GET',
+                    success: function(response) {
+                        $("#modal-container").html(response);
+                        $(".modal", "#modal-container").modal();
+                    },
+                    error: function(xHr) {
+                        console.log(xHr);
+                    }
+                });
+            });
+
+            $('body').on('click','a.btn-edit', function(e) {
+                e.preventDefault()
+
+                $.ajax({
+                    url: $(this).attr('href'),
+                    method: 'GET',
+                    success: function(response) {
+                        $("#modal-container").html(response);
+                        $(".modal", "#modal-container").modal();
+                    },
+                    error: function(xHr) {
+                        console.log(xHr);
+                    }
+                });
+            });
+
+            initHideNseek();
+
+        });
+    </script>
+
+@endsection

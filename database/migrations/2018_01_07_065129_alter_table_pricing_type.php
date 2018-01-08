@@ -13,7 +13,9 @@ class AlterTablePricingType extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('pricing_types', function(Blueprint $table) {
+           $table->boolean('active')->default(false);
+        });
     }
 
     /**
@@ -23,6 +25,8 @@ class AlterTablePricingType extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('pricing_types', function(Blueprint $table) {
+            $table->removeColumn('active');
+        });
     }
 }

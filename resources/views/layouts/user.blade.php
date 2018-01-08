@@ -79,7 +79,7 @@
                 <ul class="list-group panel">
                     <li class="list-group-item"><i class="glyphicon glyphicon-align-justify"></i> <b></b></li>
                     {{--<li class="list-group-item"><input class="form-control search-query" placeholder="Search Something" type="text"></li>--}}
-                    <li class="list-group-item"><a href="#"><i class="glyphicon glyphicon-home"></i>Dashboard </a></li>
+                    <li class="list-group-item"><a href="{{ route('user') }}"><i class="glyphicon glyphicon-home"></i>Dashboard </a></li>
                     <li>
                         <a href="#submissions" class="list-group-item " data-toggle="collapse"><i class="glyphicon glyphicon-list"></i>Submission  <span class="glyphicon glyphicon-chevron-right"></span></a>
                         <div class="collapse" id="submissions">

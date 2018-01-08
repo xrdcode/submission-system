@@ -6,13 +6,12 @@
  * Time: 22:50
  */
 
-namespace App\Modules\SubmissionManagement\Controllers\Pricing;
+namespace App\Modules\SubmissionManagement\Controllers\Schedules;
 
 
 use App\Http\Controllers\Controller;
 
-use App\Models\BaseModel\PricingType;
-use App\Modules\SubmissionManagement\Models\Pricing;
+use App\Models\BaseModel\EventSchedule;
 use App\Modules\SubmissionManagement\Models\SubmissionEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,18 +24,18 @@ class EditController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['role:PricingManagement-Create'])->only(['store','newprice']);
-        $this->middleware(['role:PricingManagement-Save'])->only(['update','index','activate']);
+        $this->middleware(['role:ScheduleManagement-Create'])->only(['store','newprice']);
+        $this->middleware(['role:ScheduleManagement-Save'])->only(['update','index','activate']);
     }
 
     public function index($id) {
-        $pricings = Pricing::findOrFail($id);
+        $schedules = EventSchedule::findOrFail($id);
         $data = [
             'action'        => route('admin.pricing.update', $id),
             // 'class' => 'modal-lg', //Kelas Modal
             'modalId'       => 'pricingmodal',
-            'title'         => 'Edit Pricing',
-            'pricing'       => $pricings
+            'title'         => 'Edit Schedule',
+            'pricing'       => $schedules
         ];
         return view("SubmissionManagement::pricing.medit", $data);
     }
@@ -48,8 +47,8 @@ class EditController extends Controller
             // 'class' => 'modal-lg', //Kelas Modal
             'modalId'       => 'pricingmodel',
             'title'         => 'Create New Price',
-            'eventlist'    => Pricing::getEventList(),
-            'typelist'    => PricingType::getList()
+            'eventlist'    => EventSchedule::getEventList(),
+            'typelist'    => ScheduleType::getList()
         ];
         return view("SubmissionManagement::pricing.new", $data);
     }
@@ -58,32 +57,26 @@ class EditController extends Controller
         $validator = $this->validator($request);
 
         if($validator->passes()) {
-            $pricing = Pricing::find($id);
+            $schedule = EventSchedule::find($id);
 
-            $pricing->updated_by = Auth::user()->id;
+            $schedule->updated_by = Auth::user()->id;
 
-            $pricing->update($request->only(['price','submission_event_id','pricing_types']));
-            return response()->json([$pricing]);
+            $schedule->update($request->only(['price','submission_event_id','pricing_types']));
+            return response()->json([$schedule]);
         } else {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
         }
     }
 
-    public function activate($id) {
-        $module = Module::find($id);
-        $module->active = true;
-        return response()->json($module->saveOrFail());
-    }
 
     protected function validator(Request $request) {
         return Validator::make($request->all(), [
-            'submission_event_id' => [
-                'required',
-                'numeric',
-                'max:255'
-            ],
-            'pricing_type_id' => 'required|numeric',
-            'price' => 'required|numeric',
+            'title'         => 'required|string|max:150',
+            'description'   => 'required|string|max:1000',
+            'notes'         => 'required|string|max:1000',
+            'detail'        => 'required|string|max:1000',
+            'valid_from'    => 'before_or_equal:valid_thru',
+            'valid_thru'    => 'after_or_equal:valid_from',
         ]);
     }
 
@@ -91,19 +84,19 @@ class EditController extends Controller
         $validator = $this->validator($request);
 
         if($validator->passes()) {
-            $find = Pricing::where('submission_event_id','=', $request->get('submission_event_id'))
+            $find = EventSchedule::where('submission_event_id','=', $request->get('submission_event_id'))
                 ->where('pricing_type_id','=',$request->get('pricing_type_id'))->first();
             if(!empty($find)) {
-                $pricing = $find;
-                $pricing->update($request->all());
+                $schedule = $find;
+                $schedule->update($request->all());
             } else {
-                $pricing = new Pricing();
-                $pricing = $pricing->create($request->all());
-                $pricing->created_by = Auth::user()->id;
-                $pricing->updated_by = Auth::user()->id;
-                $pricing->update();
+                $schedule = new Schedule();
+                $schedule = $schedule->create($request->all());
+                $schedule->created_by = Auth::user()->id;
+                $schedule->updated_by = Auth::user()->id;
+                $schedule->update();
             }
-            return response()->json([$pricing]);
+            return response()->json([$schedule]);
         } else {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
         }

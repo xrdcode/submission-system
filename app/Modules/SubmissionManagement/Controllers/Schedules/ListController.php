@@ -6,7 +6,7 @@
  * Time: 13:53
  */
 
-namespace App\Modules\SubmissionManagement\Controllers\Pricing;
+namespace App\Modules\SubmissionManagement\Controllers\Schedules;
 
 
 
