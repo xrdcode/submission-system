@@ -33,10 +33,6 @@
 
     </div>
 
-
-    <div id="modal-container">
-
-    </div>
 @endsection
 
 @section("scripts")

@@ -19,8 +19,16 @@
                     <textarea required="" class="form-control" placeholder="Abstract" rows="10" cols="30" id="description" name="abstract"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="file">Abstract File (.PDF)</label>
-                    <input type="file" required="" class="" placeholder=""  id="description" name="file">
+                    <label for="file">Abstract File (.PDF, .DOCX)</label>
+                    <div class="input-group">
+                        <label class="input-group-btn">
+                    <span class="btn btn-primary">
+                        Browse&hellip; <input name="file" type="file" style="display: none;">
+                    </span>
+                        </label>
+                        <input type="text" class="form-control" required readonly>
+                    </div>
+                    <input type="hidden" name="submission_id" value="" readonly>
                 </div>
                 <button type="submit" class="btn btn-default">Submit</button>
             </form>

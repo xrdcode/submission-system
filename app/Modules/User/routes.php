@@ -77,5 +77,19 @@ Route::group(['prefix' => "user", 'as' => 'user', 'namespace' => 'App\Modules\Us
 
 
 
-//Dashboard
+// PAYMENT
+
+Route::group(['prefix' => 'user/payment', 'as' => 'user.payment', 'namespace' => 'App\Modules\User\Controllers\Payment', 'middleware' => ['web','auth']], function() {
+    //Submission
+    Route::get('/', 'PaymentController@index');
+    Route::get('/dtwp', 'PaymentController@DTWaitingPayment')->name('.dtwp');
+    Route::get('/history', 'PaymentController@history')->name('.history');
+
+    //ID SUBMISSION
+    Route::get('/upload/{id}', 'PaymentController@_ModalUploadConfirmation')->name('.upload');
+    Route::post('/upload/{id}', 'PaymentController@uploadConfirmation')->name('.save');
+
+
+
+});
 

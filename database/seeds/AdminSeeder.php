@@ -16,6 +16,7 @@ class AdminSeeder extends Seeder
         $check = $admin->where('email', 'reysdesign@hotmail.com')->get()->first();
         if(empty($check)) {
             $admin->create([
+                'id'        => 1,
                 'email'     => 'reysdesign@hotmail.com',
                 'name'      => 'Muhammad Reyhan Fahlevi',
                 'password'  => bcrypt('demo@test'),

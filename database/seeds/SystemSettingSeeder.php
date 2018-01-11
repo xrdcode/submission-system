@@ -18,7 +18,7 @@ class SystemSettingSeeder extends Seeder
             ],
             [
                 "name" => "default_submission_status",
-                "value" => 2
+                "value" => 1
             ],
             [
                 "name" => "app_name",
@@ -44,7 +44,7 @@ class SystemSettingSeeder extends Seeder
                 "value" => ""
             ],[
                 "name" => "default_flashmessage_class",
-                "value" => ""
+                "value" => "alert-info"
             ],
             [
                 "name" => "default_message_types",

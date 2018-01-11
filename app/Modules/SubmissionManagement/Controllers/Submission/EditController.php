@@ -9,9 +9,12 @@
 namespace App\Modules\SubmissionManagement\Controllers\Submission;
 
 
+use App\Helper\Constant;
 use App\Http\Controllers\Controller;
 
+use App\Models\BaseModel\PaymentSubmission;
 use App\Models\BaseModel\Submission;
+use App\Models\BaseModel\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -23,41 +26,20 @@ class EditController extends Controller
 
     public function __construct()
     {
-        //$this->middleware(['role:SubmissionManagement-Create'])->only(['store','newprice']);
-        //$this->middleware(['role:SubmissionManagement-Save'])->only(['update','index','setprogress']);
-        //$this->middleware(['role:SubmissionManagement-MinimumSaveAccess'])->only(['setprogress']);
+        $this->middleware(['role:SubmissionManagement-Save'])->only(['index', 'update']);
+        $this->middleware(['role:SubmissionManagement-MinimumSaveAccess'])->only(['setprogress','setapproved','setpayment','_ModalAssignPayment']);
     }
 
     public function index($id) {
-        $submission = Submission::findOrFail($id);
-        $data = [
-            'action'        => route('admin.pricing.update', $id),
-            // 'class' => 'modal-lg', //Kelas Modal
-            'modalId'       => 'pricingmodal',
-            'title'         => 'Edit Submission',
-            'pricing'       => $submission
-        ];
-        return view("SubmissionManagement::pricing.medit", $data);
+
     }
 
-
-    public function newprice() {
-        $data = [
-            'action'        => route('admin.pricing.store'),
-            // 'class' => 'modal-lg', //Kelas Modal
-            'modalId'       => 'pricingmodel',
-            'title'         => 'Create New Price',
-            'eventlist'    => Submission::getEventList(),
-            'typelist'    => ScheduleType::getList()
-        ];
-        return view("SubmissionManagement::pricing.new", $data);
-    }
 
     public function update(Request $request, $id) {
         $validator = $this->validator($request);
 
         if($validator->passes()) {
-            $submission = Submission::find($id);
+            $submission = Submission::findOrFile($id);
 
             $submission->updated_by = Auth::user()->id;
 
@@ -103,13 +85,62 @@ class EditController extends Controller
         ]);
 
         if($validator->passes()) {
-            $submission = Submission::findOrFail($request->get('id'));
+            $submission = new Submission();
+            $submission = $submission->findOrFail($request->get('id'));
+            if($submission->isPaid())
+                return response()->json(["success" => true , $submission]);
             $submission->approved = $request->get('approved');
             $status = $submission->update();
+
             return response()->json(["success" => $status , $submission]);
         } else {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
         }
+    }
+
+    public function setpayment(Request $request, $id) {
+        $validator = Validator::make($request->all(), [
+            'submission_id'  => 'required|numeric',
+            'pricing_id'     => 'required|numeric',
+        ]);
+
+        if($validator->passes()) {
+            $submission = Submission::findOrFail($id);
+            if(empty($submission->payment_submission)) {
+                $ps = new PaymentSubmission();
+                $ps->create($request->all());
+                $ps->created_by = Auth::id();
+                $ps->modified_by = Auth::id();
+                $submission->workstate_id = Constant::AFTER_APPROVED;
+                $submission->update();
+                $status = $ps->update();
+            } else {
+                $ps = $submission->payment_submission;
+                $ps->updated_by = Auth::id();
+                $status = $ps->update($request->all());
+            }
+
+            return response()->json(["success" => $status , $submission]);
+        } else {
+            return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
+        }
+    }
+
+    //// MODAL ////
+
+    /**
+     * @param $id : submission id
+     */
+    public function _ModalAssignPayment($id) {
+        $submission = Submission::findOrFail($id);
+        $data = [
+            'action'        => route('admin.submission.setpayment', $id),
+            // 'class' => 'modal-lg', //Kelas Modal
+            'modalId'       => 'pricingmodal',
+            'title'         => 'Assign Payment',
+            'submission'       => $submission
+        ];
+        return view("SubmissionManagement::submission.massign", $data);
     }
 
 

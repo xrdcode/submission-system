@@ -9,18 +9,17 @@
 namespace App\Modules\User\Controllers\Submission;
 
 use App\Helper\AppHelper;
+use App\Helper\Constant;
 use App\Helper\HtmlHelper;
 use App\Http\Controllers\Controller;
 use App\Models\BaseModel\SystemSetting;
 use App\Models\BaseModel\User;
-use App\Models\BaseModel\Workstate;
 use App\Modules\SubmissionManagement\Models\SubmissionEvent;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Validator;
 use App\Models\BaseModel\Submission;
 use Illuminate\Http\Request;
-use Yajra\Datatables\Datatables;
 use DB;
 
 class MainController extends Controller
@@ -42,12 +41,12 @@ class MainController extends Controller
 
             $submission = new Submission();
 
-            $submission = $submission->create([
+            $submission->create([
                     'title'         => $request->get('title'),
                     'abstract'      => $request->get('abstract'),
                     'abstractfile'  => $path,
                     'user_id'       => Auth::id(),
-                    'workstate_id'  => SystemSetting::getSetting('default_workstate') ?: null,
+                    'workstate_id'  => Constant::ABSTRACT_REVIEW,
                     'submission_event_id'  => $request->get('submission_event_id'),
                 ]
             );
@@ -79,7 +78,7 @@ class MainController extends Controller
             $uploadedfile = $request->file('file');
             $path = $uploadedfile->store('public/abstract');
 
-            $submission = $submission->update([
+            $submission->update([
                     'title'         => $request->get('title'),
                     'abstract'      => $request->get('abstract'),
                     'abstractfile'  => $path,
@@ -107,30 +106,39 @@ class MainController extends Controller
                 "abstractfile",
                 "submission_event_id",
                 "submission_status_id",
-                "approved"
+                "approved",
+                "file_paper_id"
             ])
-            ->with(['user','workstate','submission_event']);
+            ->with(['user','workstate','submission_event','file_paper']);
 
         $datatable = app('datatables')->of($submission)
-            ->editColumn('workstate.name', function($submission) {
-                $sub = Submission::find($submission->id);
+            ->editColumn('workstate.name', function($s) {
+                $sub = Submission::find($s->id);
                 return !empty($sub->workstate) ? $sub->workstate->name : "Unavailable" ;
             })
-            ->addColumn('file_abstract', function($submission) {
+            ->addColumn('file_abstract', function($s) {
 
-                $btn = HtmlHelper::linkButton("Abstract", route('user.submission.getabstract', $submission->id) , 'btn-xs btn-info btn-download', '',"glyphicon-download");
+                $btn = HtmlHelper::linkButton("Abstract", route('user.submission.getabstract', $s->id) , 'btn-xs btn-info btn-download', '',"glyphicon-download");
                 $btn .= "<br><br>";
-                $btn .= HtmlHelper::linkButton('Reupload', route('user.submission.abstractreupload', $submission->id), 'btn-xs btn-primary','target="_blank"', "glyphicon-upload");
+                $btn .= HtmlHelper::linkButton('Reupload', route('user.submission.abstractreupload', $s->id), 'btn-xs btn-primary','target="_blank"', "glyphicon-upload");
                 return $btn;
             })
-            ->addColumn('action', function($submission) {
-
-                if($submission->approved) {
-                    $btn = HtmlHelper::linkButton('Upload', route('user.submission.upload', $submission->id), 'btn-xs btn-info','target="_blank"', "glyphicon-upload");
-                    //$btn .= HtmlHelper::linkButton('Download', route('user.submission.reupload', $submission->id), 'btn-xs btn-primary','target="_blank"', "glyphicon-download");
-                    return $btn;
+            ->addColumn('action', function($s) {
+                if(!empty($s->file_paper)) {
+                    $text = "Re-upload";
                 } else {
-                    return $submission->approved;
+                    $text = "Upload";
+                }
+
+                if($s->approved && $s->isPaid()) {
+                    $btn = HtmlHelper::linkButton($text, route('user.submission.upload', $s->id), 'btn-xs btn-info btn-modal', "data-id='{$s->id}'", "glyphicon-upload");
+                    return $btn;
+                } else if($s->approved && !$s->isPaid()) {
+                    $msg = "You have not made a payment. Please confirm your payment to unlock upload.";
+                    $btn = HtmlHelper::linkButton($text,"#", "btn-xs btn-info btn-disabled","data-toggle='tooltip' title='{$msg}' disabled", 'glyphicon-upload');
+                    return $btn . "<br><i>*Not Paid</i>";
+                } else {
+                    return "Not Yet Approved";
                 }
             })
             ->rawColumns(['file_abstract','action']);
@@ -140,11 +148,11 @@ class MainController extends Controller
         return $datatable->make(true);
     }
 
-    function getAbstractFile($id) {
+    public function getAbstractFile($id) {
         $sub = User::find(Auth::id())->submissions()->findOrFail($id);
         $ext = AppHelper::getFileExtension($sub->abstractfile);
         $file = public_path(Storage::url($sub->abstractfile));
-        //var_dump($file);exit;
         return response()->download($file, join(".", [str_replace(' ', '_', $sub->title), $ext]));
     }
+
 }

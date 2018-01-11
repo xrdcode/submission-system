@@ -15,6 +15,6 @@ return [
 
     'failed' => 'These credentials do not match our records.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-    'notverified'   => 'Your account not verified by our system',
+    'notverified'   => 'Your account not verified by our system. Please check email or resend verification',
 
 ];

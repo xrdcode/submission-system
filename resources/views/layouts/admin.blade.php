@@ -110,6 +110,33 @@
             left: 0px;
             width: 100%;
             height: 5px;
+
+
+        }
+
+
+
+    </style>
+
+    <style media="screen" type="text/css">
+
+        table.tbl-no-wrap > thead > tr > th {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        table.tbl-no-wrap > tbody > tr > td {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        table.tbl-no-wrap > tbody > tr > td.force-wrap {
+            min-width: 200px;
+            white-space: normal;
+        }
+
+        table.dataTable tbody td {
+            vertical-align: middle;
         }
 
     </style>

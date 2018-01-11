@@ -48,7 +48,12 @@
                 serverSide: true,
                 ajax: '{!! route('admin.pricing.dt') !!}',
                 columns: [
-                    { title: 'id', data: 'id'},
+                    {
+                        title: 'No',
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
                     { title: 'Event',data: 'submission_event.name', orderable: false, searchable: false},
                     { title: 'Category',data: 'pricing_type.name', orderable: false, searchable: false},
                     { title: 'Price',data: 'price'},

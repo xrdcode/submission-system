@@ -29,7 +29,7 @@ class EditController extends Controller
 
     public function index($id) {
         $admin = Admin::findOrFail($id);
-        return view("AdminManagement::edit", ["admin" => $admin, "grouplist" => Group::GetSelectableList()]);
+        return view("AdminManagement::medit", ["admin" => $admin, "grouplist" => Group::GetSelectableList()]);
     }
 
 

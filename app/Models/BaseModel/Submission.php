@@ -2,6 +2,7 @@
 
 namespace App\Models\BaseModel;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Submission extends Model
@@ -28,4 +29,36 @@ class Submission extends Model
     public function submission_event() {
         return $this->belongsTo(SubmissionEvent::class);
     }
+
+    public function payment_submission() {
+        return $this->hasOne(PaymentSubmission::class);
+    }
+
+    public function pricelist() {
+        $price = $this->submission_event->pricings;
+        $tmp = [];
+        foreach ($price as $p) {
+            $tmp[$p->id] = "{$p->pricing_type->name} | Rp. {$p->price}";
+        }
+        return $tmp;
+    }
+
+    public function isPaid() {
+        if(empty($this->payment_submission))
+            return false;
+        if($this->payment_submission->verified)
+            return true;
+        return false;
+    }
+
+    /**
+     * Future Update
+     */
+    public function stepUpProgress() {
+        $ws = $this->workstate;
+        $nws = Workstate::where('order','=',$ws->order + 1)->first();
+        $this->workstate()->associate($nws);
+        $this->update();
+    }
+
 }

@@ -26,7 +26,7 @@ class ListController extends Controller
         $event = SubmissionEvent::select(['id','name','parent_id','description','valid_from','valid_thru']);
         return Datatables::of($event)
             ->addColumn('action', function ($user) {
-                return HtmlHelper::linkButton(' Edit', route('admin.event.edit', $user->id), 'btn-xs btn-default btn-edit', 'glyphicon-edit');
+                return HtmlHelper::linkButton(' Edit', route('admin.event.edit', $user->id), 'btn-xs btn-default btn-edit',"" ,'glyphicon-edit');
             })
             ->addColumn('date_range', function($event) {
                 $from = Carbon::createFromFormat('Y-m-d H:i:s', $event->valid_from);

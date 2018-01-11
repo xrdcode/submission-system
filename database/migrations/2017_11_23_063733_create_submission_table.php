@@ -54,6 +54,7 @@ class CreateSubmissionTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('description');
+            $table->boolean('lock')->default(0);
             $table->unsignedInteger('workstate_type_id')->nullable();
 
             $table->timestamps();
@@ -71,7 +72,7 @@ class CreateSubmissionTable extends Migration
             $table->string('name');
             $table->string('type');
             $table->string('path');
-            $table->string('full_path');
+            $table->boolean('locked')->default(0);
 
             $table->timestamps();
         });

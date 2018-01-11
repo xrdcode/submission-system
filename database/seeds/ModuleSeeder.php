@@ -36,6 +36,30 @@ class ModuleSeeder extends Seeder
                 'description' => "Module Management Module",
                 'pathname' => "ModuleManagement",
                 'active' => true,
+            ],
+            [
+                'name' => "User Management",
+                'description' => "User Management Module",
+                'pathname' => "UserManagement",
+                'active' => true,
+            ],
+            [
+                'name' => "Payments Management",
+                'description' => "Payment Management Module",
+                'pathname' => "Payments",
+                'active' => true,
+            ],
+            [
+                'name' => "Submission Management",
+                'description' => "Submission Management Module",
+                'pathname' => "SubmissionManagement",
+                'active' => true,
+            ],
+            [
+                'name' => "Master Data Management",
+                'description' => "Master Data Management Module",
+                'pathname' => "MasterdataManagement",
+                'active' => true,
             ]
         ]);
     }

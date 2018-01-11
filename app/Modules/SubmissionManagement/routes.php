@@ -74,19 +74,27 @@ Route::group(
         'middleware' => ['web', 'auth:admin']
     ], function () {
     Route::get('/', ['uses' => 'ListController@index', 'middleware' => []]);
-    Route::get('/getabstract/{id}', ['as' => '.getabstract', 'uses' => 'ListController@getabstract', 'middleware' => []]);
-    Route::get('/getpaper/{id}', ['as' => '.getpaper', 'uses' => 'ListController@getpaper', 'middleware' => []]);
-    Route::get('/paymentinfo/{id}', ['as' => '.paymentinfo', 'uses' => 'ListController@paymentinfo', 'middleware' => []]);
 
-    Route::get('/attachpaymment/{id}', ['as' => '.attachpayment', 'uses' => 'ListController@attachpayment', 'middleware' => []]);
+
+    Route::get('/paymentinfo/{id}', ['as' => '.paymentinfo', 'uses' => 'ListController@paymentinfo', 'middleware' => []]);
 
     Route::post('/setprogress/{id}', ['as' => '.progress', 'uses' => 'EditController@setprogress', 'middleware' => []]);
     Route::post('/setapproved/{id}', ['as' => '.approve', 'uses' => 'EditController@setapproved', 'middleware' => []]);
 
+    /// DATATABLE LIST ///
+    Route::get('/dt', ['as' => '.dt', 'uses' => 'ListController@DT', 'middleware' => []]);
+
+    /// DOWNLOAD FILE ///
+    Route::get('/getabstract/{id}', ['as' => '.getabstract', 'uses' => 'ListController@getAbstractFile', 'middleware' => []]);
+    Route::get('/getpaper/{id}', ['as' => '.getpaper', 'uses' => 'ListController@getpaper', 'middleware' => []]);
+
+
+    //// MODAL ////
     Route::get('/edit/{id}', ['as' => '.edit', 'uses' => 'EditController@index', 'middleware' => []]);
     Route::post('/edit/{id}', ['as' => '.update', 'uses' => 'EditController@update', 'middleware' => []]);
 
-    Route::post('/store', ['as' => '.store', 'uses' => 'EditController@store', 'middleware' => []]);;
+    Route::get('/payment/{id}', ['as' => '.payment', 'uses' => 'EditController@_ModalAssignPayment', 'middleware' => []]);;
+    Route::post('/setpayment/{id}', ['as' => '.setpayment', 'uses' => 'EditController@setpayment', 'middleware' => []]);
 
-    Route::get('/dt', ['as' => '.dt', 'uses' => 'ListController@DT', 'middleware' => []]);
+    Route::get('/viewabstract/{id}', ['as' => '.abstract', 'uses' => 'ListController@_ModalViewAbstract', 'middleware' => []]);;
 });

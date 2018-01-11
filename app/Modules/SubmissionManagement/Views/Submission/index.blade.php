@@ -10,7 +10,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="col-md-12">
-                            <table id="datalist" class="table table-responsive">
+                            <table id="datalist" class="table table-responsive tbl-no-wrap">
 
                             </table>
                         </div>
@@ -41,14 +41,17 @@
             $('#datalist').DataTable({
                 processing: true,
                 serverSide: true,
+                scrollX: true,
                 ajax: '{!! route('admin.submission.dt') !!}',
                 columns: [
                     { title: 'id', data: 'id'},
-                    { title: 'Title',data: 'title'},
-                    { title: 'User',data: 'user.name'},
                     { title: 'Event',data: 'submission_event.name', orderable: false, searchable: false},
+                    { title: 'Title',data: 'title', class: 'force-wrap'},
+                    { title: 'User',data: 'user.name'},
+                    { title: 'Abstract', data: 'file_abstract'},
                     { title: 'Progress',data: 'progress', orderable: false, searchable: false},
                     { title: 'Approved',data: 'approved', orderable: false, searchable: false},
+                    { title: 'Add Payment',data: 'payment', orderable: false, searchable: false},
                     // { data: 'action', orderable: false, searchable: false}
                 ]
 

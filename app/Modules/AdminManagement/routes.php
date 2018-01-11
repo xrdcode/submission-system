@@ -16,6 +16,8 @@ Route::group(
     Route::post('/create', ['as' => '.create', 'uses' => 'EditController@create', 'middleware' => []]);
 
     Route::get('/detail/{id}', ['as' => '.detail', 'uses' => 'DetailController@index', 'middleware' => []]);
+
+    Route::get('/dt', ['as' => '.dt', 'uses' => 'ListController@DT', 'middleware' => []]);
 });
 
 Route::group(
@@ -34,7 +36,8 @@ Route::group(
     Route::get('/newgroup', ['as' => '.newgroup', 'uses' => 'EditController@newgroup', 'middleware' => []]);;
     Route::post('/store', ['as' => '.store', 'uses' => 'EditController@store', 'middleware' => []]);;
 
-    Route::get('/detail/{id}', ['as' => '.detail', 'uses' => 'DetailController@index', 'middleware' => []]);
+    //Route::get('/detail/{id}', ['as' => '.detail', 'uses' => 'DetailController@index', 'middleware' => []]);
+    Route::get('/dt', ['as' => '.dt', 'uses' => 'ListController@DT', 'middleware' => []]);
 });
 
 Route::group(
@@ -55,4 +58,6 @@ Route::group(
     Route::post('/store', ['as' => '.store', 'uses' => 'EditController@store', 'middleware' => []]);
 
     Route::get('/detail/{id}', ['as' => '.detail', 'uses' => 'DetailController@index', 'middleware' => []]);
+
+    Route::get('/dt', ['as' => '.dt', 'uses' => 'ListController@DT', 'middleware' => []]);
 });

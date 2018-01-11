@@ -8,12 +8,14 @@
 
 namespace App\Modules\AdminManagement\Controllers\Role;
 
+use App\Helper\HtmlHelper;
 use App\Modules\AdminManagement\Models\Admin;
 use App\Modules\AdminManagement\Models\Group;
 use App\Modules\AdminManagement\Models\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Constants;
+use Yajra\Datatables\Datatables;
 
 class ListController extends Controller
 {
@@ -34,16 +36,22 @@ class ListController extends Controller
         return view("AdminManagement::role.index", ["roles" => $roles] );
     }
 
-    public function search(Request $request) {
+    public function DT() {
+        $admin = Role::query();
+        $dt =  Datatables::of($admin);
 
-    }
+        $dt->addColumn('created_by', function($a) {
+            return "";
+        });
 
-    public function refreshTable() {
-        if(Request::ajax()) {
-            $roles = Role::orderBy('name',  'asc')->paginate($this->pagination);
-            return view("AdminManagement::role.index", ["roles" => $roles])->renderSections()["content"];
-        }
+        $dt->addColumn('updated_by', function($a) {
+            return "";
+        });
 
-        return 0;
+        $dt->addColumn('action', function($m) {
+            return HtmlHelper::linkButton("Edit", route('admin.managerole.edit', $m->id), "btn-xs btn-default btn-edit","", "glyphicon-edit");
+        });
+
+        return $dt->make(true);
     }
 }

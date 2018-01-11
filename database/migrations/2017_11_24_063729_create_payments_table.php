@@ -41,6 +41,7 @@ class CreatePaymentsTable extends Migration
 
             $table->foreign('created_by')->references('id')->on('admins')->onDelete('set null');
             $table->foreign('updated_by')->references('id')->on('admins')->onDelete('set null');
+            $table->foreign('pricing_type_id')->references('id')->on('pricing_types')->onDelete('cascade');
 
         });
 

@@ -43,9 +43,9 @@
                     { title: 'id', data: 'id'},
                     { title: 'Name',data: 'name'},
                     { title: 'Description',data: 'description',},
-                    { title: 'Folder Path',data: 'pathname', orderable: false, searchable: false},
-                    { title: 'Created By',data: 'created_by'},
-                    { title: 'Updated By',data: 'updated_by'},
+                    { title: 'Folder Path',data: 'pathname'},
+                    { title: 'Created By',data: 'createdby.name', orderable: false, searchable: false},
+                    { title: 'Updated By',data: 'updatedby.name',orderable: false, searchable: false},
                     { data: 'action', orderable: false, searchable: false}
                 ]
 

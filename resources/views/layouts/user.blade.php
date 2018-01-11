@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="gr__"><head>
+<html class="gr__" lang="{{ app()->getLocale() }}"><head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -41,8 +41,8 @@
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
                     @if (Auth::guest())
-                        <li><a href="{{ route('user.login') }}">Login</a></li>
-                        <li><a href="{{ route('register') }}">Register</a></li>
+                        <li><a href="{{ route('user.login') }}">{{ __('apps.menu.login') }}</a></li>
+                        <li><a href="{{ route('register') }}">{{ __('apps.menu.register') }}</a></li>
                     @else
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -50,13 +50,13 @@
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li>
-                                    <a href="#">Profile</a>
+                                    <a href="#">{{ __('apps.menu.profile') }}</a>
                                 </li>
                                 <li>
                                     <a href="#"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        Logout
+                                        {{ __('apps.menu.logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('user.logout') }}" method="POST" style="display: none;">
@@ -90,8 +90,9 @@
                     <li>
                         <a href="#payment" class="list-group-item " data-toggle="collapse"><i class="glyphicon glyphicon-list"></i>Payment  <span class="glyphicon glyphicon-chevron-right"></span></a>
                         <div class="collapse" id="payment">
-                            <a href="" class="list-group-item">Speakers</a>
+                            <a href="{{ route('user.payment') }}" class="list-group-item">Speakers</a>
                             <a href="" class="list-group-item">Non-Speaker</a>
+                            <a href="" class="list-group-item">History</a>
                         </div>
                     </li>
                     <li>
@@ -119,6 +120,11 @@
     </div>
 
 </div>
+
+<div id="modal-container">
+
+</div>
+
 <script type="text/javascript" src="/js/bf-admin.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 <script src="{{ asset('js/ssmath.js') }}"></script>

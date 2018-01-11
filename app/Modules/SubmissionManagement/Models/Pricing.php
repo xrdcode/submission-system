@@ -17,7 +17,8 @@ class Pricing extends BasePricing
         $event = SubmissionEvent::whereNotNull('parent_id')->get();
         $tmp = [];
         foreach($event as $ev) {
-            if($ev->pricings->count() < Pricing::all()->count()) {
+            $cek = empty($ev->pricings->count()) ? 0 : $ev->pricings->count();
+            if($cek <= Pricing::all()->count()) {
                 $tmp[$ev->id] = $ev->name;
             }
         }
