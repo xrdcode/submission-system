@@ -11,6 +11,7 @@ namespace App\Modules\User\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -26,7 +27,10 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('User::dashboard');
+        $data = [
+            $payment_notif = Auth::user()->payment_notification(),
+        ];
+        return view('User::dashboard', $data);
     }
 
 

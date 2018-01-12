@@ -41,4 +41,12 @@ class User extends Authenticatable
     public function general_payments() {
         return $this->hasMany(GeneralPayments::class);
     }
+
+    public function payment_notification() {
+        $data = $this->submissions()->whereHas('payment_submission', function($q) {
+           $q->whereNull('file');
+        })->with(['payment_submission']);
+
+        return $data;
+    }
 }

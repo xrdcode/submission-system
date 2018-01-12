@@ -68,7 +68,7 @@
 
             $('#btn_new').on('click', function(e) {
                 $.ajax({
-                    url: '{{ route('admin.pricing.new') }}',
+                    url: '{{ route('admin.manageadmin.new') }}',
                     method: 'GET',
                     success: function(response) {
                         $("#modal-container").html(response);

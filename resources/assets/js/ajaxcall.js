@@ -221,10 +221,10 @@ function ajaxAuth(formid) {
                     var resp = $.parseJSON(xHr.responseText);
                     $(me).find('.has-error').removeClass('has-error');
                     $(me).find('.form-control-feedback').remove();
-                    $.each(resp, function(errName,errVal) {
+                    $.each(resp, function (errName, errVal) {
                         var target = $('[name=' + errName + ']');
                         console.log($(target).closest('.input-group').length);
-                        if($(target).closest('.input-group').length > 0 ) {
+                        if ($(target).closest('.input-group').length > 0) {
                             $(target).closest('.form-group').removeClass('has-error').addClass('has-error').find('.form-control-feedback').remove();
                             $(target).closest('.input-group').after(generateErrorLoginDOM());
                         } else {
@@ -232,9 +232,11 @@ function ajaxAuth(formid) {
                             $(target).after(generateErrorLoginDOM());
 
                         }
-                        showAlert(errVal.toString(),"warning", "", 1000);
+                        showAlert(errVal.toString(), "warning", "", 1000);
                     });
-
+                } else if(xHr.status == 423) {
+                    var resp = $.parseJSON(xHr.responseText);
+                    showAlert(resp.email, "warning", "Locked: ")
                 } else {
                     showAlert("Oooops.. something when wrong..", "danger", "Error:");
                 }

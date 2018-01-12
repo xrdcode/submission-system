@@ -118,9 +118,21 @@ class MainController extends Controller
             })
             ->addColumn('file_abstract', function($s) {
 
-                $btn = HtmlHelper::linkButton("Abstract", route('user.submission.getabstract', $s->id) , 'btn-xs btn-info btn-download', '',"glyphicon-download");
+                if($s->isPaid()) {
+                    $url_upload = "#";
+                    $url_reupload = "#";
+                    $class = "btn-download disabled";
+                    $class_re = "disabled";
+                } else {
+                    $url_upload = route('user.submission.getabstract', $s->id);
+                    $url_reupload = route('user.submission.abstractreupload', $s->id);
+                    $class = "";
+                    $class_re = "";
+                }
+
+                $btn = HtmlHelper::linkButton("Abstract", $url_upload , "btn-xs btn-info {$class}", '',"glyphicon-download");
                 $btn .= "<br><br>";
-                $btn .= HtmlHelper::linkButton('Reupload', route('user.submission.abstractreupload', $s->id), 'btn-xs btn-primary','target="_blank"', "glyphicon-upload");
+                $btn .= HtmlHelper::linkButton('Reupload', $url_reupload, "btn-xs btn-primary {$class_re}",'target="_blank "', "glyphicon-upload");
                 return $btn;
             })
             ->addColumn('action', function($s) {
@@ -140,10 +152,9 @@ class MainController extends Controller
                 } else {
                     return "Not Yet Approved";
                 }
-            })
-            ->rawColumns(['file_abstract','action']);
+            });
 
-
+            $datatable->rawColumns(['file_abstract','action']);
 
         return $datatable->make(true);
     }

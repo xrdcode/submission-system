@@ -29,7 +29,7 @@ class EditController extends Controller
     public function index($id) {
         $group = Group::find($id);
         $rolelist = Role::GetSelectableList();
-        return view("AdminManagement::group.edit", ["group" => $group, "rolelist" => $rolelist]);
+        return view("AdminManagement::group.medit", ["group" => $group, "rolelist" => $rolelist]);
     }
 
     public function newgroup() {

@@ -38,6 +38,7 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest:admin')->except("logout");
+        $this->middleware('auth:admin')->only("logout");
     }
 
     /**
@@ -96,11 +97,11 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
-        $this->guard('admin')->logout();
+        var_dump(Auth::guard()->logout());
 
         $request->session()->invalidate();
 
-        return redirect('/');
+        return redirect('/admin/');
     }
 
 }

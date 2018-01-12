@@ -37,8 +37,8 @@ class ListController extends Controller
     }
 
     public function DT() {
-        $admin = Role::query();
-        $dt =  Datatables::of($admin);
+        $role = Role::query();
+        $dt =  Datatables::of($role);
 
         $dt->addColumn('created_by', function($a) {
             return "";

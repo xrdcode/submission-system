@@ -26,7 +26,7 @@ class Admin extends BaseAdmin
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'username', 'password', 'address', 'phone',
+        'name', 'email', 'username', 'password', 'address', 'phone','active',
     ];
 
     protected $hidden = [

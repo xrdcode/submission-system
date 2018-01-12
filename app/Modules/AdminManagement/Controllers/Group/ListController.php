@@ -8,12 +8,14 @@
 
 namespace App\Modules\AdminManagement\Controllers\Group;
 
+use App\Helper\HtmlHelper;
 use App\Modules\AdminManagement\Models\Admin;
 use App\Modules\AdminManagement\Models\Group;
 use App\Modules\AdminManagement\Models\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Constants;
+use Yajra\Datatables\Datatables;
 
 class ListController extends Controller
 {
@@ -25,16 +27,25 @@ class ListController extends Controller
     }
 
     public function index(Request $request) {
-        if($request->search) {
-            $groups = Group::search($request->search)->paginate($this->pagination);
-        } else {
-            $groups = Group::orderBy('name',  'asc')->paginate($this->pagination);
-        }
-        $rolelist = Role::GetSelectableList();
-        return view("AdminManagement::group.index", ["groups" => $groups, 'search' => $request->search] );
+        return view("AdminManagement::group.index");
     }
 
-    public function search(Request $request) {
+    public function DT() {
+        $group = Group::query();
+        $dt =  Datatables::of($group);
 
+        $dt->addColumn('created_by', function($g) {
+            return "";
+        });
+
+        $dt->addColumn('updated_by', function($g) {
+            return "";
+        });
+
+        $dt->addColumn('action', function($g) {
+            return HtmlHelper::linkButton("Edit", route('admin.managegroup.edit', $g->id), "btn-xs btn-default btn-edit","", "glyphicon-edit");
+        });
+
+        return $dt->make(true);
     }
 }

@@ -34,7 +34,7 @@ class EditController extends Controller
 
 
     public function addadmin() {
-        $data = [];
+        $data = ["grouplist" => Group::GetSelectableList()];
         return view("AdminManagement::new", $data);
     }
 
@@ -65,7 +65,7 @@ class EditController extends Controller
     protected function newAdminValidator(Request $request) {
         return Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
+            'email' => 'required|string|email|max:255|unique:admins',
             'address' => 'required|string|max:255',
             'phone' => 'required|string|numeric',
             'password' => 'required|string|min:6|confirmed',
@@ -77,7 +77,7 @@ class EditController extends Controller
     }
 
     public function store(Request $request) {
-        $validator = $this->validator($request);
+        $validator = $this->newAdminValidator($request);
         if($validator->passes()) {
             $admin = Admin::create([
                 'name' => $request->get('name'),
@@ -88,6 +88,11 @@ class EditController extends Controller
                 'created_by' => Auth::id(),
                 'updated_by' => Auth::id(),
             ]);
+
+            $admin->createdby()->associate(Auth::user());
+            $admin->updatedby()->associate(Auth::user());
+            $admin->update();
+            $admin->saveGroup($request->grouplist);
             return response()->json([$admin]);
         } else {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

@@ -28,7 +28,7 @@ class EditController extends Controller
 
     public function index($id) {
         $role = Role::find($id);
-        return view("AdminManagement::role.edit", ["role" => $role]);
+        return view("AdminManagement::role.medit", ["role" => $role]);
     }
 
     public function newrole() {
