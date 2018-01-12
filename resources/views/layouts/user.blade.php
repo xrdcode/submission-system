@@ -125,7 +125,7 @@
 
 </div>
 
-<script type="text/javascript" src="/js/bf-admin.js"></script>
+<script type="text/javascript" src="{{ asset("/js/bf-admin.js") }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 <script src="{{ asset('js/ssmath.js') }}"></script>
 <script src="{{ asset("js/select2.min.js") }}"></script>
