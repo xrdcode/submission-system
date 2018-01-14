@@ -48,7 +48,7 @@ class Admin extends BaseAdmin
         if(count($old) == count($new)) {
             return;
         }
-        if(count($new) == 0) {
+        if(!is_array($new) || empty($new)) {
             foreach ($old as $id) {
                 if(!in_array($id, $new)) {
                     $this->revokeGroupByID($id);
