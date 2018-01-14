@@ -41,6 +41,106 @@ class RoleSeeder extends Seeder
                 'id'    => 6,
                 'name'  => 'GroupManagement-Save',
                 'description' => 'Group Management'
+            ],
+            [
+                'id'    => 7,
+                'name'  => 'EventManagement-Create',
+                'description' => 'Group Management'
+            ],
+            [
+                'id'    => 8,
+                'name'  => 'EventManagement-View',
+                'description' => 'Group Management'
+            ],
+            [
+                'id'    => 9,
+                'name'  => 'EventManagement-Save',
+                'description' => 'Group Management'
+            ],
+            [
+                'id'    => 10,
+                'name'  => 'SubmissionManagement-MinimumSaveAccess',
+                'description' => 'Submission Management'
+            ],
+            [
+                'id'    => 11,
+                'name'  => 'SubmissionManagement-View',
+                'description' => 'Submission Management View'
+            ],
+            [
+                'id'    => 12,
+                'name'  => 'SubmissionManagement-Save',
+                'description' => 'Submission Management'
+            ],
+            [
+                'id'    => 13,
+                'name'  => 'PaymentManagement-Save',
+                'description' => 'Payment Management'
+            ],
+            [
+                'id'    => 14,
+                'name'  => 'PaymentManagement-View',
+                'description' => 'Payment Management'
+            ],
+            [
+                'id'    => 15,
+                'name'  => 'PricingManagement-Save',
+                'description' => 'Pricing Management'
+            ],
+            [
+                'id'    => 16,
+                'name'  => 'PricingManagement-Create',
+                'description' => 'Pricing Management'
+            ],
+            [
+                'id'    => 17,
+                'name'  => 'PricingManagement-View',
+                'description' => 'Pricing Management'
+            ],
+            [
+                'id'    => 18,
+                'name'  => 'ScheduleManagement-Save',
+                'description' => 'Schedule Management'
+            ],
+            [
+                'id'    => 19,
+                'name'  => 'ScheduleManagement-Create',
+                'description' => 'Schedule Management'
+            ],
+            [
+                'id'    => 20,
+                'name'  => 'ScheduleManagement-View',
+                'description' => 'Schedule Management'
+            ],
+            [
+                'id'    => 21,
+                'name'  => 'MasterdataManagement-Create',
+                'description' => 'Masterdata Management'
+            ],
+            [
+                'id'    => 22,
+                'name'  => 'MasterdataManagement-Save',
+                'description' => 'Masterdata Management'
+            ],
+            [
+                'id'    => 23,
+                'name'  => 'MasterdataManagement-Update',
+                'description' => 'Masterdata Management'
+            ],
+            [
+                'id'    => 24,
+                'name'  => 'AdminManagement-Create',
+                'description' => 'Admin Management'
+            ],
+            [
+                'id'    => 25,
+                'name'  => 'AdminManagement-Save',
+                'description' => 'Admin Management'
+            ],
+            [
+                'id'    => 26,
+                'name'  => 'AdminManagement-Update',
+                'description' => 'Admin Management'
             ]
         ]);
 
