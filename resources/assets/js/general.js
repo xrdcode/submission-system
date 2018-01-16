@@ -1,5 +1,5 @@
 $(document).ready(function() {
-
+    $.fn.select2.defaults.set( "theme", "bootstrap" );
     /// EVERY AJAX REQUEST PROTECT THE BUTTON
     $(document).ajaxStart(function() {
         $('button, .btn').prop('disabled', true);

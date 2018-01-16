@@ -114,5 +114,16 @@ class MasterSeeder extends Seeder
                 'lock'          => 1
             ]
         ]);
+
+        DB::table('submission_types')->insert([
+            [
+                'name'  => 'Oral Presenter',
+                'description'  => 'Oral Presenter',
+            ],
+            [
+                'name'  => 'Poster Presenter',
+                'description'  => 'Poster Presenter',
+            ],
+        ]);
     }
 }

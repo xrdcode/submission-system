@@ -12,7 +12,6 @@ use App\Helper\AppHelper;
 use App\Helper\Constant;
 use App\Helper\HtmlHelper;
 use App\Http\Controllers\Controller;
-use App\Models\BaseModel\SystemSetting;
 use App\Models\BaseModel\User;
 use App\Modules\SubmissionManagement\Models\SubmissionEvent;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +19,6 @@ use Illuminate\Support\Facades\Storage;
 use Validator;
 use App\Models\BaseModel\Submission;
 use Illuminate\Http\Request;
-use DB;
 
 class MainController extends Controller
 {
@@ -47,7 +45,8 @@ class MainController extends Controller
                     'abstractfile'  => $path,
                     'user_id'       => Auth::id(),
                     'workstate_id'  => Constant::ABSTRACT_REVIEW,
-                    'submission_event_id'  => $request->get('submission_event_id'),
+                    'submission_event_id'           => $request->get('submission_event_id'),
+                    'submission_type_id'            => $request->get('submission_type_id'),
                 ]
             );
 
@@ -62,7 +61,8 @@ class MainController extends Controller
             'title'                 => 'required|string|max:255|',
             'abstract'              => 'required|string',
             'file'                  => 'required|file|mimes:pdf,doc,docx|max:2048',
-            'submission_event_id'   => 'required',
+            'submission_event_id'   => 'required|numeric',
+            'submission_type_id'    => 'required|numeric',
         ]);
     }
 
@@ -79,10 +79,11 @@ class MainController extends Controller
             $path = $uploadedfile->store('public/abstract');
 
             $submission->update([
-                    'title'         => $request->get('title'),
-                    'abstract'      => $request->get('abstract'),
-                    'abstractfile'  => $path,
-                    'user_id'       => Auth::id(),
+                    'title'                         => $request->get('title'),
+                    'abstract'                      => $request->get('abstract'),
+                    'abstractfile'                  => $path,
+                    'user_id'                       => Auth::id(),
+                    'submission_type_id'            => $request->get('submission_type_id'),
                 ]
             );
 
@@ -94,10 +95,8 @@ class MainController extends Controller
 
     public function DTSubmission(Request $request) {
         $user = Auth::user();
-        DB::statement(DB::raw('set @rownum=0'));
         $submission = User::find($user->id)->submissions()
             ->select([
-                DB::raw("@rownum := @rownum + 1 AS row") ,
                 "id",
                 "title",
                 "abstract",
@@ -106,10 +105,11 @@ class MainController extends Controller
                 "abstractfile",
                 "submission_event_id",
                 "submission_status_id",
+                "submission_type_id",
                 "approved",
                 "file_paper_id"
             ])
-            ->with(['user','workstate','submission_event','file_paper']);
+            ->with(['user','workstate','submission_event','file_paper','submission_type']);
 
         $datatable = app('datatables')->of($submission)
             ->editColumn('workstate.name', function($s) {

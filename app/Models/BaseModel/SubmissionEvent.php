@@ -63,7 +63,7 @@ class SubmissionEvent extends Model
             ->get();
         $tmp = [];
         foreach ($parent as $p) {
-            $tmp[$p->id] = $p->name;
+            $tmp[$p->id] = $p->name . " | " . $p->parent->name;
         }
         return $tmp;
     }

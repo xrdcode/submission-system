@@ -22,6 +22,14 @@ class Submission extends Model
         return $this->belongsTo(SubmissionStatus::class);
     }
 
+    public function submission_data() {
+        return $this->belongsTo(SubmissionData::class);
+    }
+
+    public function submission_type() {
+        return $this->belongsTo(SubmissionType::class);
+    }
+
     public function workstate() {
         return $this->belongsTo(Workstate::class);
     }

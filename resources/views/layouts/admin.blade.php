@@ -103,6 +103,10 @@
             color: #333333;
         }
 
+        .datepicker-dropdown .datepicker-switch {
+            color: #FFFFFF;
+        }
+
         [data-notify="progressbar"] {
             margin-bottom: 0px;
             position: absolute;

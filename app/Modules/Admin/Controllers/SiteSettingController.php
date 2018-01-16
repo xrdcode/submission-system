@@ -10,6 +10,7 @@ namespace App\Modules\Admin\Controllers;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\BaseModel\SystemSetting;
 use App\Models\SiteSetting;
 use Validator;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class SiteSettingController extends Controller
 {
     public function index() {
-        $setting = SiteSetting::all();
+        $setting = SystemSetting::all();
         return view('Admin::settings', ['settings' => $setting]);
     }
 
@@ -34,7 +35,7 @@ class SiteSettingController extends Controller
                     $err[$dt['name']] = $validator->getMessageBag()->toArray();
                     $response['error'] = $err;
                 } else {
-                    SiteSetting::setSetting($dt['name'], $dt['value']);
+                    SystemSetting::setSetting($dt['name'], $dt['value']);
                 }
             }
             return response()->json(['response' => $response]);

@@ -13,10 +13,18 @@
     <link rel="stylesheet" href="{{ asset("css/animate.css") }}" />
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/sites.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" />
     <link rel="stylesheet" href="{{ asset("css/select2.css") }}">
     <link rel="stylesheet" href="{{ asset("css/select2-bootstrap.css") }}" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.16/datatables.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" />
+
+    <style>
+        .datepicker-dropdown {
+            background-color: #EFEFEF;
+        }
+
+
+    </style>
 
 </head>
 <body data-gr-c-s-loaded="true">
@@ -107,9 +115,10 @@
                 </ul>
             </div>
             <div class="col-xs-12 col-sm-9 content">
+                {!! isset($message) ? $message : "" !!}
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><a href="javascript:void(0);" class="toggle-sidebar"><span class="fa fa-angle-double-left" data-toggle="offcanvas" title="Maximize Panel"></span></a> Panel Title</h3>
+                        <h3 class="panel-title"><a href="javascript:void(0);" class="toggle-sidebar"><span class="fa fa-angle-double-left" data-toggle="offcanvas" title="Maximize Panel"></span></a>{{ \Request::route()->getName() }}</h3>
                     </div>
                     <div class="panel-body">
                         @yield('content')

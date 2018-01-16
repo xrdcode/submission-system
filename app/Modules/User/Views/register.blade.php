@@ -5,7 +5,7 @@
     <form id="signup" class="form-signin" method="POST" action="{{ route('register') }}">
         {{ csrf_field() }}
 
-        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+        <div class="form-group">
             <div class="input-group">
                 <div class="input-group-addon">
                     <i class="glyphicon glyphicon-user"></i>
@@ -15,7 +15,7 @@
         </div>
 
 
-        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+        <div class="form-group">
             <div class="input-group">
                 <div class="input-group-addon">
                     <i class="glyphicon glyphicon-envelope"></i>
@@ -34,7 +34,7 @@
         </div>
 
 
-        <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
+        <div class="form-group">
             <div class="input-group">
                 <div class="input-group-addon">
                     <i class="glyphicon glyphicon-phone"></i>
@@ -43,7 +43,7 @@
             </div>
         </div>
 
-        <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }}">
+        <div class="form-group">
             <div class="input-group">
                 <div class="input-group-addon">
                     <i class="glyphicon glyphicon-home"></i>
@@ -52,7 +52,7 @@
             </div>
         </div>
 
-        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+        <div class="form-group">
             <div class="input-group">
                 <div class="input-group-addon">
                     <i class="glyphicon glyphicon-lock"></i>

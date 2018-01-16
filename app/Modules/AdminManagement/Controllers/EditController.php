@@ -87,6 +87,7 @@ class EditController extends Controller
                 'password' => bcrypt($request->get('password')),
                 'created_by' => Auth::id(),
                 'updated_by' => Auth::id(),
+                'active' => 1,
             ]);
 
             $admin->createdby()->associate(Auth::user());

@@ -8,22 +8,23 @@
 
 // DASHBOARD
 
-Route::prefix('user')->middleware(['web','auth'])->namespace('App\Modules\User\Controllers')->group(function() {
+Route::prefix('user')->middleware(['web','auth','profile_complete'])->namespace('App\Modules\User\Controllers')->group(function() {
     //USER GET
     Route::get('/', 'DashboardController@index')->name('user');
     Route::get('/dashboard', 'DashboardController@index')->name('user.dashboard');
 
+});
 
-
-
-    //Route::get('/profile', 'Profile/ProfileController@index')->name('user.profile');
-
-    //USER POST
-   // Route::post('/profile/update', 'Profile/ProfileController@update')->name('user.profile.update');
+Route::prefix('user')->middleware(['web','auth','profile_complete'])->namespace('App\Modules\User\Controllers')->group(function() {
+    //USER GET
+    Route::get('/profile', 'PersonalDataController@index')->name('user.profile');
+    Route::post('/update', 'PersonalDataController@update')->name('user.profile.update');
+    Route::get('/security', 'PersonalDataController@security')->name('user.profile.security');
+    Route::post('/security', 'PersonalDataController@updatepass')->name('user.profile.updatepass');
 
 });
 
-Route::group(['prefix' => 'user', 'as' => 'user.submission', 'namespace' => 'App\Modules\User\Controllers\Submission', 'middleware' => ['web','auth']], function() {
+Route::group(['prefix' => 'user', 'as' => 'user.submission', 'namespace' => 'App\Modules\User\Controllers\Submission', 'middleware' => ['web','auth','profile_complete']], function() {
     //Submission
     Route::get('/submission', 'MainController@index');
     Route::get('/submission/list', 'MainController@index')->name('.list');
@@ -79,7 +80,7 @@ Route::group(['prefix' => "user", 'as' => 'user', 'namespace' => 'App\Modules\Us
 
 // PAYMENT
 
-Route::group(['prefix' => 'user/payment', 'as' => 'user.payment', 'namespace' => 'App\Modules\User\Controllers\Payment', 'middleware' => ['web','auth']], function() {
+Route::group(['prefix' => 'user/payment', 'as' => 'user.payment', 'namespace' => 'App\Modules\User\Controllers\Payment', 'middleware' => ['web','auth','profile_complete']], function() {
     //Submission
     Route::get('/', 'PaymentController@index');
     Route::get('/dtwp', 'PaymentController@DTWaitingPayment')->name('.dtwp');

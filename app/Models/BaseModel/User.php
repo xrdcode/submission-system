@@ -30,8 +30,13 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function biodatas() {
-        return $this->hasOne(Biodata::class);
+    public function personal_data() {
+        return $this->hasOne(PersonalData::class);
+    }
+
+    public function personal_data_filled() {
+        $pd = $this->personal_data;
+        return !empty($pd) ? true : false;
     }
 
     public function submissions() {

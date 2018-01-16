@@ -17,4 +17,13 @@ class IdentityType extends Model
     public function updatedby() {
         return $this->belongsTo(Admin::class, 'updated_by');
     }
+
+    public static function getlist() {
+        $it = self::all();
+        $tmp = [];
+        foreach ($it as $i) {
+            $tmp[$i->id] = $i->name;
+        }
+        return $tmp;
+    }
 }

@@ -56,6 +56,25 @@ class HtmlHelper
         return $html;
     }
 
+    public static function alert($title = "", $message = "", $class, $closable = true) {
+        $close_class = "";
+        $close_btn = "";
+        if($closable){
+            $close_class = "alert-dismissable";
+            $close_btn = "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">×</button>";
+        }
+
+        $message = <<<EOF
+    <div class="alert {$class} {$close_class}">
+                        {$close_btn}
+                        <h4>{$title}</h4>
+                        <p>{$message}</p>
+                    </div>
+EOF;
+        return $message;
+    }
+
+
     protected static function join_attr(array $arr) {
         return join(" ", array_map(
             function(&$v, $k) {

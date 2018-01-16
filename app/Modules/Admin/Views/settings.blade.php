@@ -36,20 +36,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-            $('#setting').on('submit', function(e){
-                e.preventDefault();
-                var me = $(this);
-
-                $.ajax({
-                    url: $(me).attr('action'),
-                    data: $(me).find('input').serialize(),
-                    dataType: 'json',
-                    method: 'post',
-                    success: function (data) {
-                        console.log(data);
-                    }
-                });
-            });
+            ajaxSaveUpdate("#setting");
         });
     </script>
 @endsection
