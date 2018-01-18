@@ -11,7 +11,6 @@ namespace App\Modules\User\Controllers\Submission;
 use App\Helper\Constant;
 use App\Http\Controllers\Controller;
 use App\Models\BaseModel\FilePaper;
-use App\Models\BaseModel\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -46,9 +45,10 @@ class PapersController extends Controller
                   'type'            => $uploadedfile->getMimeType(),
                   'path'            => $path
                 ];
-                $fp->create($data);
-                $submission->file_paper()->associate($fp)->update();
+                $fp = $fp->create($data);
+                $submission->file_paper()->associate($fp);
                 $submission->workstate_id = Constant::AFTER_UPLOAD_PAPER;
+                $submission->update();
             } else {
                 $old = $submission->file_paper->path;
                 $path = $uploadedfile->store('public/full_paper');

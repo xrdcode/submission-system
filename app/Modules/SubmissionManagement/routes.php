@@ -58,11 +58,23 @@ Route::group(
 
     Route::get('/new', ['as' => '.new', 'uses' => 'EditController@newprice', 'middleware' => []]);;
     Route::post('/store', ['as' => '.store', 'uses' => 'EditController@store', 'middleware' => []]);;
+    Route::post('/delete/{id}', ['as' => '.delete', 'uses' => 'EditController@delete', 'middleware' => []]);;
     Route::get('/activate/{id}', ['as' => '.activate', 'uses' => 'EditController@activate', 'middleware' => []]);;
 
     //Route::get('/detail/{id}', ['as' => '.detail', 'uses' => 'DetailController@index', 'middleware' => []]);
 
     Route::get('/dt', ['as' => '.dt', 'uses' => 'ListController@DTPricing', 'middleware' => []]);
+
+
+    Route::get('/type', ['as' => '.type','uses' => 'ListController@type', 'middleware' => []]);
+    Route::get('/type/new', ['as' => '.type.new', 'uses' => 'EditController@new_type', 'middleware' => []]);;
+    Route::post('/type/store', ['as' => '.type.store', 'uses' => 'EditController@store_type', 'middleware' => []]);;
+    Route::post('/type/delete/{id}', ['as' => '.type.delete', 'uses' => 'EditController@delete_type', 'middleware' => []]);;
+    Route::get('/type/dt', ['as' => '.type.dt', 'uses' => 'ListController@DTPtype', 'middleware' => []]);
+    Route::get('/type/edit/{id}', ['as' => '.type.edit', 'uses' => 'EditController@edit_type', 'middleware' => []]);
+    Route::post('/type/edit/{id}', ['as' => '.type.update', 'uses' => 'EditController@update_type', 'middleware' => []]);
+
+
 });
 
 
@@ -95,6 +107,8 @@ Route::group(
 
     Route::get('/payment/{id}', ['as' => '.payment', 'uses' => 'EditController@_ModalAssignPayment', 'middleware' => []]);;
     Route::post('/setpayment/{id}', ['as' => '.setpayment', 'uses' => 'EditController@setpayment', 'middleware' => []]);
+
+    Route::post('/setfeedback/{id}', ['as' => '.setfeedback', 'uses' => 'EditController@setfeedback', 'middleware' => []]);
 
     Route::get('/viewabstract/{id}', ['as' => '.abstract', 'uses' => 'ListController@_ModalViewAbstract', 'middleware' => []]);;
 });

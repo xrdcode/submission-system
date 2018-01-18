@@ -29,7 +29,7 @@ class ListController extends Controller
     }
 
     public function viewReceipt($id) {
-        $payment = PaymentSubmission::findOrFail($id);
+        $payment = Submission::findOrFail($id)->payment_submission;
         $file = Storage::url($payment->file);
         return view("Payments::imageview", compact('file'));
     }

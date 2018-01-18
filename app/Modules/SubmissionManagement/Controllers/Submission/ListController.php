@@ -39,8 +39,10 @@ class ListController extends Controller
                 "user_id",
                 "workstate_id",
                 "submission_event_id",
+                "submission_type_id",
                 "approved",
-                "file_paper_id"])->with(['user','submission_event','workstate','file_paper','payment_submission']);
+                "feedback",
+                "file_paper_id"])->with(['user','submission_event','workstate','file_paper','payment_submission','submission_type']);
         $datatable = Datatables::of($submission)
             ->editColumn('approved', function($s) {
                 if(!$s->isPaid() && empty($s->payment_submission)) {
@@ -59,7 +61,7 @@ class ListController extends Controller
                 $row = HtmlHelper::createTag("i",["click-edit"],["title"=>"click to change"], $w->name);
                 $row .= HtmlHelper::selectList($ws, $s->workstate_id ,'workstate_id','form-control hide-n-seek',["data-action" => $url,"data-id" => $s->id, "style" => "display:none"]);
                 return $row;
-            })->rawColumns(['progress','approved','payment','file_abstract']);
+            })->rawColumns(['progress','approved','payment','file_abstract','feedback']);
 
         $datatable->addColumn('payment', function($s) {
             if($s->approved && empty($s->payment_submission)) {
@@ -77,8 +79,17 @@ class ListController extends Controller
             }
         });
 
+        $datatable->editColumn('feedback', function($s) {
+            $url = route('admin.submission.setfeedback', $s->id);
+            $row = HtmlHelper::createTag("i",["click-edit"],["title"=>"click to change"], $s->feedback ?: "Click to give feedback");
+            $row .= HtmlHelper::createTag("textarea",['form-control','hide-n-seek'],["name" => "feedback",'data-action' => $url, "data-id" => $s->id, "style" => "display:none"], $s->feedback);
+            return $row;
+        });
+
         $datatable->addColumn('file_abstract', function($s) {
             $btn = HtmlHelper::linkButton("Abstract", route('admin.submission.getabstract', $s->id) , 'btn-xs btn-info btn-download', '',"glyphicon-download");
+            $btn .= "<br>";
+            $btn .= HtmlHelper::linkButton('View', route('admin.submission.abstract', $s->id), "btn-xs btn-info btn-modal", "", "glyphicon-view");
             return $btn;
         });
 
@@ -101,12 +112,11 @@ class ListController extends Controller
     public function _ModalViewAbstract($id) {
         $submission = Submission::findOrFail($id);
         $data = [
-            'action'        => route('admin.submission.setpayment', $id),
             'class'         => 'modal-lg',
             'modalId'       => 'pricingmodal',
-            'title'         => 'Assign Payment',
+            'title'         => $submission->title,
             'submission'    => $submission
         ];
-        return view("SubmissionManagement::submission.abstract", $data);
+        return view("SubmissionManagement::submission.abstractdetail", $data);
     }
 }

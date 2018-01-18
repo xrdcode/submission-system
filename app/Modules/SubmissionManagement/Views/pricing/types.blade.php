@@ -52,7 +52,7 @@
             $('#datalist').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{!! route('admin.pricing.dt') !!}',
+                ajax: '{!! route('admin.pricing.type.dt') !!}',
                 columns: [
                     {
                         title: 'No',
@@ -60,11 +60,10 @@
                             return meta.row + meta.settings._iDisplayStart + 1;
                         }
                     },
-                    { title: 'Event',data: 'submission_event.name', orderable: false, searchable: false},
-                    { title: 'Category',data: 'pricing_type.name', orderable: false, searchable: false},
-                    { title: 'Price',data: 'price'},
-                    { title: 'Created By',data: 'createdby.name'},
-                    { title: 'Updated By',data: 'updatedby.name'},
+                    { title: 'Name',data: 'name'},
+                    { title: 'Description',data: 'description', orderable: false},
+                    { title: 'Created By',data: 'createdby.name', orderable: false, searchable: false},
+                    { title: 'Updated By',data: 'updatedby.name', orderable: false, searchable: false},
                     { data: 'action', orderable: false, searchable: false}
                 ]
 
@@ -73,7 +72,23 @@
 
             $('#btn_new').on('click', function(e) {
                 $.ajax({
-                    url: '{{ route('admin.pricing.new') }}',
+                    url: '{{ route('admin.pricing.type.new') }}',
+                    method: 'GET',
+                    success: function(response) {
+                        $("#modal-container").html(response);
+                        $(".modal", "#modal-container").modal();
+                    },
+                    error: function(xHr) {
+                        console.log(xHr);
+                    }
+                });
+            });
+
+            $('body').on('click','a.btn-edit', function(e) {
+                e.preventDefault()
+
+                $.ajax({
+                    url: $(this).attr('href'),
                     method: 'GET',
                     success: function(response) {
                         $("#modal-container").html(response);
@@ -93,22 +108,6 @@
                 } else {
                     showAlert(d.message, "warning","Failed: ")
                 }
-            });
-
-            $('body').on('click','a.btn-edit', function(e) {
-                e.preventDefault()
-
-                $.ajax({
-                    url: $(this).attr('href'),
-                    method: 'GET',
-                    success: function(response) {
-                        $("#modal-container").html(response);
-                        $(".modal", "#modal-container").modal();
-                    },
-                    error: function(xHr) {
-                        console.log(xHr);
-                    }
-                });
             });
         });
     </script>

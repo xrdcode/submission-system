@@ -126,6 +126,21 @@ class EditController extends Controller
         }
     }
 
+    public function setfeedback(Request $request, $id) {
+        $validator = Validator::make($request->all(), [
+            'id'  => 'required|numeric',
+            'feedback'     => 'required|string',
+        ]);
+
+        if($validator->passes()) {
+            $submission = Submission::findOrFail($id);
+            $status = $submission->update($request->only('feedback'));
+            return response()->json(["success" => $status]);
+        } else {
+            return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
+        }
+    }
+
     //// MODAL ////
 
     /**

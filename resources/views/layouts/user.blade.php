@@ -22,7 +22,33 @@
         .datepicker-dropdown {
             background-color: #EFEFEF;
         }
+    </style>
 
+    <style media="screen" type="text/css">
+
+        table.dataTable {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table.tbl-no-wrap > thead > tr > th {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        table.tbl-no-wrap > tbody > tr > td {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        table.tbl-no-wrap > tbody > tr > td.force-wrap {
+            min-width: 200px;
+            white-space: normal;
+        }
+
+        table.dataTable tbody td {
+            vertical-align: middle;
+        }
 
     </style>
 
@@ -98,8 +124,8 @@
                     <li>
                         <a href="#payment" class="list-group-item " data-toggle="collapse"><i class="glyphicon glyphicon-list"></i>Payment  <span class="glyphicon glyphicon-chevron-right"></span></a>
                         <div class="collapse" id="payment">
-                            <a href="{{ route('user.payment') }}" class="list-group-item">Speakers</a>
-                            <a href="" class="list-group-item">Non-Speaker</a>
+                            <a href="{{ route('user.payment') }}" class="list-group-item">Participant</a>
+                            <a href="" class="list-group-item">Non-Participant</a>
                             <a href="" class="list-group-item">History</a>
                         </div>
                     </li>
@@ -107,9 +133,8 @@
                         <a href="#faq" class="list-group-item " data-toggle="collapse">Profile<span class="glyphicon glyphicon-chevron-right"></span></a>
                     </li>
                     <li class="collapse" id="faq">
-                        <a href="" class="list-group-item">Subitem 1</a>
-                        <a href="" class="list-group-item">Subitem 2</a>
-                        <a href="" class="list-group-item">Subitem 3</a>
+                        <a href="{{ route('user.profile') }}" class="list-group-item">Personal Data</a>
+                        <a href="{{ route('user.profile.security') }}" class="list-group-item">Security</a>
                     </li>
 
                 </ul>

@@ -15,9 +15,10 @@ use App\Models\BaseModel\PersonalData;
 use App\Models\BaseModel\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class PersonalDataController extends Controller
+class ProfileController extends Controller
 {
     public function index(Request $request) {
         $user = Auth::user();
@@ -55,6 +56,32 @@ class PersonalDataController extends Controller
             return response()->json(['success' => true]);
         } else {
             return response()->json(['data' => $request->all(),'errors' => $validator->getMessageBag()->toArray()], 200);
+        }
+    }
+
+    public function security() {
+        return view("User::profile.security");
+    }
+
+
+    public function updatepass(Request $request) {
+        $validator = Validator::make($request->all(),[
+            'old_password'  => 'required',
+            'password'  => 'required|min:6|confirmed',
+        ]);
+
+        if($validator->passes()) {
+            if(Hash::check($request->get('old_password'), Auth::user()->getAuthPassword())) {
+                $user = Auth::user();
+                $user->password = bcrypt($request->get('password'));
+                $user->save();
+                return response()->json(['success' => true]);
+            } else {
+                $error = ['old_password' => ['Invalid password']];
+                return response()->json(['errors' => $error]);
+            }
+        } else {
+            return response()->json(['errors' => $validator->getMessageBag()->toArray()], 200);
         }
     }
 }

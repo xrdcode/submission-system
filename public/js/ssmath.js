@@ -110,7 +110,7 @@ function toggleActivate(btnid, onsuccess, onerror) {
         e.preventDefault();
         var me = $(this);
         $.ajax({
-            action: $(me).data('action'),
+            url: $(me).data('action'),
             method: 'post',
             data: { data: $(me).data('id') },
             dataType: 'json',
@@ -133,6 +133,49 @@ function toggleActivate(btnid, onsuccess, onerror) {
 }
 
 /**
+ * Must btn and have data-action
+ * @param btnid
+ */
+function toggleDelete(btnid, onsuccess, onerror) {
+    $('body').on('click', btnid, function(e) {
+        e.preventDefault();
+        var me = $(this);
+        //BootstrapDialog.confirm("<p>re you sure you want delete this data permanently?</p>", function(result) {
+        BootstrapDialog.confirm({
+            title: "Warning !",
+            type: BootstrapDialog.TYPE_WARNING,
+            size: BootstrapDialog.SIZE_SMALL,
+            message: "Are you sure you want delete this data permanently?",
+            callback: function(result) {
+                if(result) {
+                    $.ajax({
+                        url: $(me).attr('href'),
+                        method: 'post',
+                        data: { data: $(me).data('id') },
+                        dataType: 'json',
+                        success: function(dt) {
+                            if(isFunction(onsuccess)) {
+                                onsuccess.call(this, dt);
+                            } else {
+                                showAlert("Data has been deleted", "success", "Success:");
+                            }
+                        },
+                        error: function(xHr) {
+                            if(isFunction(onerror)) {
+                                onsuccess.call(this, xHr);
+                            } else {
+                                showAlert("Oooops.. something when wrong..", "danger", "Error:");
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+    });
+}
+
+/**
  * This function for instant edit on a detail field, ex. on table.
  * attributes component need :
  * 1 label with click-edit class
@@ -150,8 +193,8 @@ function initHideNseek(onclicklabel, onfocusout, callback) {
     $('body').on('click','.click-edit',function(e) {
         if(!isFunction(onclicklabel)) {
             $(this).hide();
-            $(this).closest("td").find('select').show();
-            $(this).closest("td").find('select').trigger('focus');
+            $(this).closest("td").find('.hide-n-seek').show();
+            $(this).closest("td").find('.hide-n-seek').trigger('focus');
         } else {
             onclicklabel.call(this);
         }
@@ -167,7 +210,7 @@ function initHideNseek(onclicklabel, onfocusout, callback) {
         }
     });
 
-    $('body').on('change','select.hide-n-seek', function () {
+    $('body').on('change','input.hide-n-seek, textarea.hide-n-seek, select.hide-n-seek', function () {
         if(!isFunction(callback)) {
             var action = $(this).data('action');
             var id = $(this).data('id');

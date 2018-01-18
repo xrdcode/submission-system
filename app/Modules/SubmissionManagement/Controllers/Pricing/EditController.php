@@ -13,12 +13,9 @@ use App\Http\Controllers\Controller;
 
 use App\Models\BaseModel\PricingType;
 use App\Modules\SubmissionManagement\Models\Pricing;
-use App\Modules\SubmissionManagement\Models\SubmissionEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 use Validator;
-use Carbon\Carbon;
 
 class EditController extends Controller
 {
@@ -33,7 +30,6 @@ class EditController extends Controller
         $pricings = Pricing::findOrFail($id);
         $data = [
             'action'        => route('admin.pricing.update', $id),
-            // 'class' => 'modal-lg', //Kelas Modal
             'modalId'       => 'pricingmodal',
             'title'         => 'Edit Pricing',
             'pricing'       => $pricings
@@ -45,7 +41,6 @@ class EditController extends Controller
     public function newprice() {
         $data = [
             'action'        => route('admin.pricing.store'),
-            // 'class' => 'modal-lg', //Kelas Modal
             'modalId'       => 'pricingmodel',
             'title'         => 'Create New Price',
             'eventlist'    => Pricing::getEventList(),
@@ -109,5 +104,83 @@ class EditController extends Controller
         }
     }
 
+    public function delete(Request $request,$id) {
+        $pricing = Pricing::findOrFail($id);
+        if($pricing->payment_submissions->count() == 0) {
+            $res = $pricing->delete();
+            $message = "Delete Success";
+        } else {
+            $res = false;
+            $message = "This pricing already used, cannot delete.";
+        }
+        return response()->json(['success' => $res, 'message' => $message, 'data' => $pricing]);
+    }
+
+    ///// PTICING TYPES ///////
+
+    public function new_type() {
+        $data = [
+            'action'        => route('admin.pricing.type.store'),
+            'title'         => 'Create New Pricing Type',
+        ];
+        return view("SubmissionManagement::pricing.newtype", $data);
+    }
+
+    public function edit_type($id) {
+        $data = [
+            'action'        => route('admin.pricing.type.update', $id),
+            'title'         => 'Create Edit Pricing Type',
+            'type'          => PricingType::findOrFail($id)
+        ];
+        return view("SubmissionManagement::pricing.mtypes", $data);
+    }
+
+    public function store_type(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'name'  => 'required|string',
+            'description'  => 'required|string',
+        ]);
+
+        if($validator->passes()) {
+            $pt = new PricingType();
+            $pt = $pt->create($request->only(['name','description']));
+            $pt->created_by = Auth::user()->id;
+            $pt->updated_by = Auth::user()->id;
+            $pt->active = true;
+            $pt->update();
+            return response()->json(['success'=> true]);
+        } else {
+            return response()->json(['errors' => $validator->getMessageBag()->toArray()]);
+        }
+    }
+
+    public function delete_type(Request $request,$id) {
+        $pt = PricingType::findOrFail($id);
+        if($pt->pricings->count() == 0) {
+            $res = $pt->delete();
+            $message = "Delete Success";
+        } else {
+            $res = false;
+            $message = "This data already used, cannot delete.";
+        }
+        return response()->json(['success' => $res, 'message' => $message]);
+    }
+
+    public function update_type(Request $request, $id) {
+        $validator = Validator::make($request->all(), [
+            'name'  => 'required|string',
+            'description'  => 'required|string',
+        ]);
+
+        if($validator->passes()) {
+            $pt = PricingType::findOrFail($id);
+            $pt->update($request->only(['name','description']));
+            $pt->updated_by = Auth::user()->id;
+            $pt->update();
+            return response()->json(['success'=> true]);
+        } else {
+            return response()->json(['errors' => $validator->getMessageBag()->toArray()]);
+        }
+    }
 
 }

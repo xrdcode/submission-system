@@ -63,3 +63,12 @@ elixir(function(mix) {
        'resources/assets/bootflat-admin'
    ], 'public/bootflat-admin');
 });
+
+elixir(function(mix) {
+    mix.copy([
+        'node_modules/bootstrap3-dialog/src/js/'
+    ], 'public/js');
+    mix.copy([
+        'node_modules/bootstrap3-dialog/src/css'
+    ], 'public/css');
+});

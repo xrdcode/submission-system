@@ -9,6 +9,14 @@ class Pricing extends Model
 
     protected $fillable = ['price','submission_event_id','pricing_type_id'];
 
+    public function payment_submissions() {
+        return $this->hasMany(PaymentSubmission::class);
+    }
+
+    public function general_payments() {
+        return $this->hasMany(GeneralPayments::class);
+    }
+
     public function submission_event() {
         return $this->belongsTo(SubmissionEvent::class);
     }

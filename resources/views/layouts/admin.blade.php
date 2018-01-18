@@ -13,6 +13,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset("css/animate.css") }}" />
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap-dialog.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" />
     <link rel="stylesheet" href="{{ asset("css/select2.css") }}">
     <link rel="stylesheet" href="{{ asset("css/select2-bootstrap.css") }}" />
@@ -116,6 +117,10 @@
             height: 5px;
 
 
+        }
+
+        .modal-body {
+            padding: 15px 15px;
         }
 
 
@@ -228,12 +233,12 @@
                             <li class="col-md-4">
                                 <ul>
                                     <li class="dropdown-header">Pricing</li>
-                                    <li><a href="{{ route('admin.pricing') }}">Manage Pricing</a></li>
-                                    <li><a href="#">Pricing Type</a></li>
+                                    <li><a href="{{ route('admin.pricing') }}">Pricing</a></li>
+                                    <li><a href="{{ route('admin.pricing.type') }}">Pricing Type</a></li>
                                     <li class="divider"></li>
                                     <li class="dropdown-header">Payments</li>
                                     <li><a href="#">General Payment</a></li>
-                                    <li><a href="#">Submission Payment</a></li>
+                                    <li><a href="{{ route('admin.payment') }}">Submission Payment</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -297,6 +302,7 @@
 
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/bootstrap-dialog.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 <script src="{{ asset('js/ssmath.js') }}"></script>
 <script src="{{ asset("js/select2.min.js") }}"></script>

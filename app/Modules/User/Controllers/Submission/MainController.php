@@ -107,7 +107,8 @@ class MainController extends Controller
                 "submission_status_id",
                 "submission_type_id",
                 "approved",
-                "file_paper_id"
+                "file_paper_id",
+                "feedback"
             ])
             ->with(['user','workstate','submission_event','file_paper','submission_type']);
 

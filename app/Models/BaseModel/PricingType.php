@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class PricingType extends Model
 {
+
+    protected $fillable = ['name','description'];
+
+    public function pricings() {
+        return $this->hasMany(Pricing::class);
+    }
+
     public function createdby() {
         return $this->belongsTo(Admin::class, 'created_by');
     }

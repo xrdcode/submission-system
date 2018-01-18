@@ -17,10 +17,10 @@ Route::prefix('user')->middleware(['web','auth','profile_complete'])->namespace(
 
 Route::prefix('user')->middleware(['web','auth','profile_complete'])->namespace('App\Modules\User\Controllers')->group(function() {
     //USER GET
-    Route::get('/profile', 'PersonalDataController@index')->name('user.profile');
-    Route::post('/update', 'PersonalDataController@update')->name('user.profile.update');
-    Route::get('/security', 'PersonalDataController@security')->name('user.profile.security');
-    Route::post('/security', 'PersonalDataController@updatepass')->name('user.profile.updatepass');
+    Route::get('/profile', 'ProfileController@index')->name('user.profile');
+    Route::post('/update', 'ProfileController@update')->name('user.profile.update');
+    Route::get('/security', 'ProfileController@security')->name('user.profile.security');
+    Route::post('/security', 'ProfileController@updatepass');
 
 });
 
