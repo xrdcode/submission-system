@@ -45,7 +45,7 @@
                 </div>
                 <div class="form-group">
                     <label for="identity_type_id">Another ID Card Information</label>
-                    {{ Form::select('identity_type_id', \App\Models\BaseModel\IdentityType::getList(), isset($user->personal_data->identity_type) ? $user->personal_data->identity_type_id : null, ["class" => "form-control select2-single"]) }}
+                    {{ Form::select('identity_type_id', \App\Models\BaseModel\IdentityType::getList(), isset($user->personal_data) ? $user->personal_data->identity_type_id : null, ["class" => "form-control select2-single"]) }}
 
                 </div>
                 <div class="form-group">
