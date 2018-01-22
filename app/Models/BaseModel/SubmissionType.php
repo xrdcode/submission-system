@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class SubmissionType extends Model
 {
+
+    protected $fillable = ['name','description'];
+
     public function submission() {
         return $this->hasOne(Submission::class);
     }

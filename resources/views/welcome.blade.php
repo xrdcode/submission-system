@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    XC SMS
+                    {{ env('APP_NAME') }}
                 </div>
                 @if(Auth::check())
                     <h3>

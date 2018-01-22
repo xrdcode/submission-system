@@ -3,10 +3,9 @@
 namespace App\Models\BaseModel;
 
 use App\Models\BaseModel\Biodata;
-use App\Models\BaseModel\GeneralPayments;
-use App\Models\BaseModel\Submission;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\Notification\ResetPassword as ResetPasswordNotification;
 
 class User extends Authenticatable
 {
@@ -53,5 +52,10 @@ class User extends Authenticatable
         })->with(['payment_submission']);
 
         return $data;
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
     }
 }

@@ -1,40 +1,28 @@
-@extends('layouts.app')
+@extends('layouts.login')
 @section('content')
     <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Registration</div>
-                    <div class="panel-body">
-                        <form class="form-horizontal" method="POST" action="{{ route('user.sendverification') }}">
-                            {{ csrf_field() }}
-                            <div class="form-group">
-                                <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                                    <label for="email" class="col-md-4 control-label">Email</label>
 
-                                    <div class="col-md-6">
-                                        <input id="email" type="text" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
-
-                                        @if ($errors->has('email'))
-                                            <span class="help-block">
+        <form class="form-signin" method="POST" action="{{ route('user.sendverification') }}">
+            {{ csrf_field() }}
+            <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="glyphicon glyphicon-envelope"></i>
+                    </div>
+                    <input id="email" type="text" class="form-control" name="email" placeholder="E-Mail" value="{{ old('email') }}" required autofocus>
+                </div>
+                @if ($errors->has('email'))
+                    <span class="help-block">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-md-6 col-md-offset-4">
-                                    <button id="simpan" type="submit" class="btn btn-primary">
-                                        Send
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                @endif
             </div>
-        </div>
+
+            <div class="form-group">
+                <button id="simpan" type="submit" class="btn btn-primary pull-right">
+                    Resend Verification
+                </button>
+            </div>
+        </form>
     </div>
 @endsection

@@ -123,6 +123,10 @@
             padding: 15px 15px;
         }
 
+        .red {
+            color: #ff0703;
+        }
+
 
 
     </style>
@@ -183,7 +187,10 @@
                                     <li><a href="{{ route('admin.manageadmin') }}">Manage Admin</a></li>
                                     <li><a href="{{ route('admin.managegroup') }}">Manage Group</a></li>
                                     <li><a href="{{ route('admin.managerole') }}">Manage Role</a></li>
-                                    <li class="divider"></li>
+                                </ul>
+                            </li>
+                            <li class="col-md-4">
+                                <ul>
                                     <li class="dropdown-header">Module</li>
                                     <li><a href="{{ route('admin.module') }}">Manage</a></li>
                                 </ul>
@@ -193,18 +200,17 @@
                                     <li class="dropdown-header">System</li>
                                     <li><a href="#">Setting</a></li>
                                     <li><a href="#">Flash Message</a></li>
-                                    <li class="divider"></li>
                                 </ul>
                             </li>
-                            <li class="col-md-4">
-                                <ul>
-                                    <li class="dropdown-header">Master</li>
-                                    <li><a href="#">Identity Type</a></li>
-                                    <li><a href="#">Submission Status</a></li>
-                                    <li><a href="#">Workstate</a></li>
-                                    <li class="divider"></li>
-                                </ul>
-                            </li>
+                            {{--<li class="col-md-4">--}}
+                                {{--<ul>--}}
+                                    {{--<li class="dropdown-header">Master</li>--}}
+                                    {{--<li><a href="#">Identity Type</a></li>--}}
+                                    {{--<li><a href="#">Submission Status</a></li>--}}
+                                    {{--<li><a href="#">Workstate</a></li>--}}
+                                    {{--<li class="divider"></li>--}}
+                                {{--</ul>--}}
+                            {{--</li>--}}
                         </ul>
                     </li>
                     <li class="dropdown dropdown-large">
@@ -214,7 +220,7 @@
                                 <ul>
                                     <li class="dropdown-header">Events</li>
                                     <li><a href="{{ route('admin.event') }}">Manage Event</a></li>
-                                    <li><a href="#">Schedule</a></li>
+                                    <li><a href="#">Schedule <i class="glyphicon glyphicon-ban-circle red"></i></a>/li>
                                     <li class="divider"></li>
                                     <li class="dropdown-header">Submission</li>
                                     <li><a href="{{ route('admin.submission') }}">Submission List</a></li>
@@ -223,11 +229,11 @@
                             <li class="col-md-4">
                                 <ul>
                                     <li class="dropdown-header">Room</li>
-                                    <li><a href="#">Room List</a></li>
-                                    <li><a href="#">Submission Room</a></li>
+                                    <li><a href="#">Room List <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
+                                    <li><a href="#">Submission Room <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
                                     <li class="divider"></li>
                                     <li class="dropdown-header">Participant</li>
-                                    <li><a href="#">User List</a></li>
+                                    <li><a href="#">User List <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
                                 </ul>
                             </li>
                             <li class="col-md-4">
@@ -237,7 +243,7 @@
                                     <li><a href="{{ route('admin.pricing.type') }}">Pricing Type</a></li>
                                     <li class="divider"></li>
                                     <li class="dropdown-header">Payments</li>
-                                    <li><a href="#">General Payment</a></li>
+                                    <li><a href="#">General Payment <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
                                     <li><a href="{{ route('admin.payment') }}">Submission Payment</a></li>
                                 </ul>
                             </li>
@@ -248,14 +254,8 @@
                         <ul class="dropdown-menu dropdown-menu-large row">
                             <li class="col-md-4">
                                 <ul>
-                                    <li><a href="#">Payment Mutation</a></li>
-                                    <li><a href="#">Participant Data</a></li>
-                                </ul>
-                            </li>
-                            <li class="col-md-4">
-                                <ul>
-                                    <li><a href="#">A</a></li>
-                                    <li><a href="#">B</a></li>
+                                    <li><a href="#">Payment Mutation <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
+                                    <li><a href="#">Participant Data <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
                                 </ul>
                             </li>
                         </ul>

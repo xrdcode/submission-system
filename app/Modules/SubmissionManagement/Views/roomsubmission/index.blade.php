@@ -50,7 +50,7 @@
                             return meta.row + meta.settings._iDisplayStart + 1;
                         }
                     },
-                    { title: 'Event',data: 'submission_event.name', orderable: false, searchable: false},
+                    { title: 'Number',data: 'submission_event.name', orderable: false, searchable: false},
                     { title: 'Title',data: 'title', class: 'force-wrap'},
                     { title: 'User',data: 'user.name'},
                     { title: 'Submission Type',data: 'submission_type.name', orderable: false},

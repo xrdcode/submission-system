@@ -12,7 +12,7 @@
                     </tr>
                     <tr>
                         <td class="x_body" width="100%" cellpadding="0" cellspacing="0" style="font-family:Avenir,Helvetica,sans-serif; background-color:#FFFFFF; border-bottom:1px solid #EDEFF2; border-top:1px solid #EDEFF2; margin:0; padding:0; width:100%">
-                            <table class="x_inner-body" align="center" width="570" cellpadding="0" cellspacing="0" style="font-family:Avenir,Helvetica,sans-serif; background-color:#FFFFFF; margin:0 auto; padding:0; width:570px">
+                            <table class="x_inner-body" align="center" width="80%" cellpadding="0" cellspacing="0" style="font-family:Avenir,Helvetica,sans-serif; background-color:#FFFFFF; margin:0 auto; padding:0; width:570px">
                                 <tbody>
                                 <tr>
                                     <td class="x_content-cell" style="font-family:Avenir,Helvetica,sans-serif; padding:35px">

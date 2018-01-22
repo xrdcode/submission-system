@@ -4,6 +4,7 @@ namespace App\Modules\User\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Http\Request;
 
 class ForgotPasswordController extends Controller
 {
@@ -34,4 +35,5 @@ class ForgotPasswordController extends Controller
     {
         return View("User::passwords.email");
     }
+
 }
