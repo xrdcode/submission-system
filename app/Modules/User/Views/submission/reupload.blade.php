@@ -18,7 +18,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="submission_event_id">Type of Submission (Presentation)</label>
-                                {{ Form::select('submission_type_id', \App\Models\BaseModel\SubmissionType::getlist(), [] ,["id" => "submission_type_id","class" => "form-control select2-single"]) }}
+                                {{ Form::select('submission_type_id', \App\Models\BaseModel\SubmissionType::getlist(), $submission->submission_type_id ,["id" => "submission_type_id","class" => "form-control select2-single"]) }}
 
                             </div>
                         </div>
