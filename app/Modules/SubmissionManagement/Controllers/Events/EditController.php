@@ -103,8 +103,8 @@ class EditController extends Controller
             $submissionevent = $submissionevent->create($request->all());
             $submissionevent->created_by = Auth::user()->id;
             $submissionevent->updated_by = Auth::user()->id;
-            if(!empty($request->get('parent'))) {
-                $submissionevent->parent_id = $request->get('parent');
+            if(!empty($request->get('parent_id'))) {
+                $submissionevent->parent_id = $request->get('parent_id');
             }
             $submissionevent->valid_thru = $submissionevent->valid_thru->addDay(1)->subSecond(1);
             $submissionevent->update();
