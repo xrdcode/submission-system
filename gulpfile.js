@@ -46,11 +46,10 @@ elixir(function(mix) {
 });
 
 elixir(function(mix) {
-    mix.styles([
-        'bootflat-admin/site.min.css',
-        'sites.css',
-    ], 'public/css/sites.css');
+   mix.sass(['../bootflat-admin/sass/bootflat-admin.scss'],
+       'public/css/sites.css')
 });
+
 
 elixir(function(mix) {
     mix.copy([
@@ -59,9 +58,15 @@ elixir(function(mix) {
 });
 
 elixir(function(mix) {
+    mix.copy([
+        'node_modules/bootstrap-sass/assets/fonts',
+    ], 'public/fonts');
+});
+
+elixir(function(mix) {
    mix.copy([
-       'resources/assets/bootflat-admin'
-   ], 'public/bootflat-admin');
+       '../bootflat-admin/fonts'
+   ], 'public/fonts');
 });
 
 elixir(function(mix) {
