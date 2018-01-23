@@ -51,14 +51,14 @@
             <label for="address" class="col-md-4 control-label">Has Parent?</label>
 
             <div class="col-md-6">
-                <input id="hasparent" type="checkbox" class="form-inline">
+                <input id="hasparent" name="hasparent"  type="checkbox" class="form-inline">
             </div>
         </div>
 
         <div id="selectparent" class="form-group{{ $errors->has('parent') ? ' has-error' : '' }}" style="display: none">
-            <label for="parent" class="col-md-4 control-label">Parent</label>
-            <div class="col-md-6 col-md-4">
-                {{ Form::select('parent', $parentlist, [] ,["id" => "parent","class" => "form-control select2-single", "disabled"]) }}
+            <label for="parent_id" class="col-md-4 control-label">Parent</label>
+            <div class="col-md-6">
+                {{ Form::select('parent_id', $parentlist, [] ,["id" => "parent","class" => "form-control select2-single", "disabled"]) }}
             </div>
         </div>
 

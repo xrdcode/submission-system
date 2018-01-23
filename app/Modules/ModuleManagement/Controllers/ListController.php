@@ -26,11 +26,11 @@ class ListController extends Controller
     public function DTModule() {
         $modules = Module::select('id','name','pathname','description');
         return Datatables::of($modules)
-            ->addColumn('created_by', function($m) {
+            ->editColumn('createdby.name', function($m) {
                 $module = Module::find($m->id);
                 return !empty($module->createdby) ? $module->createdby->name : "-";
             })
-            ->addColumn('updated_by', function($m) {
+            ->editColumn('updatedby.name', function($m) {
                 $module = Module::find($m->id);
                 return !empty($module->updatedby) ? $module->updatedby->name : "-";
             })

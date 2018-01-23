@@ -9,6 +9,16 @@ class SubmissionEvent extends Model
 {
     protected $fillable = ['name','description', 'valid_from','valid_thru','submission_event_id', 'workstate_id'];
 
+
+
+    protected $dates = [
+        'valid_from',
+        'valid_thru',
+        'created_at',
+        'updated_at',
+        'deleted_at'
+    ];
+
     public function parent() {
         return $this->belongsTo(SubmissionEvent::class, 'parent_id');
     }

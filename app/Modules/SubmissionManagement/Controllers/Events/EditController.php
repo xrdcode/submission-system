@@ -11,6 +11,7 @@ namespace App\Modules\SubmissionManagement\Controllers\Events;
 
 use App\Http\Controllers\Controller;
 
+use App\Models\BaseModel\Submission;
 use App\Models\BaseModel\SubmissionEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -57,58 +58,41 @@ class EditController extends Controller
         if($validator->passes()) {
             $event = SubmissionEvent::find($id);
 
-            if(!empty($request->get('parent'))) {
+            if(!empty($request->get('parent')) && $request->get('hasparent')) {
                 $event->parent_id = $request->get('parent');
             } else {
                 $event->parent_id = null;
             }
-
-            $event->updated_at = Carbon::now()->toDateTimeString();
             $event->updated_by = Auth::user()->id;
-
-            if(!empty($event->parent_id)) {
-                $event->valid_from = $event->parent->valid_from;
-                $event->valid_thru = $event->parent->valid_thru;
-            } else {
-                $event->valid_from = $request->get('valid_from');
-                $event->valid_thru = $request->get('valid_thru');
-            }
-
-            $event->update($request->only(['name','description']));
+            $event->update($request->all());
             return response()->json([$event]);
         } else {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
         }
     }
 
-    public function activate($id) {
-        $module = Module::find($id);
-        $module->active = true;
-        return response()->json($module->saveOrFail());
-    }
-
     protected function validator(Request $request) {
         if(!empty($request->get('hasparent'))) {
+            $parent = SubmissionEvent::findOrFail($request->get('parent_id'));
             return Validator::make($request->all(), [
                 'name' => 'required|string|max:255|unique:modules,name,' . $request->id,
                 'parent_id' => 'required|numeric|max:255',
                 'description' => 'required|string|max:255',
+                'valid_from'    => "required|date_format:Y-m-d|after_or_equal:{$parent->valid_from->format('Y-m-d')}",
+                'valid_thru'    => "required|date_format:Y-m-d|before_or_equal:{$parent->valid_thru->format('Y-m-d')}",
+            ],[
+                'valid_from.after_or_equal' => 'Must between parent valid date',
+                'valid_thru.before_or_equal' => 'Must between parent valid date'
             ]);
         } else {
             return Validator::make($request->all(), [
                 'name' => 'required|string|max:255|unique:modules,name,' . $request->id,
                 'description' => 'required|string|max:255',
+                'valid_from'    => 'required|date_format:Y-m-d',
+                'valid_thru'    => 'required|date_format:Y-m-d',
             ]);
         }
 
-    }
-
-    /**
-     * Minmal usia pendaftar 17tahun
-     * @return string
-     */
-    protected function maxYear() {
-        return Carbon::now()->addYears('-17')->addDays('1')->toDateString();
     }
 
     public function store(Request $request) {
@@ -122,6 +106,7 @@ class EditController extends Controller
             if(!empty($request->get('parent'))) {
                 $submissionevent->parent_id = $request->get('parent');
             }
+            $submissionevent->valid_thru = $submissionevent->valid_thru->addDay(1)->subSecond(1);
             $submissionevent->update();
             return response()->json([$submissionevent]);
         } else {

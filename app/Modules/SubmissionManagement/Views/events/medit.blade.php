@@ -46,14 +46,14 @@
             <label for="hasparent" class="col-md-4 control-label">Has Parent?</label>
 
             <div class="col-md-6">
-                <input id="hasparent" type="checkbox" class="form-inline" {{ $ev->parent_id ? "checked" : "" }}>
+                <input id="hasparent" name="hasparent" type="checkbox" class="form-inline" {{ $ev->parent_id ? "checked" : "" }}>
             </div>
         </div>
 
-        <div id="selectparent" class="form-group{{ $errors->has('parent') ? ' has-error' : '' }}" style="display: none">
-            <label for="parent" class="col-md-4 control-label">Parent</label>
+        <div id="selectparent" class="form-group{{ $errors->has('parent_id') ? ' has-error' : '' }}" style="display: none">
+            <label for="parent_id" class="col-md-4 control-label">Parent</label>
             <div class="col-md-6 col-md-4">
-                {{ Form::select('parent', $ev->myParentList(), [$ev->parent_id] ?: [] ,["id" => "parent","class" => "form-control select2-single", "disabled" => "disabled"]) }}
+                {{ Form::select('parent_id', $ev->myParentList(), [$ev->parent_id] ?: [] ,["id" => "parent","class" => "form-control select2-single", "disabled" => "disabled"]) }}
             </div>
         </div>
         @endif
@@ -83,15 +83,6 @@
 
             $("#newevent").trigger('submit');
         });
-
-        $(".select2-multiple").select2({
-            placeholder: "choose"
-        });
-
-        $(".select2-single").select2({
-            placeholder: "choose"
-        });
-
 
         checkHasparent('#hasparent');
 
