@@ -28,9 +28,9 @@ elixir(function(mix) {
 });
 
 elixir(function(mix) {
-   mix.scripts([
-       "bootflat-admin/site.min.js"
-   ],'public/js/bf-admin.js');
+    mix.scripts([
+        "bootflat-admin/site.min.js"
+    ],'public/js/bf-admin.js');
 });
 
 elixir(function(mix) {
@@ -45,11 +45,24 @@ elixir(function(mix) {
     ], 'public/css/bootstrap.css');
 });
 
-elixir(function(mix) {
-   mix.sass(['../bootflat-admin/sass/bootflat-admin.scss'],
-       'public/css/sites.css')
-});
+// elixir(function(mix) {
+//     mix.sass(
+//         [
+//             '../bootflat-admin/sass/bootflat-admin.scss'
+//         ],'resources/assets/css/bootflat-admin.css')
+//         .styles(
+//             [
+//                 'bootflat-admin.css',
+//                 'sites.css'
+//             ], 'public/css/sites.css');
+// });
 
+elixir(function(mix) {
+    mix.styles([
+        'bootflat-admin/site.min.css',
+        'sites.css',
+    ], 'public/css/sites.css');
+});
 
 elixir(function(mix) {
     mix.copy([
@@ -64,9 +77,9 @@ elixir(function(mix) {
 });
 
 elixir(function(mix) {
-   mix.copy([
-       '../bootflat-admin/fonts'
-   ], 'public/fonts');
+    mix.copy([
+        'resources/assets/bootflat-admin/fonts'
+    ], 'public/fonts');
 });
 
 elixir(function(mix) {
