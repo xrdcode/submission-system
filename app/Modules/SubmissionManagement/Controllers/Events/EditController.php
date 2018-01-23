@@ -72,7 +72,7 @@ class EditController extends Controller
     }
 
     protected function validator(Request $request) {
-        if(!empty($request->get('hasparent'))) {
+        if(!empty($request->get('parent_id'))) {
             $parent = SubmissionEvent::findOrFail($request->get('parent_id'));
             return Validator::make($request->all(), [
                 'name' => 'required|string|max:255|unique:modules,name,' . $request->id,
