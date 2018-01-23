@@ -59,7 +59,7 @@ elixir(function(mix) {
 
 elixir(function(mix) {
     mix.styles([
-        'bootflat-admin/site.min.css',
+        'bf-admin.min.css',
         'sites.css',
     ], 'public/css/sites.css');
 });
