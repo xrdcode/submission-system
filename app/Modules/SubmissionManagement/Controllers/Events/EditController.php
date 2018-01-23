@@ -58,8 +58,8 @@ class EditController extends Controller
         if($validator->passes()) {
             $event = SubmissionEvent::find($id);
 
-            if(!empty($request->get('parent'))) {
-                $event->parent_id = $request->get('parent');
+            if(!empty($request->get('parent_id'))) {
+                $event->parent_id = $request->get('parent_id');
             } else {
                 $event->parent_id = null;
             }
