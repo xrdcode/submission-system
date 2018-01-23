@@ -25,7 +25,7 @@ class ListController extends Controller
     }
     
     public function index() {
-        return view("SubmissionManagement::Pricing.index");
+        return view("SubmissionManagement::pricing.index");
     }
 
 
