@@ -35,7 +35,7 @@ class ListController extends Controller
                 return !empty($ws->updatedby) ? $ws->updatedby->name : "-";
             })
             ->addColumn('action', function($m) {
-                return HtmlHelper::linkButton("Edit", route('admin.mstrws.edit', $m->id), "btn-xs btn-default btn-edit","", "glyphicon-edit");
+                return HtmlHelper::linkButton("Edit", route('admin.master.workstate.edit', $m->id), "btn-xs btn-default btn-edit","", "glyphicon-edit");
             })
             ->make(true);
     }

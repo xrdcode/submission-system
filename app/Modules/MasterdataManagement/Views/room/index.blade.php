@@ -38,21 +38,21 @@
             $('#datalist').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{!! route('admin.mstrws.dt') !!}',
+                ajax: '{!! route('admin.master.room.dt') !!}',
                 columns: [
                     { title: 'id', data: 'id'},
-                    { title: 'Name',data: 'name'},
-                    { title: 'Description',data: 'description',},
-                    { title: 'Created By',data: 'created_by'},
-                    { title: 'Updated By',data: 'updated_by'},
-                    { data: 'action', orderable: false, searchable: false}
+                    { title: 'Number',data: 'number'},
+                    { title: 'Name',data: 'name',},
+                    { title: 'Building',data: 'building'},
+                    { title: 'Notes',data: 'notes'},
+                    //{ data: 'action', orderable: false, searchable: false}
                 ]
 
             });
 
             $('#btn_new').on('click', function(e) {
                 $.ajax({
-                    url: '{{ route('admin.mstrws.new') }}',
+                    url: '{{ route('admin.master.room.new') }}',
                     method: 'GET',
                     success: function(response) {
                         $("#modal-container").html(response);

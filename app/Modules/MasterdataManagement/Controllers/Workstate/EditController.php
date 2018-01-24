@@ -28,7 +28,7 @@ class EditController extends Controller
     public function index($id) {
         $ws = Workstate::findOrFail($id);
         $data = [
-            'action'    => route('admin.mstrws.update', $id),
+            'action'    => route('admin.master.workstate.update', $id),
             'modalId'   => 'wsmodal',
             'title'     => 'New Workstate',
             'ws'        => $ws,
@@ -40,7 +40,7 @@ class EditController extends Controller
 
     public function newws() {
         $data = [
-            'action'    => route('admin.mstrws.store'),
+            'action'    => route('admin.master.workstate.store'),
             'modalId'   => 'wsmodal',
             'title'     => 'New Workstate',
             'typelist'  => WorkstateType::getSelectableList()
@@ -90,8 +90,8 @@ class EditController extends Controller
         if($validator->passes()) {
             $ws = new Workstate();
             $ws = $ws->create($request->all());
-            $module->created_by = Auth::user()->id;
-            $module->updated_by = Auth::user()->id;
+            $ws->created_by = Auth::user()->id;
+            $ws->updated_by = Auth::user()->id;
             $ws->update();
             return response()->json([$ws]);
         } else {

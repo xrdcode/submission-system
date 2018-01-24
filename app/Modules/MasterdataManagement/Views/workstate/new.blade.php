@@ -8,22 +8,20 @@
             <label for="name" class="col-md-4 control-label">Name</label>
 
             <div class="col-md-6">
-                <input id="name" type="text" class="form-control" name="name" value="{{ $ws->name }}" required autofocus>
+                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
             </div>
         </div>
-
         <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
             <label for="address" class="col-md-4 control-label">Description</label>
 
             <div class="col-md-6">
-                <textarea id="description" type="text" class="form-control" name="description" required autofocus>{{ $ws->description }}</textarea>
+                <textarea id="description" type="text" class="form-control" name="description" required autofocus>{{ old('description') }}</textarea>
             </div>
         </div>
-
         <div class="form-group{{ $errors->has('workstate_type') ? ' has-error' : '' }}">
             <label for="type" class="col-md-4 control-label">Type</label>
             <div class="col-md-6 col-md-4">
-                {{ Form::select('workstate_type_id', $typelist, $ws->workstate_id ,["id" => "workstate_type_id","class" => "form-control select2-single"]) }}
+                {{ Form::select('workstate_type_id', $typelist, [] ,["id" => "workstate_type_id","class" => "form-control select2-single"]) }}
             </div>
         </div>
 
@@ -51,8 +49,7 @@
             $("#newws").trigger('submit');
         });
 
-        $(".select2-multiple").select2({
-            placeholder: "choose"
-        });
+
+
     </script>
 @endsection

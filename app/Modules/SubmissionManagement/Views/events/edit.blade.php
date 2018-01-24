@@ -104,7 +104,8 @@
             ajaxSaveUpdate('#editmodule');
 
             $(".select2-multiple").select2({
-                placeholder: "choose"
+                placeholder: "choose",
+                width: "100%"
             });
         });
 

@@ -6,7 +6,7 @@
  * Time: 10:04
  */
 
-namespace App\Modules\SubmissionManagement\Controllers\Room;
+namespace App\Modules\MasterdataManagement\Controllers\Room;
 
 
 use App\Http\Controllers\Controller;
@@ -15,8 +15,13 @@ use Yajra\Datatables\Datatables;
 
 class ListController extends Controller
 {
-    public function index() {
+    public function __construct()
+    {
+        $this->middleware(['role:RoomManagement-View']);
+    }
 
+    public function index() {
+        return view("MasterdataManagement::room.index");
     }
 
     public function DT() {

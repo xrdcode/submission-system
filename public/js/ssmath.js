@@ -390,6 +390,16 @@ $(document).ready(function() {
     // TOOLTIP TOGGLE
     $('[data-toggle="tooltip"]').tooltip();
 
+    $(".select2-multiple").select2({
+        placeholder: "choose",
+        width: "100%"
+    });
+
+    $(".select2-single").select2({
+        placeholder: "choose",
+        width: "100%"
+    });
+
 });
 
 function setupDateRange(idfrom, idto) {

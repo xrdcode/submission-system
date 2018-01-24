@@ -56,8 +56,6 @@
             $("#newmodule").trigger('submit');
         });
 
-        $(".select2-multiple").select2({
-            placeholder: "choose"
-        });
+
     </script>
 @endsection

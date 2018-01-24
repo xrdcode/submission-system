@@ -15,6 +15,12 @@ use Yajra\Datatables\Datatables;
 
 class ListController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['role:RoomManagement-View']);
+    }
+
     public function index() {
         return view("SubmissionManagement::roomsubmission");
     }

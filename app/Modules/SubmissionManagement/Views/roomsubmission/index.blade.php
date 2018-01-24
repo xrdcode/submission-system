@@ -42,7 +42,7 @@
                 processing: true,
                 serverSide: true,
                 scrollX: true,
-                ajax: '{!! route('admin.submission.dt') !!}',
+                ajax: '{!! route('admin.submission.room.dt') !!}',
                 columns: [
                     {
                         title: 'No',

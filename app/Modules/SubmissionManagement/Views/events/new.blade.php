@@ -88,9 +88,7 @@
             $("#newevent").trigger('submit');
         });
 
-        $(".select2-multiple").select2({
-            placeholder: "choose"
-        });
+
 
 
         $('#hasparent').change(function() {
