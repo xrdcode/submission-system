@@ -57,6 +57,7 @@
     <div class="container">
         <div class="copyright clearfix text-center">
             <p>
+                <a href="{{ route('user.login') }}">Log In</a> &blacktriangleright;
                 <a href="{{ route('user.resendverification') }}">Resend Verification</a> &blacktriangleright;
                 <a href="#">FAQ</a> &blacktriangleright;
                 <a href="#">IC-SMECS</a> &blacktriangleright;

@@ -28,7 +28,6 @@ class PaymentController extends Controller
         $submission = User::findOrFail(Auth::id())->submissions();
         $submission->where('approved','=', 1)->has('payment_submission')->with(['workstate','payment_submission.pricing']);
 
-
         $dt = Datatables::of($submission);
 
         $dt->addColumn("action", function($s) {
