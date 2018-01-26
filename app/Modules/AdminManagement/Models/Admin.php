@@ -11,15 +11,6 @@ use App\Models\BaseModel\Admin as BaseAdmin;
 class Admin extends BaseAdmin
 {
 
-    public function advancedSearch(Request $request) {
-        $user = new Admin();
-        return $user
-            ->where("name", 'like', "%$request->name%")
-            ->orWhere("username", "like", "%$request->search%")
-            ->paginate(10)
-            ->load("invoices");
-    }
-
     /**
      * The attributes that are mass assignable.
      *

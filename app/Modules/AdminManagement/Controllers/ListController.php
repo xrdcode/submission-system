@@ -60,7 +60,9 @@ class ListController extends Controller
         });
 
         $dt->addColumn('action', function($m) {
-            return HtmlHelper::linkButton("Edit", route('admin.manageadmin.edit', $m->id), "btn-xs btn-default btn-edit","", "glyphicon-edit");
+            $btn = HtmlHelper::linkButton("Edit", route('admin.manageadmin.edit', $m->id), "btn-xs btn-info btn-edit","", "glyphicon-edit");
+            $btn .= HtmlHelper::linkButton("Reset", route('admin.manageadmin.reset', $m->id), "btn-xs btn-danger btn-edit","", "glyphicon-lock");
+            return HtmlHelper::createTag("div", ['btn-group'],[], $btn);
         })->rawColumns(['groups','action','status']);
 
         return $dt->make(true);

@@ -18,16 +18,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" />
     <style>
         html {
-            height: 100%;
+            height: 100vh;
         }
 
 
         body {
-            height: 100%;
+            height: 95vh;
             padding-top: 40px;
             padding-bottom: 40px;
-            background-color: #303641;
-            color: #C1C3C6
         }
 
         textarea {
@@ -41,17 +39,32 @@
             transform: translate(-50%, -50%);
         }
 
-        .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
-            cursor: not-allowed;
-            background-color: #373e4a;
-            opacity: 1;
+        .content {
+            min-height: 90%;
+        }
+
+        .footer {
+            min-height: 10%;
         }
     </style>
 </head>
-<body data-gr-c-s-loaded="true" style="height:100%">
+<body data-gr-c-s-loaded="true">
+<div class="content">
     @yield("content")
+</div>
 <div class="clearfix"></div>
-<br><br>
+<footer class="footer site-footer login-footer">
+    <div class="container">
+        <div class="copyright clearfix text-center">
+            <p>
+                <a href="{{ route('user.resendverification') }}">Resend Verification</a> &blacktriangleright;
+                <a href="#">FAQ</a> &blacktriangleright;
+                <a href="#">IC-SMECS</a> &blacktriangleright;
+            </p>
+            <p> Lab Matematika UNJ &copy; 2018</p>
+        </div>
+    </div>
+</footer>
 <script type="text/javascript" src="{{ asset("/js/bf-admin.js") }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 <script src="{{ asset('js/ssmath.js') }}"></script>

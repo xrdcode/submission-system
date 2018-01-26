@@ -1,0 +1,80 @@
+.body {
+    background-color: #F5F7FA;
+}
+
+.form-signin {
+    max-width: 430px;
+    padding: 15px;
+    margin: 0 auto
+}
+
+.form-signin.checkbox,
+.form-signin.form-signin-heading {
+    margin-bottom: 20px
+}
+
+.form-signin.checkbox {
+    font-weight: 400
+}
+
+.form-signin.form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px
+}
+
+.form-signin.form-control:focus {
+    z-index: 2
+}
+
+.form-signin input[type=email] {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0
+}
+
+.form-signin input[type=password] {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0
+}
+
+.login-footer {
+    background-color: #F5F7FA
+}
+
+.form-signin input {
+    background-color: #F5F7FA;
+    border: 1px solid #F5F7FA;
+    height: 41px;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    color: #454545;
+    font-size: 12px
+}
+
+.form-signin .form-control:focus {
+    border-color: #F5F7FA
+}
+
+.form-signin .input-group-addon {
+    background-color: #F5F7FA;
+    border-color: #F5F7FA;
+    color: #454545;
+}
+
+.form-signin .form-control[disabled], .form-signin .form-control[readonly], .form-signin fieldset[disabled] .form-control {
+    cursor: not-allowed;
+    background-color: #EFEFEF;
+    opacity: 1;
+}
+
+ .datepicker.dropdown-menu {
+    background-color: #EFEFEF;
+}
+
+ .datepikcer > span.month.focused.active {
+     background-color: #1a6451 !important;
+ }

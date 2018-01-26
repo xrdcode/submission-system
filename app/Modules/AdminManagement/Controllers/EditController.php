@@ -38,6 +38,15 @@ class EditController extends Controller
         return view("AdminManagement::new", $data);
     }
 
+    public function changepass_form($id) {
+        $data = [
+            'title' => 'Reset Password',
+            'action' => route('admin.manageadmin.reset', $id),
+            'admin' => Admin::findOrFail($id)
+        ];
+        return view("AdminManagement::reset", $data);
+    }
+
     public function update(Request $request, $id) {
         $validator = $this->validator($request);
 
@@ -51,6 +60,25 @@ class EditController extends Controller
         } else {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
         }
+    }
+
+    public function change_password(Request $request, $id) {
+        $validator = Validator::make($request->all(), [
+           'password' => 'required|confirmed|min:6'
+        ]);
+
+        if($validator->passes()) {
+            $admin = Admin::find($id);
+            $admin->updated_at = Carbon::now()->toDateTimeString();
+            $admin->updated_by = Auth::user()->id;
+            $admin->password = bcrypt($request->get('password'));
+            $admin->update();
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
+        }
+
+
     }
 
     protected function validator(Request $request) {

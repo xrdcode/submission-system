@@ -11,6 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+
+//
+//Route::get('/', ['uses' => 'LoginController@showLoginForm','middleware' => ['guest']]);
+//Route::prefix('')->namespace('App\Modules\User\Controllers\Auth')->group(function() {
+//});
+
+Route::get('/',function() {
+    return redirect()->route('user');
 });

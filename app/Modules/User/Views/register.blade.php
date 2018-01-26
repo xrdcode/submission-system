@@ -71,8 +71,7 @@
         </div>
 
 
-
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+        <button class="btn btn-info btn-block" type="submit">Sign Up</button>
         <a class="btn btn-link" href="{{ route('user.login') }}">
             Already have an account? Click here..
         </a>

@@ -61,6 +61,7 @@ elixir(function(mix) {
     mix.styles([
         'bf-admin.min.css',
         'sites.css',
+        'ic-smecs.css'
     ], 'public/css/sites.css');
 });
 

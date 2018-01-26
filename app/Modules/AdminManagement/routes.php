@@ -12,6 +12,8 @@ Route::group(
 
     Route::get('/edit/{id}', ['as' => '.edit', 'uses' => 'EditController@index', 'middleware' => []]);
     Route::post('/edit/{id}', ['as' => '.update', 'uses' => 'EditController@update', 'middleware' => []]);
+    Route::get('/reset/{id}', ['as' => '.reset', 'uses' => 'EditController@changepass_form', 'middleware' => []]);
+    Route::post('/reset/{id}', ['as' => '.reset', 'uses' => 'EditController@change_password', 'middleware' => []]);
 
     Route::post('/create', ['as' => '.save', 'uses' => 'EditController@store', 'middleware' => []]);
 
