@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Pricing extends Model
 {
 
-    protected $fillable = ['price','submission_event_id','pricing_type_id'];
+    protected $fillable = ['price','submission_event_id','pricing_type_id','isparticipant'];
 
     public function payment_submissions() {
         return $this->hasMany(PaymentSubmission::class);

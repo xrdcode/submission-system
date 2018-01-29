@@ -64,9 +64,10 @@ class Group extends Model
      */
     public function hasRole($name)
     {
+        $names = array_map("trim", explode(",",$name));
         foreach($this->roles as $role)
         {
-            if ($role->name === $name) return true;
+            if (in_array($role->name, $names)) return true;
         }
         return false;
     }

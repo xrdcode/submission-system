@@ -43,7 +43,7 @@
 
         <table>
             @foreach($exception->getTrace() as $position => $e)
-            <tr><td>{{ $position }}</td><td>{{ $e['file'] }} </td></tr>
+            <tr><td>{{ $position }}</td><td>{{ isset($e['file']) ? $e['file'] : "" }} </td></tr>
 
             @endforeach
         </table>

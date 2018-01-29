@@ -44,13 +44,19 @@
                 scrollX: true,
                 ajax: '{!! route('admin.payment.dt') !!}',
                 columns: [
-                    { title: 'id', data: 'id'},
-                    { title: 'User',data: 'user.name', orderable: false, searchable: false},
+                    {
+                        title: 'No',
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    { title: 'Event',data: 'submission_event.name', orderable: false, searchable: false},
                     { title: 'Title',data: 'title', class: 'force-wrap'},
-                    { title: 'Price',data: 'payment_submission.pricing.price', orderable: false, searchable: false},
-                    { title: 'Receipt',data: 'receipt', orderable: false, searchable: false},
-                    { title: 'Status',data: 'payment_submission.verified', orderable: false, searchable: false},
-                    //{ title: 'Add Payment',data: 'payment', orderable: false, searchable: false},
+                    { title: 'User',data: 'user.name'},
+                    { title: 'Submission Type',data: 'submission_type.name', orderable: false},
+                    { title: 'Progress',data: 'progress', orderable: false, searchable: false},
+                    { title: 'Approved',data: 'approved', orderable: false, searchable: false},
+                    { title: 'Add Payment',data: 'payment', orderable: false, searchable: false},
                     // { data: 'action', orderable: false, searchable: false}
                 ]
 

@@ -6,7 +6,7 @@
  * Time: 18:24
  */
 
-namespace App\Modules\Payments\Controllers;
+namespace App\Modules\Payments\Controllers\Submission;
 
 use App\Models\BaseModel\PaymentSubmission;
 use App\Models\BaseModel\Submission;
@@ -25,13 +25,7 @@ class ListController extends Controller
     }
 
     public function index() {
-        return view("Payments::index");
-    }
-
-    public function viewReceipt($id) {
-        $payment = Submission::findOrFail($id)->payment_submission;
-        $file = Storage::url($payment->file);
-        return view("Payments::imageview", compact('file'));
+        return view("Payments::submission.index");
     }
 
     public function DT() {
@@ -44,23 +38,6 @@ class ListController extends Controller
 
         $dt = Datatables::of($submission);
 
-        $dt->editColumn('payment_submission.verified', function($s){
-            if(!$s->payment_submission->verified && !empty($s->payment_submission->file)) {
-                $row  = HtmlHelper::createTag("i",["click-edit"],["title"=>"click to change"], $s->payment_submission->verified ? "Verified" : "Not Yet");
-                $list = [1 => 'Approved', 0 => 'Not yet'];
-                $row .= HtmlHelper::selectList($list, $s->verified, "verified", "form-control hide-n-seek", ["data-action" => route('admin.payment.verify', $s->id), "data-id" => $s->id, "style" => "display:none"]);
-            } else {
-                $row  = HtmlHelper::createTag("i",[],[], $s->payment_submission->verified ? "Verified" : "Not Yet");
-            }
-            return $row;
-        });
-
-        $dt->addColumn('receipt', function($s) {
-            $file = $s->payment_submission->file;
-            if(empty($file))
-                return "Not yet uploaded";
-            return HtmlHelper::createTag("a",['btn','btn-xs','btn-info', 'btn-modal'],['href' => route('admin.payment.receipt', $s->id)],"View");
-        });
 
         $dt->addColumn('payment', function($s) {
             if($s->approved && empty($s->payment_submission)) {
@@ -79,7 +56,7 @@ class ListController extends Controller
         });
 
 
-        $dt->rawColumns(['verified','receipt']);
+        $dt->rawColumns(['payment']);
 
         return $dt->make(true);
     }

@@ -29,6 +29,11 @@ $(document).ready(function() {
         width: "100%"
     });
 
+    $("table.dataTable").resize();
+    $(window).resize(function () {
+        $("table.dataTable").resize();
+    });
+
 });
 
 function setupDateRange(idfrom, idto) {

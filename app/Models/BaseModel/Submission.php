@@ -43,7 +43,7 @@ class Submission extends Model
     }
 
     public function pricelist() {
-        $price = $this->submission_event->pricings;
+        $price = $this->submission_event->pricings()->where('isparticipant','=', true);
         $tmp = [];
         foreach ($price as $p) {
             $tmp[$p->id] = "{$p->pricing_type->name} | Rp. {$p->price}";

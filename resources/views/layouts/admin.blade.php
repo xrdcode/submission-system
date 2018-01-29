@@ -177,92 +177,113 @@
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
-                <ul class="nav navbar-nav">
-                    &nbsp;<li class="dropdown dropdown-large">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Master<span class="caret"></span></a>
-                        <ul class="dropdown-menu dropdown-menu-large row">
-                            <li class="col-md-4">
-                                <ul>
-                                    <li class="dropdown-header">Admin</li>
-                                    <li><a href="{{ route('admin.manageadmin') }}">Manage Admin</a></li>
-                                    <li><a href="{{ route('admin.managegroup') }}">Manage Group</a></li>
-                                    <li><a href="{{ route('admin.managerole') }}">Manage Role</a></li>
-                                </ul>
-                            </li>
-                            <li class="col-md-4">
-                                <ul>
-                                    <li class="dropdown-header">Module</li>
-                                    <li><a href="{{ route('admin.module') }}">Manage</a></li>
-                                </ul>
-                            </li>
-                            <li class="col-md-4">
-                                <ul>
-                                    <li class="dropdown-header">System</li>
-                                    <li><a href="#">Setting</a></li>
-                                    <li><a href="#">Flash Message</a></li>
-                                </ul>
-                            </li>
-                            {{--<li class="col-md-4">--}}
-                                {{--<ul>--}}
+                @if(!Auth::guest('admin'))
+                    <ul class="nav navbar-nav">
+                        &nbsp;
+
+                        @if(Auth::user()->hasRole('MasterdataManagement-View, ModuleManagement-View'))
+                            <li class="dropdown dropdown-large">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Master<span class="caret"></span></a>
+                                <ul class="dropdown-menu dropdown-menu-large row">
+                                    <li class="col-md-4">
+                                        <ul>
+                                            <li class="dropdown-header">Admin</li>
+                                            <li><a href="{{ route('admin.manageadmin') }}">Manage Admin</a></li>
+                                            <li><a href="{{ route('admin.managegroup') }}">Manage Group</a></li>
+                                            <li><a href="{{ route('admin.managerole') }}">Manage Role</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="col-md-4">
+                                        <ul>
+                                            <li class="dropdown-header">Module</li>
+                                            <li><a href="{{ route('admin.module') }}">Manage</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="col-md-4">
+                                        <ul>
+                                            <li class="dropdown-header">System</li>
+                                            <li><a href="#">Setting</a></li>
+                                            <li><a href="#">Flash Message</a></li>
+                                        </ul>
+                                    </li>
+                                    {{--<li class="col-md-4">--}}
+                                    {{--<ul>--}}
                                     {{--<li class="dropdown-header">Master</li>--}}
                                     {{--<li><a href="#">Identity Type</a></li>--}}
                                     {{--<li><a href="#">Submission Status</a></li>--}}
                                     {{--<li><a href="#">Workstate</a></li>--}}
                                     {{--<li class="divider"></li>--}}
-                                {{--</ul>--}}
-                            {{--</li>--}}
-                        </ul>
-                    </li>
-                    <li class="dropdown dropdown-large">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Submission<span class="caret"></span></a>
-                        <ul class="dropdown-menu dropdown-menu-large row">
-                            <li class="col-md-4">
-                                <ul>
-                                    <li class="dropdown-header">Events</li>
-                                    <li><a href="{{ route('admin.event') }}">Manage Event</a></li>
-                                    <li><a href="#">Schedule <i class="glyphicon glyphicon-ban-circle red"></i></a>/li>
-                                    <li class="divider"></li>
-                                    <li class="dropdown-header">Submission</li>
-                                    <li><a href="{{ route('admin.submission') }}">Submission List</a></li>
+                                    {{--</ul>--}}
+                                    {{--</li>--}}
                                 </ul>
                             </li>
-                            <li class="col-md-4">
-                                <ul>
-                                    <li class="dropdown-header">Room</li>
-                                    <li><a href="#">Room List <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
-                                    <li><a href="#">Submission Room <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
-                                    <li class="divider"></li>
-                                    <li class="dropdown-header">Participant</li>
-                                    <li><a href="#">User List <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
-                                </ul>
-                            </li>
-                            <li class="col-md-4">
-                                <ul>
-                                    <li class="dropdown-header">Pricing</li>
-                                    <li><a href="{{ route('admin.pricing') }}">Pricing</a></li>
-                                    <li><a href="{{ route('admin.pricing.type') }}">Pricing Type</a></li>
-                                    <li class="divider"></li>
-                                    <li class="dropdown-header">Payments</li>
-                                    <li><a href="#">General Payment <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
-                                    <li><a href="{{ route('admin.payment') }}">Submission Payment</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown dropdown-large">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reports<span class="caret"></span></a>
-                        <ul class="dropdown-menu dropdown-menu-large row">
-                            <li class="col-md-4">
-                                <ul>
-                                    <li><a href="#">Payment Mutation <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
-                                    <li><a href="#">Participant Data <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+                        @endif
 
-                <!-- Right Side Of Navbar -->
+                        <li class="dropdown dropdown-large">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Submission<span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-large row">
+                                <li class="col-md-4">
+                                    <ul>
+                                        @if(Auth::user()->hasRole('EventManagement-View, ScheduleManagement-View'))
+                                        <li class="dropdown-header">Events</li>
+                                        @if(Auth::user()->hasRole('EventManagement-View'))
+                                        <li><a href="{{ route('admin.event') }}">Manage Event</a></li>
+                                        @endif
+                                        <li><a href="#">Schedule <i class="glyphicon glyphicon-ban-circle red"></i></a>/li>
+                                        <li class="divider"></li>
+                                        @endif
+                                        @if(Auth::user()->hasRole('SubmissionManagement-View'))
+                                            <li class="dropdown-header">Submission</li>
+                                            <li><a href="{{ route('admin.submission') }}">Submission List</a></li>
+                                        @endif
+                                    </ul>
+                                </li>
+                                @if(Auth::user()->hasRole('RoomManagement-View, UserManagement-View'))
+                                <li class="col-md-4">
+                                    <ul>
+                                        @if(Auth::user()->hasRole('RoomManagement-View'))
+                                        <li class="dropdown-header">Room</li>
+                                        <li><a href="#">Room List <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
+                                        <li><a href="#">Submission Room <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
+                                        @endif
+                                        <li class="divider"></li>
+                                        <li class="dropdown-header">Participant</li>
+                                        <li><a href="#">User List <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
+                                    </ul>
+                                </li>
+                                @endif
+                                <li class="col-md-4">
+                                    <ul>
+                                        @if(Auth::user()->hasRole('PricingManagement-View'))
+                                        <li class="dropdown-header">Pricing</li>
+                                        <li><a href="{{ route('admin.pricing') }}">Pricing</a></li>
+                                        <li><a href="{{ route('admin.pricing.type') }}">Pricing Type</a></li>
+                                        <li class="divider"></li>
+                                        @endif
+                                        @if(Auth::user()->hasRole('PaymentManagement-View'))
+                                        <li class="dropdown-header">Payments</li>
+                                        <li><a href="#">General Payment <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
+                                        <li><a href="{{ route('admin.payment') }}">Submission Payment</a></li>
+                                        @endif
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown dropdown-large">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reports<span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-large row">
+                                <li class="col-md-4">
+                                    <ul>
+                                        <li><a href="#">Payment Mutation <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
+                                        <li><a href="#">Participant Data <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                @endif
+
+            <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
                     @if (Auth::guest('admin'))

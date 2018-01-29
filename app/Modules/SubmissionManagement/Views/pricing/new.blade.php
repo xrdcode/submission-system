@@ -30,6 +30,11 @@
                 </div>
             </div>
         </div>
+        <div class="form-group">
+            <div class="col-md-6 col-md-offset-4">
+                {{ Form::select('isparticipant', [0 => 'Non Participant', 1 => 'Participant'], [] ,["id" => "isparticipant","class" => "form-control select2-single", "required"]) }}
+            </div>
+        </div>
 
 
 

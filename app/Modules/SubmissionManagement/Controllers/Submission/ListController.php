@@ -42,7 +42,7 @@ class ListController extends Controller
                 "submission_type_id",
                 "approved",
                 "feedback",
-                "file_paper_id"])->with(['user','submission_event','workstate','file_paper','payment_submission','submission_type']);
+                "file_paper_id"])->with(['user','submission_event','workstate','payment_submission','submission_type']);
         $datatable = Datatables::of($submission)
             ->editColumn('approved', function($s) {
                 if(!$s->isPaid() && empty($s->payment_submission)) {
@@ -61,7 +61,7 @@ class ListController extends Controller
                 $row = HtmlHelper::createTag("i",["click-edit"],["title"=>"click to change"], $w->name);
                 $row .= HtmlHelper::selectList($ws, $s->workstate_id ,'workstate_id','form-control hide-n-seek',["data-action" => $url,"data-id" => $s->id, "style" => "display:none"]);
                 return $row;
-            })->rawColumns(['progress','approved','payment','file_abstract','feedback']);
+            });
 
         $datatable->addColumn('payment', function($s) {
             if($s->approved && empty($s->payment_submission)) {
@@ -93,6 +93,17 @@ class ListController extends Controller
             return $btn;
         });
 
+        $datatable->addColumn('file_paper', function($s) {
+            if(!empty($s->file_paper)) {
+                $btn = HtmlHelper::linkButton("Paper", route('admin.submission.getpaper', $s->id), 'btn-xs btn-success btn-download', "",'glyphicon-download');
+                return $btn;
+            } else {
+                return "Not Yet Uploaded";
+            }
+        });
+
+        $datatable->rawColumns(['progress','approved','payment','file_abstract','feedback','file_paper']);
+
         return $datatable->make(true);
     }
 
@@ -102,6 +113,13 @@ class ListController extends Controller
         $file = public_path(Storage::url($sub->abstractfile));
         $filename = $sub->user->name . "-" . join(".", [str_replace(' ', '_', $sub->title), $ext]);
         return response()->download($file, $filename);
+    }
+
+    function getPaper($id) {
+        $paper = Submission::findOrFail($id)->file_paper;
+        if(empty($paper)) abort(404);
+        $file = public_path(Storage::url($paper->path));
+        return response()->download($file, $paper->name);
     }
 
     //// MODAL ////

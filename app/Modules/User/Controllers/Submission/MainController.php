@@ -22,13 +22,19 @@ use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
+
+
+
     public function index() {
-        return view("User::submission.index");
+        $this->data['header'] = "Submission List";
+        return view("User::submission.index", $this->data);
     }
 
     public function register() {
+        $this->data['header'] = "Apply Submission";
         $eventlist = SubmissionEvent::getlist();
-        return view('User::submission.register', compact('eventlist'));
+        $this->data['eventlist'] = $eventlist;
+        return view('User::submission.register', $this->data);
     }
 
     public function submit(Request $request) {
@@ -67,8 +73,10 @@ class MainController extends Controller
     }
 
     public function abstractReupload(Request $query, $id) {
+        $this->data['header'] = "Reupload Submission";
         $submission = User::find(Auth::id())->submissions()->findOrFail($id);
-        return view("User::submission.reupload", compact('submission'));
+        $this->data['submission'] = $submission;
+        return view("User::submission.reupload", $this->data);
     }
 
     public function reupload(Request $request) {
@@ -155,7 +163,11 @@ class MainController extends Controller
                 }
             });
 
-            $datatable->rawColumns(['file_abstract','action']);
+        $datatable->editColumn('submission_event.name', function($s) {
+            return $s->submission_event->parent->name . " | " . $s->submission_event->name;
+        });
+
+        $datatable->rawColumns(['file_abstract','action']);
 
         return $datatable->make(true);
     }

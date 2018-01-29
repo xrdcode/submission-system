@@ -34,7 +34,8 @@ class EditController extends Controller
             'title'         => 'Edit Pricing',
             'pricing'       => $pricings
         ];
-        return view("SubmissionManagement::pricing.medit", $data);
+        $this->data = array_merge($this->data, $data);
+        return view("SubmissionManagement::pricing.medit", $this->data);
     }
 
 
@@ -46,7 +47,8 @@ class EditController extends Controller
             'eventlist'    => Pricing::getEventList(),
             'typelist'    => PricingType::getList()
         ];
-        return view("SubmissionManagement::pricing.new", $data);
+        $this->data = array_merge($this->data, $data);
+        return view("SubmissionManagement::pricing.new", $this->data);
     }
 
     public function update(Request $request, $id) {
@@ -79,6 +81,7 @@ class EditController extends Controller
             ],
             'pricing_type_id' => 'required|numeric',
             'price' => 'required|numeric',
+            'isparticipant' => 'required'
         ]);
     }
 
@@ -87,10 +90,13 @@ class EditController extends Controller
 
         if($validator->passes()) {
             $find = Pricing::where('submission_event_id','=', $request->get('submission_event_id'))
-                ->where('pricing_type_id','=',$request->get('pricing_type_id'))->first();
+                ->where('pricing_type_id','=',$request->get('pricing_type_id'))
+                ->first();
+
             if(!empty($find)) {
                 $pricing = $find;
-                $pricing->update($request->all());
+                $pricing->updated_by = Auth::user()->id;
+                $pricing->update($request->only(['price','submission_event_id','pricing_types']));
             } else {
                 $pricing = new Pricing();
                 $pricing = $pricing->create($request->all());
@@ -98,7 +104,7 @@ class EditController extends Controller
                 $pricing->updated_by = Auth::user()->id;
                 $pricing->update();
             }
-            return response()->json([$pricing]);
+            return response()->json([$pricing, $request->all()]);
         } else {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
         }

@@ -23,7 +23,7 @@ class ListController extends Controller
     {
         $this->middleware(['role:PricingManagement-View']);
     }
-    
+
     public function index() {
         return view("SubmissionManagement::pricing.index");
     }
@@ -31,14 +31,18 @@ class ListController extends Controller
 
 
     public function DTPricing() {
-        $pricing = Pricing::select(["id","price", "submission_event_id", "pricing_type_id", "created_by", "updated_by"])->with(['submission_event','pricing_type','createdby', 'updatedby']);
-        return Datatables::of($pricing)
-            ->addColumn('action', function($p) {
-                $btn = HtmlHelper::linkButton("Edit",route('admin.pricing.edit', $p->id),"btn-xs btn-info btn-edit","", "glyphicon-edit");
-                $btn .= HtmlHelper::linkButton("Delete", route('admin.pricing.delete', $p->id), "btn-xs btn-danger btn-delete", "", "glyphicon-trash");
-                return "<div class='btn-group'>{$btn}</div>";
-            })
-            ->make(true);
+        $pricing = Pricing::select(["id","price", "submission_event_id", "pricing_type_id","isparticipant", "created_by", "updated_by"])->with(['submission_event','pricing_type','createdby', 'updatedby']);
+        $dt = Datatables::of($pricing);
+        $dt->addColumn('action', function($p) {
+            $btn = HtmlHelper::linkButton("Edit",route('admin.pricing.edit', $p->id),"btn-xs btn-info btn-edit","", "glyphicon-edit");
+            $btn .= HtmlHelper::linkButton("Delete", route('admin.pricing.delete', $p->id), "btn-xs btn-danger btn-delete", "", "glyphicon-trash");
+            return "<div class='btn-group'>{$btn}</div>";
+        });
+
+        $dt->editColumn('isparticipant', function($p) {
+           return $p->isparticipant ? "Participant" : "Non-Participant";
+        });
+        return $dt->make(true);
     }
 
     ///// PTICING TYPES ///////
@@ -52,11 +56,11 @@ class ListController extends Controller
         $dt = Datatables::of($pt);
 
         $dt->editColumn('createdby.name', function($p) {
-           if(empty($p->createdby)) {
-               return "-";
-           } else {
-               return $p->createdby->name;
-           }
+            if(empty($p->createdby)) {
+                return "-";
+            } else {
+                return $p->createdby->name;
+            }
         });
 
         $dt->editColumn('updatedby.name', function($p) {

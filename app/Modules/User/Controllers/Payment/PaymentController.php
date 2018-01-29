@@ -21,7 +21,16 @@ use Yajra\Datatables\Datatables;
 class PaymentController extends Controller
 {
     public function index() {
-        return view("User::payment.index");
+        return view("User::payment.index", $this->data);
+    }
+
+    public function non_participant_index() {
+        $this->data['header'] = "Non Participant";
+        return view("User::payment.nonparticipant", $this->data);
+    }
+
+    public function non_participant_apply() {
+        return view("User::payment.applynonparticipant");
     }
 
     public function DTWaitingPayment() {

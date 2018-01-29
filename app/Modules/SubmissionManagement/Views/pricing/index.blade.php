@@ -52,6 +52,7 @@
             $('#datalist').DataTable({
                 processing: true,
                 serverSide: true,
+                scrollX: true,
                 ajax: '{!! route('admin.pricing.dt') !!}',
                 columns: [
                     {
@@ -62,6 +63,7 @@
                     },
                     { title: 'Event',data: 'submission_event.name', orderable: false, searchable: false},
                     { title: 'Category',data: 'pricing_type.name', orderable: false, searchable: false},
+                    { title: 'Price For',data: 'isparticipant', searchable: false},
                     { title: 'Price',data: 'price'},
                     { title: 'Created By',data: 'createdby.name'},
                     { title: 'Updated By',data: 'updatedby.name'},

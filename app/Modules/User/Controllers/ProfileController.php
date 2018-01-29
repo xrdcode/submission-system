@@ -23,7 +23,10 @@ class ProfileController extends Controller
     public function index(Request $request) {
         $user = Auth::user();
         $message = $request->session()->get('message');
-        return view("User::profile.index", compact(['user','message']));
+        $this->data['user'] = $user;
+        $this->data['message'] = $message;
+        $this->data['header'] = "Personal Data";
+        return view("User::profile.index", $this->data);
     }
 
     public function update(Request $request) {
@@ -60,7 +63,8 @@ class ProfileController extends Controller
     }
 
     public function security() {
-        return view("User::profile.security");
+        $this->data['header'] = "Change Password";
+        return view("User::profile.security", $this->data);
     }
 
 

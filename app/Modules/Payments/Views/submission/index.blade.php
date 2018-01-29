@@ -10,7 +10,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="col-md-12">
-                            <table id="datalist" class="table table-responsive tbl-no-wrap">
+                            <table id="datalist" class="table table-responsive tbl-no-wrap" width="100%">
 
                             </table>
                         </div>
@@ -42,46 +42,20 @@
                 processing: true,
                 serverSide: true,
                 scrollX: true,
-                ajax: '{!! route('admin.submission.dt') !!}',
+                ajax: '{!! route('admin.payment.submission.dt') !!}',
                 columns: [
-                    {
-                        title: 'No',
-                        render: function (data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        }
-                    },
-                    { title: 'Event',data: 'submission_event.name', orderable: false, searchable: false},
+                    { title: 'id', data: 'id'},
+                    { title: 'User',data: 'user.name', orderable: false, searchable: false},
                     { title: 'Title',data: 'title', class: 'force-wrap'},
-                    { title: 'User',data: 'user.name'},
-                    { title: 'Submission Type',data: 'submission_type.name', orderable: false},
-                    { title: 'Abstract', data: 'file_abstract'},
-                    { title: 'Full Paper', data: 'file_paper'},
-                    { title: 'Feedback', data: 'feedback', orderable: false},
-                    { title: 'Progress',data: 'progress', orderable: false, searchable: false},
-                    { title: 'Approved',data: 'approved', orderable: false, searchable: false},
-                    //{ title: 'Add Payment',data: 'payment', orderable: false, searchable: false},
+                    { title: 'Add Payment',data: 'payment', orderable: false, searchable: false},
                     // { data: 'action', orderable: false, searchable: false}
                 ]
 
             });
 
 
-            $('#btn_new').on('click', function(e) {
-                $.ajax({
-                    url: '{{ route('admin.pricing.new') }}',
-                    method: 'GET',
-                    success: function(response) {
-                        $("#modal-container").html(response);
-                        $(".modal", "#modal-container").modal();
-                    },
-                    error: function(xHr) {
-                        console.log(xHr);
-                    }
-                });
-            });
-
             $('body').on('click','a.btn-edit, a.btn-modal', function(e) {
-                e.preventDefault()
+                e.preventDefault();
 
                 $.ajax({
                     url: $(this).attr('href'),
@@ -96,7 +70,6 @@
                 });
             });
 
-            initHideNseek();
 
         });
     </script>

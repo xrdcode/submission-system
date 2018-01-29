@@ -117,7 +117,7 @@
                     <li>
                         <a href="#submissions" class="list-group-item " data-toggle="collapse"><i class="glyphicon glyphicon-list"></i>Submission  <span class="glyphicon glyphicon-chevron-right"></span></a>
                         <div class="collapse" id="submissions">
-                            <a href="{{ route('user.submission.register') }}" class="list-group-item">Register</a>
+                            <a href="{{ route('user.submission.register') }}" class="list-group-item">Apply</a>
                             <a href="{{ route('user.submission') }}" class="list-group-item">List</a>
                         </div>
                     </li>
@@ -143,7 +143,7 @@
                 {!! isset($message) ? $message : "" !!}
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><a href="javascript:void(0);" class="toggle-sidebar"><span class="fa fa-angle-double-left" data-toggle="offcanvas" title="Maximize Panel"></span></a>{{ \Request::route()->getName() }}</h3>
+                        <h3 class="panel-title"><a href="javascript:void(0);" class="toggle-sidebar"><span class="fa fa-angle-double-left" data-toggle="offcanvas" title="Maximize Panel"></span></a>{{ $header }}</h3>
                     </div>
                     <div class="panel-body">
                         @yield('content')

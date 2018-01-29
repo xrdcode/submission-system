@@ -11,4 +11,12 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    protected $data = [
+        "title" => "",
+        "title_header" => "",
+        "header" => "",
+        "subheader" => "",
+        "route" => ""
+    ];
+
 }

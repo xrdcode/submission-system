@@ -27,10 +27,10 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $data = [
-            $payment_notif = Auth::user()->payment_notification(),
-        ];
-        return view('User::dashboard', $data);
+        $this->data['header'] = "Dashboard";
+        $this->data['payment_notification'] = Auth::user()->payment_notification();
+
+        return view('User::dashboard', $this->data);
     }
 
 
