@@ -3,7 +3,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <form id="editsubmission" role="form" method="POST" action="{{ route('user.conference.edit') }}" enctype="multipart/form-data">
+            <form id="newsubmission" role="form" method="POST" action="{{ route('user.publication.submit') }}" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <fieldset>
                     <legend>Submission Detail</legend>
@@ -11,35 +11,41 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="submission_event_id">Submission Event</label>
-                                <input type="hidden" name="submission_event_id" value="{{ $submission->submission_event_id }}">
-                                <input type="text" class="form-control" name="submission.name" value="{{ $submission->submission_event->name }}" readonly>
+                                {{ Form::select('submission_event_id', $eventlist, [] ,["id" => "submission_event_id","class" => "form-control select2-single"]) }}
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="submission_event_id">Type of Submission (Presentation)</label>
-                                {{ Form::select('submission_type_id', \App\Models\BaseModel\SubmissionType::getlist(), $submission->submission_type_id ,["id" => "submission_type_id","class" => "form-control select2-single"]) }}
+                                {{ Form::select('submission_type_id', \App\Models\BaseModel\SubmissionType::getlist(), [] ,["id" => "submission_type_id","class" => "form-control select2-single"]) }}
 
                             </div>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label for="title">Title</label>
-                        <input class="form-control" id="title" name="title" placeholder="Paper Title" type="text" value="{{ $submission->title }}">
+                        <input class="form-control" id="title" name="title" placeholder="Paper Title" type="text">
                     </div>
                     <div class="form-group">
                         <label for="abstract">Abstract</label>
-                        <textarea class="form-control" placeholder="Abstract" rows="10" cols="30" id="abstract" name="abstract"></textarea>
+                        <textarea required="" class="form-control" placeholder="Abstract" rows="10" cols="30" id="description" name="abstract"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="file">Abstract File (.PDF)</label>
-                        <input type="file" required="" class="" placeholder=""  id="description" name="file">
+                        <label for="file">Abstract File (.PDF, .DOCX)</label>
+                        <div class="input-group">
+                            <label class="input-group-btn">
+                    <span class="btn btn-primary">
+                        Browse&hellip; <input name="file" type="file" style="display: none;">
+                    </span>
+                            </label>
+                            <input type="text" class="form-control" required readonly>
+                        </div>
+                        <input type="hidden" name="submission_id" value="" readonly>
                     </div>
                 </fieldset>
 
-                 <input type="hidden" name="id" id="id" value="{{ $submission->id }}">
-               <button type="submit" class="btn btn-default">Submit</button>
+
+                <button type="submit" class="btn btn-default">Submit</button>
             </form>
         </div>
     </div>
@@ -49,12 +55,10 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-            $("#abstract").val('{{ $submission->abstract }}');
-
-            userSaveUpload("#editsubmission",
+            userSaveUpload("#newsubmission",
                 function(d) {
                     if(d.success) {
-                        showAlert('Your submission has been updated','success','Success:')
+                        showAlert('Your submission has been registered','success','Success:')
                         setTimeout(function() {
                             location.href = '{{ route('user.submission') }}'
                         }, 1000);
@@ -67,7 +71,7 @@
 
             $('.select2-single').select2({
                 placholder: "Choose"
-            });
+            })
         });
     </script>
 @endsection

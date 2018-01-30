@@ -2,6 +2,7 @@
 
 namespace App\Models\BaseModel;
 
+use App\Helper\Constant;
 use Illuminate\Database\Eloquent\Model;
 
 class PricingType extends Model
@@ -29,4 +30,5 @@ class PricingType extends Model
         }
         return $tmp;
     }
+
 }

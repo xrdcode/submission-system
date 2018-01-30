@@ -50,6 +50,14 @@
             vertical-align: middle;
         }
 
+        div.dataTables_scrollHeadInner, div.dataTables_scrollBody {
+            min-width: 100% !important;
+        }
+
+        div.dataTables_scrollHeadInner > table.dataTable, div.dataTables_scrollBody > table.dataTable {
+            min-width: 100% !important;
+        }
+
     </style>
 
 </head>
@@ -117,7 +125,8 @@
                     <li>
                         <a href="#submissions" class="list-group-item " data-toggle="collapse"><i class="glyphicon glyphicon-list"></i>Submission  <span class="glyphicon glyphicon-chevron-right"></span></a>
                         <div class="collapse" id="submissions">
-                            <a href="{{ route('user.submission.register') }}" class="list-group-item">Apply</a>
+                            <a href="{{ route('user.conference.register') }}" class="list-group-item">Register Conference</a>
+                            <a href="{{ route('user.conference.register') }}" class="list-group-item">Register Publication</a>
                             <a href="{{ route('user.submission') }}" class="list-group-item">List</a>
                         </div>
                     </li>

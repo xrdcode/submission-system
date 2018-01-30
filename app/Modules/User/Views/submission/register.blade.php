@@ -3,7 +3,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <form id="newsubmission" role="form" method="POST" action="{{ route('user.submission.submit') }}" enctype="multipart/form-data">
+            <form id="newsubmission" role="form" method="POST" action="{{ route('user.conference.submit') }}" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <fieldset>
                     <legend>Submission Detail</legend>

@@ -30,6 +30,7 @@ class CreatePaymentsTable extends Migration
 
         Schema::create('pricings', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('title');
             $table->unsignedInteger('submission_event_id');
             $table->unsignedInteger('pricing_type_id');
             $table->unsignedInteger('price');

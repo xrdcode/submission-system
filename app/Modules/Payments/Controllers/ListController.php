@@ -40,7 +40,7 @@ class ListController extends Controller
                 $q->where('valid_from','<=', Carbon::now())
                     ->where('valid_thru','>=', Carbon::now());
             })
-            ->has('payment_submission')->with(['payment_submission.pricing','submission_event','user']);
+            ->has('payment_submission')->with(['payment_submission.pricing','submission_event','submission_type','user']);
 
         $dt = Datatables::of($submission);
 

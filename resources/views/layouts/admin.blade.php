@@ -262,9 +262,10 @@
                                         @endif
                                         @if(Auth::user()->hasRole('PaymentManagement-View'))
                                         <li class="dropdown-header">Payments</li>
-                                        <li><a href="#">General Payment <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
-                                        <li><a href="{{ route('admin.payment') }}">Submission Payment</a></li>
-                                        @endif
+                                        <li><a href="{{ route('admin.payment.submission') }}">Assign Payment</a></li>
+                                                <li><a href="{{ route('admin.payment') }}">Verify Payment</a></li>
+                                                <li><a href="#">Workshop Payment <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
+                                            @endif
                                     </ul>
                                 </li>
                             </ul>

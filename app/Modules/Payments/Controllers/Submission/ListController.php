@@ -34,7 +34,7 @@ class ListController extends Controller
                 $q->where('valid_from','<=', Carbon::now())
                     ->where('valid_thru','>=', Carbon::now());
             })
-            ->has('payment_submission')->with(['payment_submission.pricing','submission_event','user']);
+            ->has('payment_submission')->with(['payment_submission.pricing','submission_type','submission_event','user']);
 
         $dt = Datatables::of($submission);
 
@@ -49,14 +49,13 @@ class ListController extends Controller
                     } else {
                         return "Paid";
                     }
-
                 }
                 return "";
             }
         });
 
 
-        $dt->rawColumns(['payment']);
+        $dt->rawColumns(['payment','progress']);
 
         return $dt->make(true);
     }

@@ -54,9 +54,11 @@
                     { title: 'Title',data: 'title', class: 'force-wrap'},
                     { title: 'User',data: 'user.name'},
                     { title: 'Submission Type',data: 'submission_type.name', orderable: false},
-                    { title: 'Progress',data: 'progress', orderable: false, searchable: false},
-                    { title: 'Approved',data: 'approved', orderable: false, searchable: false},
-                    { title: 'Add Payment',data: 'payment', orderable: false, searchable: false},
+                    { title: 'Receipt',data: 'receipt', orderable: false},
+                    { title: 'Verified',data: 'payment_submission.verified', orderable: false},
+                    //{ title: 'Progress',data: 'progress', orderable: false, searchable: false},
+                    //{ title: 'Approved',data: 'approved', orderable: false, searchable: false},
+                    //{ title: 'Add Payment',data: 'payment', orderable: false, searchable: false},
                     // { data: 'action', orderable: false, searchable: false}
                 ]
 

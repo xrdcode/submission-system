@@ -24,22 +24,37 @@ Route::prefix('user')->middleware(['web','auth','profile_complete'])->namespace(
 
 });
 
-Route::group(['prefix' => 'user', 'as' => 'user.submission', 'namespace' => 'App\Modules\User\Controllers\Submission', 'middleware' => ['web','auth','profile_complete']], function() {
+Route::group(['prefix' => 'user/submission', 'as' => 'user.submission', 'namespace' => 'App\Modules\User\Controllers\Submission', 'middleware' => ['web','auth','profile_complete']], function() {
     //Submission
-    Route::get('/submission', 'MainController@index');
-    Route::get('/submission/list', 'MainController@index')->name('.list');
-    Route::get('/submission/dt', 'MainController@DTSubmission')->name('.dt');
-    Route::get('/submission/register', 'MainController@register')->name('.register');
-    Route::post('/submission/submit', 'MainController@submit')->name('.submit');
-    Route::post('/submission/edit', 'MainController@reupload')->name('.edit');
-    Route::get('/submission/abstract/{id}', 'MainController@getAbstractFile')->name('.getabstract');
-    Route::get('/submission/reabstract/{id}', 'MainController@abstractReupload')->name('.abstractreupload');
+    Route::get('/', 'MainController@index');
+    Route::get('/list', 'MainController@index')->name('.list');
+    Route::get('/dt', 'MainController@DTSubmission')->name('.dt');
+    Route::get('/pub_dt', 'MainController@DTPublication')->name('.dtpub');
+});
+
+Route::group(['prefix' => 'user/conference', 'as' => 'user.conference', 'namespace' => 'App\Modules\User\Controllers\Submission', 'middleware' => ['web','auth','profile_complete']], function() {
+    //Submission
+//    Route::get('/', 'MainController@index');
+//    Route::get('/list', 'MainController@index')->name('.list');
+//    Route::get('/dt', 'MainController@DTSubmission')->name('.dt');
+    Route::get('/register', 'MainController@register')->name('.register');
+    Route::post('/submit', 'MainController@submit')->name('.submit');
+    Route::post('/edit', 'MainController@reupload')->name('.edit');
+    Route::get('/abstract/{id}', 'MainController@getAbstractFile')->name('.getabstract');
+    Route::get('/reabstract/{id}', 'MainController@abstractReupload')->name('.abstractreupload');
 
     //Papers
-    Route::get('/submission/{id}/upload', 'PapersController@index')->name('.upload');
-    Route::post('/submission/{id}/upload', 'PapersController@upload')->name('.doupload');
+    Route::get('/{id}/upload', 'PapersController@index')->name('.upload');
+    Route::post('/{id}/upload', 'PapersController@upload')->name('.doupload');
 
 
+});
+
+Route::group(['prefix' => 'user/publication', 'as' => 'user.publication', 'namespace' => 'App\Modules\User\Controllers\Submission', 'middleware' => ['web','auth','profile_complete']], function() {
+    //Publication
+    Route::get('/', 'PublicationController@register');
+    Route::get('/register', 'PublicationController@register')->name('.register');
+    Route::post('/submit', 'PublicationController@submit')->name('.submit');
 });
 
 //LOGIN REGISTER ETC

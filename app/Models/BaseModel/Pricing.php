@@ -2,12 +2,13 @@
 
 namespace App\Models\BaseModel;
 
+use App\Helper\Constant;
 use Illuminate\Database\Eloquent\Model;
 
 class Pricing extends Model
 {
 
-    protected $fillable = ['price','submission_event_id','pricing_type_id','isparticipant'];
+    protected $fillable = ['price','submission_event_id','pricing_type_id','isparticipant','title','usd_price','occupation'];
 
     public function payment_submissions() {
         return $this->hasMany(PaymentSubmission::class);
@@ -31,5 +32,15 @@ class Pricing extends Model
 
     public function updatedby() {
         return $this->belongsTo(Admin::class, 'updated_by');
+    }
+
+    public function getOccupationAtribute($value) {
+        if(empty($value)) return "";
+        return Constant::OCCUPATION_R[$value];
+    }
+
+    public function setOccupationAttribute($value) {
+        if(empty($value)) return "";
+        $this->attributes['occupation'] = Constant::OCCUPATION[$value];
     }
 }

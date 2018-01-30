@@ -53,10 +53,11 @@ class MainController extends Controller
                     'workstate_id'  => Constant::ABSTRACT_REVIEW,
                     'submission_event_id'           => $request->get('submission_event_id'),
                     'submission_type_id'            => $request->get('submission_type_id'),
+                    'ispublicationonly' => false //Conference Participant
                 ]
             );
 
-            return response()->json(['success' => true, 'redirect' => route('user.submission.list')]);
+            return response()->json(['success' => true, 'redirect' => route('user.conference.list')]);
         } else {
             return response()->json(['data' => $request->all(),'errors' => $validator->getMessageBag()->toArray()], 200);
         }
@@ -95,7 +96,7 @@ class MainController extends Controller
                 ]
             );
 
-            return response()->json(['success' => true, 'redirect' => route('user.submission.list')]);
+            return response()->json(['success' => true, 'redirect' => route('user.conference.list')]);
         } else {
             return response()->json(['data' => $request->all(),'errors' => $validator->getMessageBag()->toArray()], 200);
         }
@@ -116,8 +117,9 @@ class MainController extends Controller
                 "submission_type_id",
                 "approved",
                 "file_paper_id",
-                "feedback"
-            ])
+                "feedback",
+                "ispublicationonly"
+            ])//->where("ispublicationonly", "=", 0)
             ->with(['user','workstate','submission_event','file_paper','submission_type']);
 
         $datatable = app('datatables')->of($submission)
@@ -133,8 +135,8 @@ class MainController extends Controller
                     $class = "btn-download disabled";
                     $class_re = "disabled";
                 } else {
-                    $url_upload = route('user.submission.getabstract', $s->id);
-                    $url_reupload = route('user.submission.abstractreupload', $s->id);
+                    $url_upload = route('user.conference.getabstract', $s->id);
+                    $url_reupload = route('user.conference.abstractreupload', $s->id);
                     $class = "";
                     $class_re = "";
                 }
@@ -152,7 +154,79 @@ class MainController extends Controller
                 }
 
                 if($s->approved && $s->isPaid()) {
-                    $btn = HtmlHelper::linkButton($text, route('user.submission.upload', $s->id), 'btn-xs btn-info btn-modal', "data-id='{$s->id}'", "glyphicon-upload");
+                    $btn = HtmlHelper::linkButton($text, route('user.conference.upload', $s->id), 'btn-xs btn-info btn-modal', "data-id='{$s->id}'", "glyphicon-upload");
+                    return $btn;
+                } else if($s->approved && !$s->isPaid()) {
+                    $msg = "You have not made a payment. Please confirm your payment to unlock upload.";
+                    $btn = HtmlHelper::linkButton($text,"#", "btn-xs btn-info btn-disabled","data-toggle='tooltip' title='{$msg}' disabled", 'glyphicon-upload');
+                    return $btn . "<br><i>*Not Paid</i>";
+                } else {
+                    return "Not Yet Approved";
+                }
+            });
+
+        $datatable->editColumn('submission_event.name', function($s) {
+            return $s->submission_event->parent->name . " | " . $s->submission_event->name;
+        });
+
+        $datatable->rawColumns(['file_abstract','action']);
+
+        return $datatable->make(true);
+    }
+
+    public function DTPublication(Request $request) {
+        $user = Auth::user();
+        $submission = User::find($user->id)->submissions()
+            ->select([
+                "id",
+                "title",
+                "abstract",
+                "user_id",
+                "workstate_id",
+                "abstractfile",
+                "submission_event_id",
+                "submission_status_id",
+                "submission_type_id",
+                "approved",
+                "file_paper_id",
+                "feedback",
+                "ispublicationonly"
+            ])->where("ispublicationonly", "=", 1)
+            ->with(['user','workstate','submission_event','file_paper','submission_type']);
+
+        $datatable = app('datatables')->of($submission)
+            ->editColumn('workstate.name', function($s) {
+                $sub = Submission::find($s->id);
+                return !empty($sub->workstate) ? $sub->workstate->name : "Unavailable" ;
+            })
+            ->addColumn('file_abstract', function($s) {
+
+                if($s->isPaid()) {
+                    $url_upload = "#";
+                    $url_reupload = "#";
+                    $class = "btn-download disabled";
+                    $class_re = "disabled";
+                } else {
+                    $url_upload = route('user.conference.getabstract', $s->id);
+                    $url_reupload = route('user.conference.abstractreupload', $s->id);
+                    $class = "";
+                    $class_re = "";
+                }
+
+                $btn = HtmlHelper::linkButton("Abstract", $url_upload , "btn-xs btn-info {$class}", '',"glyphicon-download");
+                $btn .= "<br><br>";
+                $btn .= HtmlHelper::linkButton('Reupload', $url_reupload, "btn-xs btn-primary {$class_re}",'target="_blank "', "glyphicon-upload");
+                return $btn;
+            })
+            ->addColumn('action', function($s) {
+                if(!empty($s->file_paper)) {
+                    $text = "Re-upload";
+                } else {
+                    $text = "Upload";
+                }
+
+                if($s->approved && $s->isPaid()) {
+                    $btn = HtmlHelper::linkButton($text, route('user.conference.upload', $s->id), 'btn-xs btn-info btn-modal', "data-id='{$s->id}'", "glyphicon-upload");
                     return $btn;
                 } else if($s->approved && !$s->isPaid()) {
                     $msg = "You have not made a payment. Please confirm your payment to unlock upload.";

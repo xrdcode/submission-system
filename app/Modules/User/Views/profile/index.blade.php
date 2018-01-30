@@ -40,6 +40,10 @@
                     {{ Form::select('student', [0 => 'Non-Student', 1 => 'Student'], $user->student,['class' => 'form-control select2-single']) }}
                 </div>
                 <div class="form-group">
+                    <label class="control-label">Participant Region:</label>
+                    {{ Form::select('islocal', [1 => 'Local', 0 => 'International'], $user->islocal,['class' => 'form-control select2-single']) }}
+                </div>
+                <div class="form-group">
                     <label class="control-label">ID Card Number:</label>
                     <input class="form-control" name="nik" id="nik" placeholder="National Identification Number (NIK)"  value="{{ isset($user->personal_data->nik) ? $user->personal_data->nik : "" }}" autocomplete="off" type="text">
                 </div>

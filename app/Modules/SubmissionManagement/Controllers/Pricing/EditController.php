@@ -9,6 +9,7 @@
 namespace App\Modules\SubmissionManagement\Controllers\Pricing;
 
 
+use App\Helper\Constant;
 use App\Http\Controllers\Controller;
 
 use App\Models\BaseModel\PricingType;
@@ -58,8 +59,7 @@ class EditController extends Controller
             $pricing = Pricing::find($id);
 
             $pricing->updated_by = Auth::user()->id;
-
-            $pricing->update($request->only(['price','submission_event_id','pricing_types']));
+            $pricing->update($request->only(['title','price','submission_event_id','pricing_types','usd_price','isparticipant','occupation']));
             return response()->json([$pricing]);
         } else {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -79,8 +79,10 @@ class EditController extends Controller
                 'numeric',
                 'max:255'
             ],
+            'title' => 'required|string',
             'pricing_type_id' => 'required|numeric',
             'price' => 'required|numeric',
+            'usd_price' => 'required|numeric',
             'isparticipant' => 'required'
         ]);
     }
@@ -91,12 +93,12 @@ class EditController extends Controller
         if($validator->passes()) {
             $find = Pricing::where('submission_event_id','=', $request->get('submission_event_id'))
                 ->where('pricing_type_id','=',$request->get('pricing_type_id'))
+                ->where('title','=',$request->get('title'))
                 ->first();
 
             if(!empty($find)) {
                 $pricing = $find;
-                $pricing->updated_by = Auth::user()->id;
-                $pricing->update($request->only(['price','submission_event_id','pricing_types']));
+                $pricing->update($request->only(['title','price','submission_event_id','pricing_types','usd_price','isparticipant','occupation']));
             } else {
                 $pricing = new Pricing();
                 $pricing = $pricing->create($request->all());

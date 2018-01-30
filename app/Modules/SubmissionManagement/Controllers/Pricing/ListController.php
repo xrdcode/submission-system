@@ -31,7 +31,7 @@ class ListController extends Controller
 
 
     public function DTPricing() {
-        $pricing = Pricing::select(["id","price", "submission_event_id", "pricing_type_id","isparticipant", "created_by", "updated_by"])->with(['submission_event','pricing_type','createdby', 'updatedby']);
+        $pricing = Pricing::select(["id","price","title","occupation", "submission_event_id", "pricing_type_id","isparticipant", "created_by", "updated_by"])->with(['submission_event','pricing_type','createdby', 'updatedby']);
         $dt = Datatables::of($pricing);
         $dt->addColumn('action', function($p) {
             $btn = HtmlHelper::linkButton("Edit",route('admin.pricing.edit', $p->id),"btn-xs btn-info btn-edit","", "glyphicon-edit");

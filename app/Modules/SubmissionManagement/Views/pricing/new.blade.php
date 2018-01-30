@@ -19,7 +19,14 @@
         </div>
 
         <div class="form-group">
-            <label for="name" class="col-md-4 control-label">Price</label>
+            <label for="title" class="col-md-4 control-label">Price Name</label>
+            <div class="col-md-6">
+                <input name="title" type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="price" class="col-md-4 control-label">Price</label>
 
             <div class="col-md-6">
                 <div class="input-group">
@@ -31,8 +38,25 @@
             </div>
         </div>
         <div class="form-group">
+            <label for="usd_price" class="col-md-4 control-label">International Price</label>
+
+            <div class="col-md-6">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        Rp
+                    </div>
+                    <input id="usd_price" type="text" class="form-control" name="usd_price" value="" style="text-align: right" required autofocus>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
             <div class="col-md-6 col-md-offset-4">
                 {{ Form::select('isparticipant', [0 => 'Non Participant', 1 => 'Participant'], [] ,["id" => "isparticipant","class" => "form-control select2-single", "required"]) }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-6 col-md-offset-4">
+                {{ Form::select('occupation', \App\Helper\Constant::OCCUPATION, [] ,["id" => "occupation","class" => "form-control select2-single", "required"]) }}
             </div>
         </div>
 

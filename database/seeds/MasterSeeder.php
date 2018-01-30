@@ -13,8 +13,8 @@ class MasterSeeder extends Seeder
     {
         DB::table('identity_types')->insert([
             [
-                'name'          => 'PASPOR',
-                'description'   => 'Paspor'
+                'name'          => 'PASPORT',
+                'description'   => 'Pasport'
             ],
             [
                 'name'          => 'NIDN',
@@ -36,17 +36,13 @@ class MasterSeeder extends Seeder
                 'description'   => 'Workshop only'
             ],
             [
-                'name'          => 'Speakers',
-                'description'   => 'Speakers only'
+                'name'          => 'Conference and Workshop',
+                'description'   => 'Conference and Workshop'
             ],
             [
-                'name'          => 'Seminar',
-                'description'   => 'Seminar only'
-            ],
-            [
-                'name'          => 'Full',
-                'description'   => 'Speakers, Workshop & Seminar '
-            ],
+                'name'          => 'Publication',
+                'description'   => 'Publication'
+            ]
         ]);
 
         DB::table('workstate_types')->insert([

@@ -22,7 +22,7 @@ class PapersController extends Controller
 
     public function index(Request $request, $id) {
         $data = [
-          'action'  => route('user.submission.doupload', $id),
+          'action'  => route('user.conference.doupload', $id),
           's'       => Auth::user()->submissions()->findOrFail($id)
         ];
         return view('User::paper.upload', $data);

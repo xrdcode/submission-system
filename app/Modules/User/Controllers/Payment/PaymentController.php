@@ -45,9 +45,9 @@ class PaymentController extends Controller
 
         $dt->addColumn('file_abstract', function($s) {
 
-            $btn = HtmlHelper::linkButton("Abstract", route('user.submission.getabstract', $s->id) , 'btn-xs btn-info btn-download', '',"glyphicon-download");
+            $btn = HtmlHelper::linkButton("Abstract", route('user.conference.getabstract', $s->id) , 'btn-xs btn-info btn-download', '',"glyphicon-download");
             $btn .= "<br><br>";
-            $btn .= HtmlHelper::linkButton('Reupload', route('user.submission.abstractreupload', $s->id), 'btn-xs btn-primary','target="_blank"', "glyphicon-upload");
+            $btn .= HtmlHelper::linkButton('Reupload', route('user.conference.abstractreupload', $s->id), 'btn-xs btn-primary','target="_blank"', "glyphicon-upload");
             return $btn;
         });
 

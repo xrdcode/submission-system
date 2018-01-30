@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Submission extends Model
 {
 
-    protected $fillable = ['title','abstract','feedback','abstractfile','user_id','submission_event_id','workstate_id','submission_type_id','file_paper_id'];
+    protected $fillable = ['title','abstract','feedback','abstractfile','user_id','submission_event_id','workstate_id','submission_type_id','file_paper_id','ispublicationonly'];
 
     public function user() {
         return $this->belongsTo(User::class);
@@ -43,7 +43,8 @@ class Submission extends Model
     }
 
     public function pricelist() {
-        $price = $this->submission_event->pricings()->where('isparticipant','=', true);
+        $isStudent = $this->user->personal_data->student;
+        $price = $this->submission_event->pricings()->where('isparticipant','=', 1)->get();
         $tmp = [];
         foreach ($price as $p) {
             $tmp[$p->id] = "{$p->pricing_type->name} | Rp. {$p->price}";
