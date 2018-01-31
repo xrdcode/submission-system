@@ -332,6 +332,39 @@ function userSaveUpload(id, onsuccess, onerror) {
     });
 }
 
+function loadListOption(selectid) {
+    if($(selectid).data("need") !== undefined && $(selectid).data("need") !== "" ) {
+        console.log($(selectid).data("need"));
+        var src = $(selectid).data("need");
+        $("body").on("change", src,function() {
+            var id = $(this).val();
+            console.log(id);
+            var me = $(selectid);
+            var url= $(selectid).data("src") + "/" + id;
+            me.html("");
+            $.get(url, function(dt) {
+                $.map(dt, function(val, i) {
+                    me.append("<option value='"+ i +"'>" + val + "</option>")
+                });
+            });
+        });
+        $($(selectid).data('need')).trigger("change");
+    } else {
+        $(selectid).ready(function(e) {
+            var me = $(selectid);
+            me.html("");
+            $(this).change(function() {
+                var url= $(selectid).data("src");
+                $.get(url, function(dt) {
+                    $.map(dt, function(val, i) {
+                        me.append("<option value='"+ i +"'>" + val + "</option>")
+                    });
+                });
+            });
+        });
+    }
+}
+
 function ajaxSignUp(formid) {
     $(formid).on('submit', function(e) {
         e.preventDefault();

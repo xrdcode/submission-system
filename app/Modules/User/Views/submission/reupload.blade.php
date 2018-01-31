@@ -15,13 +15,23 @@
                                 <input type="text" class="form-control" name="submission.name" value="{{ $submission->submission_event->name }}" readonly>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="submission_event_id">Type of Submission (Presentation)</label>
-                                {{ Form::select('submission_type_id', \App\Models\BaseModel\SubmissionType::getlist(), $submission->submission_type_id ,["id" => "submission_type_id","class" => "form-control select2-single"]) }}
+                        @if(!$submission->ispublicationonly)
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="submission_event_id">Type of Submission (Presentation)</label>
+                                    {{ Form::select('submission_type_id', \App\Models\BaseModel\SubmissionType::getlist(), $submission->submission_type_id ,["id" => "submission_type_id","class" => "form-control select2-single"]) }}
 
+                                </div>
                             </div>
-                        </div>
+                        @else
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="publication_id">Publication</label>
+                                    {{ Form::select('publication_id', $submission->submission_event->publicationlist(), $submission->publication_id ,["id" => "publication_id","class" => "form-control select2-single"]) }}
+
+                                </div>
+                            </div>
+                        @endif
                     </div>
 
                     <div class="form-group">
@@ -38,8 +48,8 @@
                     </div>
                 </fieldset>
 
-                 <input type="hidden" name="id" id="id" value="{{ $submission->id }}">
-               <button type="submit" class="btn btn-default">Submit</button>
+                <input type="hidden" name="id" id="id" value="{{ $submission->id }}">
+                <button type="submit" class="btn btn-default">Submit</button>
             </form>
         </div>
     </div>

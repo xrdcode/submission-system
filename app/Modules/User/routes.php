@@ -105,7 +105,9 @@ Route::group(['prefix' => 'user/payment', 'as' => 'user.payment', 'namespace' =>
     Route::get('/upload/{id}', 'PaymentController@_ModalUploadConfirmation')->name('.upload');
     Route::post('/upload/{id}', 'PaymentController@uploadConfirmation')->name('.save');
 
+});
 
-
+Route::group(['prefix' => '/api/publication', "as" => "api.publication", "namespace" => "App\Modules\User\Controllers\Submission","middleware" => ["web","auth"]], function() {
+   Route::get("/list/{id}", "MainController@publist_get")->name(".lists");
 });
 

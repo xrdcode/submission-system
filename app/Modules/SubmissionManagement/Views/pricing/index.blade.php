@@ -21,7 +21,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="col-md-12">
-                            <table id="datalist" class="table table-responsive">
+                            <table id="datalist" class="table table-responsive tbl-no-wrap">
 
                             </table>
                         </div>
@@ -61,15 +61,15 @@
                             return meta.row + meta.settings._iDisplayStart + 1;
                         }
                     },
-                    { title: 'Event',data: 'submission_event.name', orderable: false, searchable: false},
-                    { title: 'Category',data: 'pricing_type.name', orderable: false, searchable: false},
+                    { title: 'Event',data: 'submission_event.name', orderable: false, class:"force-wrap"},
+                    { title: 'Category',data: 'pricing_type.name', orderable: false},
                     { title: 'Detail',data: 'title', class: 'force-wrap'},
                     { title: 'Participant',data: 'isparticipant', searchable: false},
                     { title: 'Price For',data: 'occupation', searchable: false},
-                    { title: 'Price',data: 'price'},
+                    { title: 'Price',data: 'price', class: "force-wrap"},
                     { title: 'Created By',data: 'createdby.name'},
                     { title: 'Updated By',data: 'updatedby.name'},
-                    { data: 'action', orderable: false, searchable: false}
+                    { data: 'action', orderable: false, searchable: false, class: "force-wrap-1"}
                 ]
 
             });

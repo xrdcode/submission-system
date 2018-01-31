@@ -6,9 +6,7 @@
         {{ csrf_field() }}
 
         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-            <label for="name" class="col-md-4 control-label">Name</label>
-
-            <div class="col-md-6">
+            <div class="col-md-12">
                 {{ Form::select('pricing_id', $submission->pricelist(), !empty($submission->payment_submission) ? [$submission->payment_submission->pricing->id]  : []  ,["id" => "pricing_id","class" => "form-control select2-single"]) }}
             </div>
             <input name="submission_id" type="hidden" value="{{ $submission->id }}">

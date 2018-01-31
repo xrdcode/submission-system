@@ -41,11 +41,11 @@ class ListController extends Controller
 
         $dt->addColumn('payment', function($s) {
             if($s->approved && empty($s->payment_submission)) {
-                return HtmlHelper::linkButton('Assign', route('admin.submission.payment', $s->id), 'btn-xs btn-primary btn-edit', '');
+                return HtmlHelper::linkButton('Assign', route('admin.payment.submission.assign', $s->id), 'btn-xs btn-primary btn-edit', '');
             } else {
                 if($s->approved) {
                     if(!$s->isPaid()) {
-                        return HtmlHelper::linkButton('Re-Assign', route('admin.submission.payment', $s->id), 'btn-xs btn-primary btn-edit', '');
+                        return HtmlHelper::linkButton('Re-Assign', route('admin.payment.submission.assign', $s->id), 'btn-xs btn-primary btn-edit', '');
                     } else {
                         return "Paid";
                     }

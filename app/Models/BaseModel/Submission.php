@@ -2,6 +2,7 @@
 
 namespace App\Models\BaseModel;
 
+use App\Helper\Constant;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -43,11 +44,17 @@ class Submission extends Model
     }
 
     public function pricelist() {
-        $isStudent = $this->user->personal_data->student;
-        $price = $this->submission_event->pricings()->where('isparticipant','=', 1)->get();
+        $isstudent = $this->user->personal_data->student ? "Student" : "Non-Student";
+        $filter = $this->ispublicationonly ? "Publication" : "Conference and Workshop";
+        $price = $this->submission_event->pricings()
+            ->where('isparticipant','=', 1)
+            ->where('occupation','=', $isstudent)
+            ->orWhere('occupation','=', "All")
+            ->get();
         $tmp = [];
         foreach ($price as $p) {
-            $tmp[$p->id] = "{$p->pricing_type->name} | Rp. {$p->price}";
+            if($p->pricing_type->name == $filter)
+                $tmp[$p->id] = "{$p->pricing_type->name} | $isstudent | IDR {$p->price} | USD {$p->usd_price}";
         }
         return $tmp;
     }

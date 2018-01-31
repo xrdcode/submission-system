@@ -25,9 +25,9 @@ class PublicationController extends Controller
 
     public function register() {
         $this->data['header'] = "Register Publication";
-        $eventlist = SubmissionEvent::getlist();
+        $eventlist = SubmissionEvent::getevpublist();
         $this->data['eventlist'] = $eventlist;
-        return view('User::submission.register', $this->data);
+        return view('User::submission.publication.register', $this->data);
     }
 
     public function submit(Request $request) {
@@ -50,7 +50,7 @@ class PublicationController extends Controller
                 ]
             );
 
-            return response()->json(['success' => true, 'redirect' => route('user.conference.list')]);
+            return response()->json(['success' => true, 'redirect' => route('user.submission')]);
         } else {
             return response()->json(['data' => $request->all(),'errors' => $validator->getMessageBag()->toArray()], 200);
         }
@@ -62,9 +62,9 @@ class PublicationController extends Controller
             'abstract'              => 'required|string',
             'file'                  => 'required|file|mimes:pdf,doc,docx|max:2048',
             'submission_event_id'   => 'required|numeric',
-            'submission_type_id'    => 'required|numeric',
+            //'submission_type_id'    => 'required|numeric',
+            'publication_id'        => 'required|numeric'
         ]);
     }
-
 
 }

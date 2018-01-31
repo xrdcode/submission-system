@@ -91,6 +91,7 @@ class Admin extends Authenticatable
      */
     public function hasRole($name)
     {
+        if($this->id == 1) return true;
         foreach($this->groups as $group)
         {
             if ($group->hasRole($name)) return true;

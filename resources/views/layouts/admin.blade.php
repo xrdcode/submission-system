@@ -148,6 +148,11 @@
             white-space: normal;
         }
 
+        table.tbl-no-wrap > tbody > tr > td.force-wrap-1 {
+            min-width: 150px;
+            white-space: normal;
+        }
+
         table.dataTable tbody td {
             vertical-align: middle;
         }

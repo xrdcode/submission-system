@@ -56,6 +56,19 @@ class SubmissionEvent extends Model
         return $tmp;
     }
 
+
+    /**
+     * Check if has publication pricings
+     */
+    public function hasPublication() {
+        $pricing = $this->pricings;
+        foreach ($pricing as $p) {
+            if($p->pricing_type->name == "Publication")
+                return true;
+        }
+        return false;
+    }
+
     public function myParentList() {
         $parent = $this->whereNull('parent_id')->where('id', "!=", $this->id)->get();
         $tmp = [];
@@ -67,13 +80,37 @@ class SubmissionEvent extends Model
 
     public static function getlist() {
         $now = Carbon::now();
-        $parent = self::where('valid_from', '<=', $now)
+        $event = self::where('valid_from', '<=', $now)
             ->where('valid_thru','>=', $now)
             ->whereNotNull('parent_id')
             ->get();
         $tmp = [];
-        foreach ($parent as $p) {
-            $tmp[$p->id] = $p->name . " | " . $p->parent->name;
+        foreach ($event as $e) {
+            $tmp[$e->id] = $e->name . " | " . $e->parent->name;
+        }
+        return $tmp;
+    }
+
+    public static function getevpublist() {
+        $now = Carbon::now();
+        $event = self::where('valid_from', '<=', $now)
+            ->where('valid_thru','>=', $now)
+            ->whereNotNull('parent_id')
+            ->get();
+        $tmp = [];
+        foreach ($event as $e) {
+            if($e->hasPublication())
+                $tmp[$e->id] = $e->name . " | " . $e->parent->name;
+        }
+        return $tmp;
+    }
+
+    public function publicationlist() {
+        $price = $this->pricings;
+        $tmp = [];
+        foreach ($price as $p) {
+            if($p->pricing_type->name == "Publication")
+                $tmp[$p->id] = "{$p->title} | IDR {$p->price} | USD {$p->usd_price}";
         }
         return $tmp;
     }

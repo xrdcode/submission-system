@@ -6,19 +6,25 @@
             <form id="newsubmission" role="form" method="POST" action="{{ route('user.publication.submit') }}" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <fieldset>
-                    <legend>Submission Detail</legend>
+                    <legend>Publication Detail</legend>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="submission_event_id">Submission Event</label>
+                                <label for="submission_event_id">Topics | Event</label>
                                 {{ Form::select('submission_event_id', $eventlist, [] ,["id" => "submission_event_id","class" => "form-control select2-single"]) }}
                             </div>
                         </div>
+                        {{--<div class="col-md-4">--}}
+                            {{--<div class="form-group">--}}
+                                {{--<label for="submission_event_id">Type of Submission (Presentation)</label>--}}
+                                {{--{{ Form::select('submission_type_id', \App\Models\BaseModel\SubmissionType::getlist(), [] ,["id" => "submission_type_id","class" => "form-control select2-single", "disabled"]) }}--}}
+
+                            {{--</div>--}}
+                        {{--</div>--}}
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="submission_event_id">Type of Submission (Presentation)</label>
-                                {{ Form::select('submission_type_id', \App\Models\BaseModel\SubmissionType::getlist(), [] ,["id" => "submission_type_id","class" => "form-control select2-single"]) }}
-
+                                <label for="publication_id">Publication</label>
+                                <select id="publicationlist" name="publication_id" data-need="#submission_event_id" data-src="{{ url('api/publication/list') }}" class="form-control select2-single"></select>
                             </div>
                         </div>
                     </div>
@@ -72,6 +78,8 @@
             $('.select2-single').select2({
                 placholder: "Choose"
             })
+
+            loadListOption("#publicationlist")
         });
     </script>
 @endsection

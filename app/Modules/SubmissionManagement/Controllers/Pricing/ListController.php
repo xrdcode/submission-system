@@ -31,7 +31,7 @@ class ListController extends Controller
 
 
     public function DTPricing() {
-        $pricing = Pricing::select(["id","price","title","occupation", "submission_event_id", "pricing_type_id","isparticipant", "created_by", "updated_by"])->with(['submission_event','pricing_type','createdby', 'updatedby']);
+        $pricing = Pricing::select(["id","price","title","occupation", "submission_event_id", "pricing_type_id","usd_price","isparticipant", "created_by", "updated_by"])->with(['submission_event','pricing_type','createdby', 'updatedby']);
         $dt = Datatables::of($pricing);
         $dt->addColumn('action', function($p) {
             $btn = HtmlHelper::linkButton("Edit",route('admin.pricing.edit', $p->id),"btn-xs btn-info btn-edit","", "glyphicon-edit");
@@ -39,9 +39,19 @@ class ListController extends Controller
             return "<div class='btn-group'>{$btn}</div>";
         });
 
+        $dt->editColumn("submission_event.name", function($p) {
+            return "<strong>{$p->submission_event->parent->name}</strong> | {$p->submission_event->name}";
+        });
+
+        $dt->editColumn('price', function($p) {
+           return "IDR {$p->price} | USD {$p->usd_price}";
+        });
+
         $dt->editColumn('isparticipant', function($p) {
            return $p->isparticipant ? "Participant" : "Non-Participant";
         });
+
+        $dt->rawColumns(["name", "action"]);
         return $dt->make(true);
     }
 

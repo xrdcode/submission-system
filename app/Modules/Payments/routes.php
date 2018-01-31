@@ -31,7 +31,7 @@ Route::group(
     ], function () {
     Route::get('/', ['uses' => 'ListController@index', 'middleware' => []]);
 
-    Route::get('/payment/{id}', ['as' => '.payment', 'uses' => 'EditController@_ModalAssignPayment', 'middleware' => []]);;
+    Route::get('/assign/{id}', ['as' => '.assign', 'uses' => 'EditController@_ModalAssignPayment', 'middleware' => []]);;
     Route::post('/setpayment/{id}', ['as' => '.setpayment', 'uses' => 'EditController@setpayment', 'middleware' => []]);
 
     Route::get('/dt', ['as' => '.dt', 'uses' => 'ListController@DT', 'middleware' => []]);

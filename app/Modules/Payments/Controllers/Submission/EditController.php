@@ -71,7 +71,7 @@ class EditController extends Controller
             'title'         => 'Assign Payment',
             'submission'       => $submission
         ];
-        return view("PaymentManagement::submission.massign", $data);
+        return view("Payments::submission.massign", $data);
     }
 
 
