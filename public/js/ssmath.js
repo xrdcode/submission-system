@@ -446,6 +446,11 @@ $(document).ready(function() {
 
 });
 
+function refreshTable(tableid) {
+    var table = $(tableid).DataTable();
+    table.draw();
+}
+
 function setupDateRange(idfrom, idto) {
     $(idfrom).datepicker({
         format: 'yyyy-mm-dd',
