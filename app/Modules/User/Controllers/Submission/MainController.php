@@ -63,7 +63,7 @@ class MainController extends Controller
     public function submissionValidation(Request $request, $ispublication = false) {
         if($ispublication) {
             return Validator::make($request->all(), [
-                'title'                 => 'required|string|max:255|unique,title',
+                'title'                 => 'required|string|max:255|unique:submissions,title',
                 'abstract'              => 'required|string',
                 'file'                  => 'required|file|mimes:pdf,doc,docx|max:2048',
                 'submission_event_id'   => 'required|numeric',
@@ -71,7 +71,7 @@ class MainController extends Controller
             ]);
         } else {
             return Validator::make($request->all(), [
-                'title'                 => 'required|string|max:255|unique,title',
+                'title'                 => 'required|string|max:255|unique:submissions,title',
                 'abstract'              => 'required|string',
                 'file'                  => 'required|file|mimes:pdf,doc,docx|max:2048',
                 'submission_event_id'   => 'required|numeric',
