@@ -31,7 +31,7 @@ class MainController extends Controller
     }
 
     public function register() {
-        $this->data['header'] = "Apply Submission";
+        $this->data['header'] = "Apply Conference and Workshop";
         $eventlist = SubmissionEvent::getlist();
         $this->data['eventlist'] = $eventlist;
         return view('User::submission.register', $this->data);

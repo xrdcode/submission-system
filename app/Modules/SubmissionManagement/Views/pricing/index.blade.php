@@ -50,6 +50,7 @@
             });
 
             $('#datalist').DataTable({
+                iDisplayLength: 15,
                 processing: true,
                 serverSide: true,
                 scrollX: true,

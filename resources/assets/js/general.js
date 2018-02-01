@@ -21,7 +21,9 @@ $(document).ready(function() {
 
     $(".select2-multiple").select2({
         placeholder: "choose",
-        width: "100%"
+        width: "100%",
+        multiple: true
+
     });
 
     $(".select2-single").select2({

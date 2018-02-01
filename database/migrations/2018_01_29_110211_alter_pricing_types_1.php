@@ -22,7 +22,7 @@ class AlterPricingTypes1 extends Migration
             $table->boolean("islocal")->nullable();
         });
 
-        Schema::table("pricing_type", function(Blueprint $table) {
+        Schema::table("pricing_types", function(Blueprint $table) {
             $table->enum("pricefor",["Conference","Publication","Workshop"])->nullable();
         });
     }

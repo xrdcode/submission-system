@@ -53,7 +53,7 @@ class EditController extends Controller
     }
 
     public function update(Request $request, $id) {
-        $validator = $this->validator($request);
+        $validator = $this->updateValidator($request);
 
         if($validator->passes()) {
             $pricing = Pricing::find($id);
@@ -76,6 +76,22 @@ class EditController extends Controller
         return Validator::make($request->all(), [
             'submission_event_id' => [
                 'required',
+                'array',
+                'min:1',
+                'max:255'
+            ],
+            'title' => 'required|string',
+            'pricing_type_id' => 'required|numeric',
+            'price' => 'required|numeric',
+            'usd_price' => 'required|numeric',
+            'isparticipant' => 'required'
+        ]);
+    }
+
+    protected function updateValidator(Request $request) {
+        return Validator::make($request->all(), [
+            'submission_event_id' => [
+                'required',
                 'numeric',
                 'max:255'
             ],
@@ -91,22 +107,26 @@ class EditController extends Controller
         $validator = $this->validator($request);
 
         if($validator->passes()) {
-            $find = Pricing::where('submission_event_id','=', $request->get('submission_event_id'))
-                ->where('pricing_type_id','=',$request->get('pricing_type_id'))
-                ->where('title','=',$request->get('title'))
-                ->first();
+            foreach ($request->get('submission_event_id') as $sid) {
+                $find = Pricing::where('submission_event_id','=', $sid)
+                    ->where('pricing_type_id','=',$request->get('pricing_type_id'))
+                    ->where('title','=',$request->get('title'))
+                    ->where('occupation','=', Constant::OCCUPATION[$request->get('occupation')])
+                    ->first();
 
-            if(!empty($find)) {
-                $pricing = $find;
-                $pricing->update($request->only(['title','price','submission_event_id','pricing_types','usd_price','isparticipant','occupation']));
-            } else {
-                $pricing = new Pricing();
-                $pricing = $pricing->create($request->all());
-                $pricing->created_by = Auth::user()->id;
-                $pricing->updated_by = Auth::user()->id;
-                $pricing->update();
+                if(!empty($find)) {
+                    $pricing = $find;
+                    $pricing->update($request->only(['price','usd_price','isparticipant']));
+                } else {
+                    $pricing = new Pricing();
+                    $request['submission_event_id'] = $sid;
+                    $pricing = $pricing->create($request->all());
+                    $pricing->created_by = Auth::user()->id;
+                    $pricing->updated_by = Auth::user()->id;
+                    $pricing->update();
+                }
             }
-            return response()->json([$pricing, $request->all()]);
+            return response()->json(["success"=> true, "dump" => $request->all()]);
         } else {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
         }

@@ -7,7 +7,7 @@
         <div id="eventselect" class="form-group">
             <label for="parent" class="col-md-4 control-label">Event</label>
             <div class="col-md-6 col-md-4">
-                {{ Form::select('submission_event_id', $eventlist, [] ,["id" => "submission_event_id","class" => "form-control select2-single", "required"]) }}
+                {{ Form::select('submission_event_id[]', $eventlist, [] ,["id" => "submission_event_id","class" => "form-control select2-multiple", "required","multiple"]) }}
             </div>
         </div>
 

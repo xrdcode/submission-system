@@ -69,6 +69,20 @@ class SubmissionEvent extends Model
         return false;
     }
 
+    /**
+     * Check if has participany pricings
+     */
+    public function hasParticipant() {
+        $pricing = $this->pricings;
+        foreach ($pricing as $p) {
+            if($p->isparticipant == 1)
+                return true;
+        }
+        return false;
+    }
+
+
+
     public function myParentList() {
         $parent = $this->whereNull('parent_id')->where('id', "!=", $this->id)->get();
         $tmp = [];
@@ -78,16 +92,25 @@ class SubmissionEvent extends Model
         return $tmp;
     }
 
-    public static function getlist() {
+    public static function getlist($hasParticipantPrice = true) {
         $now = Carbon::now();
+        $tmp = [];
         $event = self::where('valid_from', '<=', $now)
             ->where('valid_thru','>=', $now)
             ->whereNotNull('parent_id')
             ->get();
-        $tmp = [];
-        foreach ($event as $e) {
-            $tmp[$e->id] = $e->name . " | " . $e->parent->name;
+        if($hasParticipantPrice) {
+            foreach ($event as $e) {
+                if($e->hasParticipant())
+                    $tmp[$e->id] = $e->name . " | " . $e->parent->name;
+            }
+        } else {
+            foreach ($event as $e) {
+                if(!$e->hasParticipant())
+                    $tmp[$e->id] = $e->name . " | " . $e->parent->name;
+            }
         }
+
         return $tmp;
     }
 

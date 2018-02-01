@@ -50,9 +50,12 @@ function showValidationError(data, form) {
     $(form).find('.has-error').removeClass('has-error');
     $(form).find('.help-block').remove();
     $.each(data.errors, function(errName,errVal) {
-        var target = $('[name=' + errName + ']');
+        var target = $('[name^=' + errName + ']');
         $.each(errVal, function(i, val) {
-            if($(target).closest('.input-group').length > 0 ) {
+            if ($(target).closest(".form-group").find("span.select2").length > 0) {
+                $(target).closest(".form-group").removeClass('has-error').addClass('has-error').find('.form-control-feedback').remove();
+                $(target).closest(".form-group").find("span.select2").after(generateHelpBlock(val));
+            } else if ($(target).closest('.input-group').length > 0) {
                 $(target).closest('.form-group').removeClass('has-error').addClass('has-error').find('.form-control-feedback').remove();
                 $(target).closest('.input-group').after(generateHelpBlock(val));
             } else {
@@ -383,12 +386,13 @@ function ajaxSignUp(formid) {
                 }
             },
             error: function (xHr) {
+                console.log(xHr);
                 if(xHr.status == 422) {
                     var resp = $.parseJSON(xHr.responseText);
                     $(me).find('.has-error').removeClass('has-error');
                     $(me).find('.form-control-feedback').remove();
                     $.each(resp, function(errName,errVal) {
-                        var target = $('[name=' + errName + ']');
+                        var target = $('[name^=' + errName + ']');
                         $(target).closest('.form-group').removeClass('has-error').addClass('has-error').find('.form-control-feedback').remove();
                         $(target).after(generateErrorLoginDOM());
                         showAlert(errVal.toString(),"warning", "", 1000);
@@ -425,7 +429,9 @@ $(document).ready(function() {
 
     $(".select2-multiple").select2({
         placeholder: "choose",
-        width: "100%"
+        width: "100%",
+        multiple: true
+
     });
 
     $(".select2-single").select2({
