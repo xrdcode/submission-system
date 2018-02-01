@@ -113,7 +113,6 @@ class EditController extends Controller
                     ->where('title','=',$request->get('title'))
                     ->where('occupation','=', Constant::OCCUPATION[$request->get('occupation')])
                     ->first();
-
                 if(!empty($find)) {
                     $pricing = $find;
                     $pricing->update($request->only(['price','usd_price','isparticipant']));

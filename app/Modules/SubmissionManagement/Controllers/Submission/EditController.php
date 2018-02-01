@@ -15,8 +15,10 @@ use App\Http\Controllers\Controller;
 use App\Models\BaseModel\PaymentSubmission;
 use App\Models\BaseModel\Submission;
 use App\Models\BaseModel\User;
+use App\Modules\SubmissionManagement\Models\Pricing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Validator;
 use Carbon\Carbon;
@@ -85,14 +87,36 @@ class EditController extends Controller
         ]);
 
         if($validator->passes()) {
+
             $submission = new Submission();
             $submission = $submission->findOrFail($request->get('id'));
-            if($submission->isPaid())
-                return response()->json(["success" => true , $submission]);
-            $submission->approved = $request->get('approved');
-            $status = $submission->update();
 
-            return response()->json(["success" => $status , $submission]);
+            DB::transaction(function() use ($submission, $request) {
+
+                if($submission->ispublicationonly) {
+                    $pricing = Pricing::findOrFail($submission->publication_id);
+                } else {
+                    $user = $submission->user->personal_data->student ? "Non-Student" : "Student";
+                    $pricing = $submission->submission_event->pricings()
+                        ->where("occupation","=",$user)->first();
+                }
+
+                if($submission->isPaid())
+                    return response()->json(["success" => true , $submission]);
+                if(empty($submission->payment_submission)) {
+                    $payment_submission = new PaymentSubmission();
+                    $payment_submission->pricing()->associate($pricing);
+                    $payment_submission->submission()->associate($submission);
+                    $payment_submission->save();
+                }
+                $submission->workstate_id = Constant::AFTER_APPROVED;
+                $submission->approved = $request->get('approved');
+                $status = $submission->update();
+                return response()->json(["success" => $status , $submission]);
+            });
+
+
+            return response()->json(["success" => false]);
         } else {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
         }
