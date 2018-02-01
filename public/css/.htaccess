@@ -4,7 +4,8 @@
     </IfModule>
 
     RewriteEngine On
-    ## RewriteBase /xcsms
+
+    RewriteBase /xcsms/
 
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
