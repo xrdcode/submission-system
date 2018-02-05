@@ -42,6 +42,7 @@ class ProfileController extends Controller
             "identity_number"   => "required|string",
             "institution"       => "required|string",
             "department"        => "required|string",
+            "islocal"           => "required",
         ]);
 
         if($validator->passes()) {
@@ -49,11 +50,11 @@ class ProfileController extends Controller
             if(empty($user->personal_data)) {
                $pd  = new PersonalData();
                $pd->user_id = $user->id;
-               $pd->setRawAttributes($request->only(['nik','institution','department','identity_number','identity_type_id']));
+               $pd->setRawAttributes($request->only(['islocal','nik','institution','department','identity_number','identity_type_id']));
                $pd->user()->associate($user);
                $pd->save();
             } else {
-                $user->personal_data()->update($request->only(['nik','institution','department','identity_number','identity_type_id']));
+                $user->personal_data()->update($request->only(['islocal','nik','institution','department','identity_number','identity_type_id']));
             }
             $user->update($request->only(['name','address','phone','birthdate','student']));
             return response()->json(['success' => true]);

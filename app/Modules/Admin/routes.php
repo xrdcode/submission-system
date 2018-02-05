@@ -21,7 +21,7 @@ Route::group(['prefix' => 'admin','as' => 'admin', 'namespace' => 'App\Modules\A
 });
 
 
-Route::group(['middleware' => 'web', 'prefix' => 'admin', 'as' => 'admin', 'namespace' => 'App\Modules\Admin\Controllers\Auth'], function () {
+Route::group(['middleware' => ['web'], 'prefix' => 'admin', 'as' => 'admin', 'namespace' => 'App\Modules\Admin\Controllers\Auth'], function () {
     Route::get('/login', ['as' => '.login', 'uses' => 'LoginController@showLoginForm']);
     Route::post('/login', ['as' => '.loging', 'uses' => 'LoginController@login']);
     Route::post('/logout', ['as' => '.logout', 'uses' => 'LoginController@logout']);

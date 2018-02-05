@@ -23,3 +23,5 @@
 Route::get('/',function() {
     return redirect()->route('user');
 });
+
+Route::get('/test/abstractnotif/{id}', ['uses' => 'DebugController@testAbstractNotification']);

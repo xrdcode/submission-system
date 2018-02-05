@@ -17,8 +17,11 @@ class SystemSetting extends Model
         return $this->belongsTo(Admin::class, 'updated_by');
     }
 
-    public static function getSetting($name) {
-        return self::where('name', $name)->first()->value;
+    public static function getSetting($name, $default = null) {
+        $find = self::where('name', $name)->first();
+        if(empty($find))
+            return $default;
+        return $find->value;
     }
 
     public static function setSetting($name, $value) {

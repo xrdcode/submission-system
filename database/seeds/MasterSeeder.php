@@ -61,6 +61,7 @@ class MasterSeeder extends Seeder
         //DO NOT CHANGE ORDER
         DB::table('workstates')->insert([
             [
+                'id'            => 1,
                 'name'          => 'Abstract Review',
                 'description'   => 'Abstract submitted to reviewer',
                 'workstate_type_id'  => 1,
@@ -68,6 +69,7 @@ class MasterSeeder extends Seeder
                 'lock'          => 0
             ],
             [
+                'id'            => 2,
                 'name'          => 'Waiting Transfer Confirmation',
                 'description'   => 'Next step if abstract approved. Please confirm transaction.',
                 'workstate_type_id'  => 1,
@@ -75,6 +77,7 @@ class MasterSeeder extends Seeder
                 'lock'          => 0
             ],
             [
+                'id'            => 3,
                 'name'          => 'Waiting Full Paper',
                 'description'   => 'Next step if abstract approved',
                 'workstate_type_id'  => 1,
@@ -82,6 +85,7 @@ class MasterSeeder extends Seeder
                 'lock'          => 0
             ],
             [
+                'id'            => 4,
                 'name'          => 'Full Paper Review',
                 'description'   => 'Next step if abstract approved',
                 'workstate_type_id'  => 1,
@@ -89,6 +93,7 @@ class MasterSeeder extends Seeder
                 'lock'          => 0
             ],
             [
+                'id'            => 5,
                 'name'          => 'Full Paper Need Revision',
                 'description'   => 'Paper Submitted to reviewer',
                 'workstate_type_id'  => 1,
@@ -96,6 +101,7 @@ class MasterSeeder extends Seeder
                 'lock'          => 0
             ],
             [
+                'id'            => 6,
                 'name'          => 'Full Paper Approved',
                 'description'   => 'Full Paper Approved',
                 'workstate_type_id'  => 1,
@@ -103,9 +109,46 @@ class MasterSeeder extends Seeder
                 'lock'          => 0
             ],
             [
+                'id'            => 7,
                 'name'          => 'Rejected',
                 'description'   => 'Rejected',
                 'workstate_type_id'  => 1,
+                'order'         => 0,
+                'lock'          => 1
+            ]
+        ]);
+
+        //DO NOT CHANGE ORDER
+        DB::table('workstates')->insert([
+            [
+                'id'            => 8,
+                'name'          => 'Waiting Transfer Confirmation',
+                'description'   => 'Please confirm payment.',
+                'workstate_type_id'  => 2,
+                'order'         => 1,
+                'lock'          => 0
+            ],
+            [
+                'id'            => 9,
+                'name'          => 'Waiting Verification',
+                'description'   => 'Waiting verification by admin',
+                'workstate_type_id'  => 2,
+                'order'         => 2,
+                'lock'          => 0
+            ],
+            [
+                'id'            => 10,
+                'name'          => 'Verified',
+                'description'   => 'Payment Verified',
+                'workstate_type_id'  => 2,
+                'order'         => 3,
+                'lock'          => 0
+            ],
+            [
+                'id'            => 11,
+                'name'          => 'Rejected',
+                'description'   => 'Rejected',
+                'workstate_type_id'  => 2,
                 'order'         => 0,
                 'lock'          => 1
             ]

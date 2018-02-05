@@ -182,7 +182,7 @@
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
-                @if(!Auth::guest('admin'))
+                @if(Auth::guard('admin')->check())
                     <ul class="nav navbar-nav">
                         &nbsp;
 
@@ -211,15 +211,15 @@
                                             <li><a href="#">Flash Message</a></li>
                                         </ul>
                                     </li>
-                                    {{--<li class="col-md-4">--}}
-                                    {{--<ul>--}}
-                                    {{--<li class="dropdown-header">Master</li>--}}
-                                    {{--<li><a href="#">Identity Type</a></li>--}}
-                                    {{--<li><a href="#">Submission Status</a></li>--}}
-                                    {{--<li><a href="#">Workstate</a></li>--}}
-                                    {{--<li class="divider"></li>--}}
-                                    {{--</ul>--}}
-                                    {{--</li>--}}
+                                    <li class="col-md-4">
+                                    <ul>
+                                    <li class="dropdown-header">Master</li>
+                                    <li><a href="#">Identity Type</a></li>
+                                    <li><a href="#">Submission Status</a></li>
+                                    <li><a href="#">Workstate</a></li>
+                                    <li class="divider"></li>
+                                    </ul>
+                                    </li>
                                 </ul>
                             </li>
                         @endif
@@ -292,7 +292,7 @@
             <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
-                    @if (Auth::guest('admin'))
+                    @if (!Auth::guard('admin')->check())
                         <li><a href="{{ route('admin.login') }}">Login</a></li>
                     @else
 

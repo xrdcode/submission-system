@@ -30,6 +30,28 @@ Route::group(
 
 Route::group(
     [
+        'prefix' => 'admin/bank',
+        'as' => 'admin.bank',
+        'namespace' => 'App\Modules\SubmissionManagement\Controllers\Bank',
+        'middleware' => ['web', 'auth:admin']
+    ], function () {
+    Route::get('/', ['uses' => 'ListController@index', 'middleware' => []]);
+    Route::get('/search', ['as' => '.search', 'uses' => 'ListController@search', 'middleware' => []]);
+
+    Route::get('/edit/{id}', ['as' => '.edit', 'uses' => 'EditController@index', 'middleware' => []]);
+    Route::post('/edit/{id}', ['as' => '.update', 'uses' => 'EditController@update', 'middleware' => []]);
+
+    Route::post('/delete/{id}', ['as' => '.delete', 'uses' => 'EditController@delete', 'middleware' => []]);
+
+    Route::get('/new/{id}', ['as' => '.new', 'uses' => 'EditController@newevent', 'middleware' => []]);;
+    Route::post('/store/{id}', ['as' => '.store', 'uses' => 'EditController@store', 'middleware' => []]);;
+
+
+    Route::get('/dt', ['as' => '.dt', 'uses' => 'ListController@DTEvents', 'middleware' => []]);
+});
+
+Route::group(
+    [
         'prefix' => 'admin/submission',
         'as' => 'admin.submission',
         'namespace' => 'App\Modules\SubmissionManagement\Controllers\Submission',

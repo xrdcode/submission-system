@@ -47,6 +47,18 @@ class SubmissionEvent extends Model
         return $this->belongsTo(Admin::class, 'updated_by');
     }
 
+    public function bank_events() {
+        return $this->hasMany(BankEvent::class);
+    }
+
+    public function banks() {
+        if(empty($this->parent)) {
+            return $this->bank_events();
+        } else {
+            return $this->parent->bank_events();
+        }
+    }
+
     public static function parentlist() {
         $parent = self::whereNull('parent_id')->get();
         $tmp = [];
@@ -136,6 +148,15 @@ class SubmissionEvent extends Model
                 $tmp[$p->id] = "{$p->title} | IDR {$p->price} | USD {$p->usd_price}";
         }
         return $tmp;
+    }
+
+    public function workshoplist() {
+        $price = $this->pricings;
+        $tmp = [];
+        foreach ($price as $p) {
+            if($p->pricing_type->name = "Workshop")
+                $tmp[$p->id] = "{$p->title} | IDR {$p->price} | USD {$p->usd_price}";
+        }
     }
 
 
