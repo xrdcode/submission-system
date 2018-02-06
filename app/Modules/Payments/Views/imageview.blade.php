@@ -3,7 +3,7 @@
 @section('body')
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            <img src="{{ $file }}" class="img img-responsive">
+            <img src="{{ URL::to($file) }}" class="img img-responsive">
         </div>
     </div>
 @endsection

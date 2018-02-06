@@ -57,6 +57,23 @@ Route::group(['prefix' => 'user/publication', 'as' => 'user.publication', 'names
     Route::post('/submit', 'PublicationController@submit')->name('.submit');
 });
 
+Route::group(['prefix' => 'user/workshop', 'as' => 'user.workshop', 'namespace' => 'App\Modules\User\Controllers\Workshop', 'middleware' => ['web','auth','profile_complete']], function() {
+    //Publication
+    Route::get('/', 'MainController@index');
+    Route::get('/register', 'MainController@register')->name('.register');
+    Route::post('/register', 'MainController@store')->name('.submit');
+    Route::get('/edit/{id}', 'MainController@_ModalEdit')->name('.edit');
+    Route::post('/edit/{id}', 'MainController@update')->name('.update');
+    Route::get('/confirm/{id}', 'MainController@_ModalConfirm')->name('.confirm');
+    Route::post('/confirm/{id}', 'MainController@upload')->name('.upload');
+
+
+    Route::get('/ticket/{id}', 'MainController@_ticket')->name('.ticket');
+
+    Route::get('/dt', 'MainController@DT')->name('.dt');
+
+});
+
 //LOGIN REGISTER ETC
 
 Route::group(['prefix' => 'user', 'as' => 'user','namespace' => "App\Modules\User\Controllers\Auth", 'middleware' => ['web']], function() {
@@ -109,5 +126,9 @@ Route::group(['prefix' => 'user/payment', 'as' => 'user.payment', 'namespace' =>
 
 Route::group(['prefix' => '/api/publication', "as" => "api.publication", "namespace" => "App\Modules\User\Controllers\Submission","middleware" => ["web","auth"]], function() {
    Route::get("/list/{id}", "MainController@publist_get")->name(".lists");
+});
+
+Route::group(['prefix' => '/api/workshop', "as" => "api.workshop", "namespace" => "App\Modules\User\Controllers\Workshop","middleware" => ["web","auth"]], function() {
+    Route::get("/list/{id}", "MainController@ws_list")->name(".lists");
 });
 

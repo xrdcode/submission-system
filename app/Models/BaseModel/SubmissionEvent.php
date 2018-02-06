@@ -2,6 +2,7 @@
 
 namespace App\Models\BaseModel;
 
+use App\Helper\Constant;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -151,12 +152,15 @@ class SubmissionEvent extends Model
     }
 
     public function workshoplist() {
+        if($this->eventfor == Constant::EVENT_FOR_LIST[0])
+            return [];
         $price = $this->pricings;
         $tmp = [];
         foreach ($price as $p) {
             if($p->pricing_type->name = "Workshop")
                 $tmp[$p->id] = "{$p->title} | IDR {$p->price} | USD {$p->usd_price}";
         }
+        return $tmp;
     }
 
 

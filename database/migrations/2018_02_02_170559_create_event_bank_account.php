@@ -28,8 +28,8 @@ class CreateEventBankAccount extends Migration
             $table->unsignedInteger("updated_by")->nullable();
 
             $table->foreign('created_by')->references('id')->on('admins')->onDelete('set null');
-            $table->foreign('submission_event_id')->references('id')->on('submission_events')->onDelete('cascade');
             $table->foreign('updated_by')->references('id')->on('admins')->onDelete('set null');
+            $table->foreign('submission_event_id')->references('id')->on('submission_events')->onDelete('cascade');
         });
     }
 

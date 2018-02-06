@@ -4,22 +4,26 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Submission List
-                    </div>
-                    <div class="panel-body">
-                        <div class="col-md-12">
-                            <table id="datalist" class="table table-responsive tbl-no-wrap" width="100%">
+                <div class="panel">
+                    <ul id="myTab1" class="nav nav-tabs nav-justified">
+                        <li class="active"><a href="#conference" data-toggle="tab" onclick="refreshTable('#datalist')">Conference & Publication</a></li>
+                        <li class=""><a href="#workshop" data-toggle="tab" onclick="refreshTable('#datalist2')">Workshop</a></li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                        <div class="tab-pane fade active in" id="conference">
+                            <table id="datalist" class="table table-responsive tbl-no-wrap">
+
+                            </table>
+                        </div>
+                        <div class="tab-pane fade" id="workshop">
+                            <table id="datalist2" class="table table-responsive tbl-no-wrap">
 
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
 
 
@@ -56,10 +60,27 @@
                     { title: 'Submission Type',data: 'submission_type.name', orderable: false},
                     { title: 'Receipt',data: 'receipt', orderable: false},
                     { title: 'Verified',data: 'payment_submission.verified', orderable: false},
-                    //{ title: 'Progress',data: 'progress', orderable: false, searchable: false},
-                    //{ title: 'Approved',data: 'approved', orderable: false, searchable: false},
-                    //{ title: 'Add Payment',data: 'payment', orderable: false, searchable: false},
-                    // { data: 'action', orderable: false, searchable: false}
+                ]
+
+            });
+
+            $('#datalist2').DataTable({
+                processing: true,
+                serverSide: true,
+                scrollX: true,
+                ajax: '{!! route('admin.payment.dt_ws') !!}',
+                columns: [
+                    {
+                        title: 'No',
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                },
+                    { title: 'Workshop',data: 'pricing.title', orderable: false},
+                    { title: 'Name',data: 'user.name', orderable: false},
+                    { title: 'Receipt',data: 'receipt', orderable: false},
+                    { title: 'Progress',data: 'workstate.name', orderable: false},
+                    { title: 'Status',data: 'verified', searchable: false},
                 ]
 
             });

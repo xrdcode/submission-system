@@ -157,6 +157,14 @@
             vertical-align: middle;
         }
 
+        div.dataTables_scrollHeadInner, div.dataTables_scrollBody {
+            min-width: 100% !important;
+        }
+
+        div.dataTables_scrollHeadInner > table.dataTable, div.dataTables_scrollBody > table.dataTable {
+            min-width: 100% !important;
+        }
+
     </style>
     @yield("styles")
 </head>

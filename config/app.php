@@ -184,6 +184,7 @@ return [
         App\Providers\CustomValidationProvider::class,
 
         Barryvdh\Debugbar\ServiceProvider::class,
+        Milon\Barcode\BarcodeServiceProvider::class,
 
 
     ],
@@ -239,6 +240,9 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
+        'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
+
 
     ],
 

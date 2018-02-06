@@ -15,7 +15,7 @@ class Pricing extends Model
     }
 
     public function general_payments() {
-        return $this->hasMany(GeneralPayments::class);
+        return $this->hasMany(GeneralPayment::class);
     }
 
     public function submission_event() {

@@ -43,7 +43,7 @@ class User extends Authenticatable
     }
 
     public function general_payments() {
-        return $this->hasMany(GeneralPayments::class);
+        return $this->hasMany(GeneralPayment::class);
     }
 
     public function payment_notification() {

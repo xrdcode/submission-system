@@ -8,11 +8,14 @@
 
 namespace App\Modules\Payments\Controllers;
 
+use App\Models\BaseModel\GeneralPayment;
 use App\Models\BaseModel\PaymentSubmission;
 use App\Models\BaseModel\Submission;
 use App\Http\Controllers\Controller;
 use App\Constants;
+use App\Models\BaseModel\User;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\VarDumper\Cloner\Data;
 use Yajra\Datatables\Datatables;
 use Carbon\Carbon;
 use App\Helper\HtmlHelper;
@@ -30,6 +33,12 @@ class ListController extends Controller
 
     public function viewReceipt($id) {
         $payment = Submission::findOrFail($id)->payment_submission;
+        $file = Storage::url($payment->file);
+        return view("Payments::imageview", compact('file'));
+    }
+
+    public function wsViewReceipt($id) {
+        $payment = GeneralPayment::findOrFail($id);
         $file = Storage::url($payment->file);
         return view("Payments::imageview", compact('file'));
     }
@@ -80,6 +89,34 @@ class ListController extends Controller
 
 
         $dt->rawColumns(['verified','receipt']);
+
+        return $dt->make(true);
+    }
+
+    public function DTWs() {
+        $gp = GeneralPayment::select(["id","submission_event_id","verified","notes","workstate_id","user_id","pricing_id","file"])->with(['submission_event','pricing','workstate','user']);
+
+        $dt = Datatables::of($gp);
+
+        $dt->addColumn('receipt', function($gp) {
+            $file = $gp->file;
+            if(empty($file))
+                return "Not yet uploaded";
+            return HtmlHelper::createTag("a",['btn','btn-xs','btn-info', 'btn-modal'],['href' => route('admin.payment.wsreceipt', $gp->id)],"View");
+        });
+
+        $dt->editColumn('verified', function($gp) {
+            if(!$gp->isPaid() && !empty($gp->file)) {
+                $row  = HtmlHelper::createTag("i",["click-edit"],["title"=>"click to change"], $gp->verified);
+                $list = GeneralPayment::VERIFIED;
+                $row .= HtmlHelper::selectList($list, GeneralPayment::VERIFIED_R[$gp->verified], "verified", "form-control hide-n-seek", ["data-action" => route('admin.payment.wsverify', $gp->id), "data-id" => $gp->id, "style" => "display:none"]);
+            } else {
+                $row  = HtmlHelper::createTag("i",[],[], $gp->verified);
+            }
+            return $row;
+        });
+
+        $dt->rawColumns(['action','verified','receipt']);
 
         return $dt->make(true);
     }
