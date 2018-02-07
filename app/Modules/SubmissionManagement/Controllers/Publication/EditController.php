@@ -6,7 +6,7 @@
  * Time: 22:50
  */
 
-namespace App\Modules\SubmissionManagement\Controllers\Submission;
+namespace App\Modules\SubmissionManagement\Controllers\Publication;
 
 
 use App\Helper\Constant;
@@ -160,44 +160,6 @@ class EditController extends Controller
             $submission = Submission::findOrFail($id);
             $status = $submission->update($request->only('feedback'));
             return response()->json(["success" => $status]);
-        } else {
-            return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
-        }
-    }
-
-    //////
-    ///
-
-    public function assignpub(Request $request, $id) {
-        $submission = Submission::findOrFail($id);
-        $validator = Validator::make($request->all(), [
-            'submission_id' => 'required|numeric',
-            'pricing_id'    => 'required|numeric'
-        ]);
-
-        if($validator->passes()) {
-            if(empty($submission->publication)) {
-                DB::transaction(function() use ($submission, $request) {
-                    $newpub = new Submission();
-                    $pricing = Pricing::findOrFail($request->get('pricing_id'));
-                    $newpub->ispublicationonly = 1;
-                    $newpub->title = $submission->title;
-                    $newpub->abstract = $submission->abstract;
-                    $newpub->title = $submission->title;
-                    $newpub->submission_event_id = $submission->submission_event_id;
-                    $newpub->user_id = $submission->user_id;
-                    $newpub->workstate_id = Constant::AFTER_PAID;
-                    $newpub->submission_id = $request->get('submission_id');
-                    $newpub->save();
-
-                    $payment_submission = new PaymentSubmission();
-                    $payment_submission->pricing()->associate($pricing);
-                    $payment_submission->submission()->associate($newpub);
-                    $payment_submission->save();
-                });
-
-            }
-            return response()->json(["success" => true]);
         } else {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
         }

@@ -25,8 +25,7 @@ class PublicationController extends Controller
 
     public function register() {
         $this->data['header'] = "Register Publication";
-        $eventlist = SubmissionEvent::getevpublist();
-        $this->data['eventlist'] = $eventlist;
+        $this->data['submissionlist'] = Auth::user()->submissionlist();
         return view('User::submission.publication.register', $this->data);
     }
 
@@ -41,12 +40,11 @@ class PublicationController extends Controller
             $submission->create([
                     'title'         => $request->get('title'),
                     'abstract'      => $request->get('abstract'),
-                    'abstractfile'  => $path,
                     'user_id'       => Auth::id(),
                     'workstate_id'  => Constant::ABSTRACT_REVIEW,
                     'submission_event_id'           => $request->get('submission_event_id'),
                     'submission_type_id'            => $request->get('submission_type_id'),
-                    'ispublicationonly' => true //Conference Participant
+                    'ispublicationonly' => true
                 ]
             );
 
@@ -62,7 +60,6 @@ class PublicationController extends Controller
             'abstract'              => 'required|string',
             'file'                  => 'required|file|mimes:pdf,doc,docx|max:2048',
             'submission_event_id'   => 'required|numeric',
-            //'submission_type_id'    => 'required|numeric',
             'publication_id'        => 'required|numeric'
         ]);
     }

@@ -35,6 +35,10 @@ class Submission extends Model
         return $this->belongsTo(Workstate::class);
     }
 
+    public function publication() {
+        return $this->hasOne(Submission::class,'submission_id');
+    }
+
     public function submission_event() {
         return $this->belongsTo(SubmissionEvent::class);
     }

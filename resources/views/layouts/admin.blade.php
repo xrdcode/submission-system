@@ -247,7 +247,8 @@
                                         @endif
                                         @if(Auth::user()->hasRole('SubmissionManagement-View'))
                                             <li class="dropdown-header">Submission</li>
-                                            <li><a href="{{ route('admin.submission') }}">Submission List</a></li>
+                                            <li><a href="{{ route('admin.submission') }}">Submission Review</a></li>
+                                            <li><a href="{{ route('admin.publication') }}">Publication Review</a></li>
                                         @endif
                                     </ul>
                                 </li>

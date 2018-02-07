@@ -5,8 +5,8 @@
         <div class="col-md-12">
             <div class="panel">
                 <ul id="myTab1" class="nav nav-tabs nav-justified">
-                    <li class="active"><a href="#conference" data-toggle="tab">Conference</a></li>
-                    <li class=""><a href="#publication" data-toggle="tab">Publication</a></li>
+                    <li class="active"><a href="#conference" data-toggle="tab" onclick="refreshTable('#datalist')"><strong><h5>Conference</h5></strong></a></li>
+                    <li class=""><a href="#publication" data-toggle="tab" onclick="refreshTable('#datalist2')"><strong><h5>Publication</h5></strong></a></li>
                 </ul>
                 <div id="myTabContent" class="tab-content">
                     <div class="tab-pane fade active in" id="conference">
@@ -69,9 +69,9 @@
                     },
                     { title: 'Title',data: 'title', name: 'title', class: 'force-wrap'},
                     { title: 'Event',data: 'submission_event.name', orderable: false},
-                    { title: 'Abstract Files', data: 'file_abstract', orderable: false, searchable: false},
                     { title: 'Paper', data: 'action', orderable: false, searchable: false},
-                    { title: 'Progress Status',data: 'workstate.name', orderable: false, class: 'force-wrap'},
+                    { title: 'Progress Status',data: 'workstate.name', orderable: false},
+                    { title: 'Publication Status',data: 'status', orderable: false, class: 'force-wrap'},
                     { title: 'Feedback',data: 'feedback', orderable: true, class: 'force-wrap'},
                 ]
 

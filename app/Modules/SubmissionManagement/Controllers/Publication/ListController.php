@@ -6,7 +6,7 @@
  * Time: 4:46
  */
 
-namespace App\Modules\SubmissionManagement\Controllers\Submission;
+namespace App\Modules\SubmissionManagement\Controllers\Publication;
 
 use App\Helper\AppHelper;
 use App\Helper\HtmlHelper;
@@ -26,7 +26,7 @@ class ListController extends Controller
 
     public function index() {
         $list = Submission::all();
-        return view('SubmissionManagement::submission.index', ['list' => $list]);
+        return view('SubmissionManagement::publication.index', ['list' => $list]);
     }
 
     public function DT(Request $request) {
@@ -42,14 +42,13 @@ class ListController extends Controller
                 "submission_type_id",
                 "approved",
                 "feedback",
-                "submission_id",
-                "file_paper_id"])->where('ispublicationonly','=',0)->with(['user','submission_event','workstate','payment_submission','submission_type']);
+                "file_paper_id"])->where('ispublicationonly','=',1)->with(['user','submission_event','workstate','payment_submission','submission_type','payment_submission.pricing']);
         $datatable = Datatables::of($submission)
             ->editColumn('approved', function($s) {
-                if(!$s->isPaid() && empty($s->payment_submission)) {
+                if(!$s->isPaid()) {
                     $row  = HtmlHelper::createTag("i",["click-edit"],["title"=>"click to change"], $s->approved ? "Approved" : "Not Yet");
                     $list = [1 => 'Approved', 0 => 'Not yet'];
-                    $row .= HtmlHelper::selectList($list, $s->approved, "approved", "form-control hide-n-seek", ["data-action" => route('admin.submission.approve', $s->id), "data-id" => $s->id, "style" => "display:none"]);
+                    $row .= HtmlHelper::selectList($list, $s->approved, "approved", "form-control hide-n-seek", ["data-action" => route('admin.publication.approve', $s->id), "data-id" => $s->id, "style" => "display:none"]);
                 } else {
                     $row  = HtmlHelper::createTag("i",[],[], $s->approved ? "Approved" : "Not Yet");
                 }
@@ -58,7 +57,7 @@ class ListController extends Controller
             ->addColumn('progress', function($s) {
                 $ws = Workstate::getList();
                 $w = $s->workstate;
-                $url = route('admin.submission.progress', $s->id);
+                $url = route('admin.publication.progress', $s->id);
                 $row = HtmlHelper::createTag("i",["click-edit"],["title"=>"click to change"], $w->name);
                 $row .= HtmlHelper::selectList($ws, $s->workstate_id ,'workstate_id','form-control hide-n-seek',["data-action" => $url,"data-id" => $s->id, "style" => "display:none"]);
                 return $row;
@@ -66,11 +65,11 @@ class ListController extends Controller
 
         $datatable->addColumn('payment', function($s) {
             if($s->approved && empty($s->payment_submission)) {
-                return HtmlHelper::linkButton('Assign', route('admin.submission.payment', $s->id), 'btn-xs btn-primary btn-edit', '');
+                return HtmlHelper::linkButton('Assign', route('admin.publication.payment', $s->id), 'btn-xs btn-primary btn-edit', '');
             } else {
                 if($s->approved) {
                     if(!$s->isPaid()) {
-                        return HtmlHelper::linkButton('Re-Assign', route('admin.submission.payment', $s->id), 'btn-xs btn-primary btn-edit', '');
+                        return HtmlHelper::linkButton('Re-Assign', route('admin.publication.payment', $s->id), 'btn-xs btn-primary btn-edit', '');
                     } else {
                         return "Paid";
                     }
@@ -81,40 +80,34 @@ class ListController extends Controller
         });
 
         $datatable->editColumn('feedback', function($s) {
-            $url = route('admin.submission.setfeedback', $s->id);
+            $url = route('admin.publication.setfeedback', $s->id);
             $row = HtmlHelper::createTag("i",["click-edit"],["title"=>"click to change"], $s->feedback ?: "Click to give feedback");
             $row .= HtmlHelper::createTag("textarea",['form-control','hide-n-seek'],["name" => "feedback",'data-action' => $url, "data-id" => $s->id, "style" => "display:none"], $s->feedback);
             return $row;
         });
 
-        $datatable->addColumn('file_abstract', function($s) {
-            $btn = HtmlHelper::linkButton("Abstract", route('admin.submission.getabstract', $s->id) , 'btn-xs btn-info btn-download', '',"glyphicon-download");
-            $btn .= "<br>";
-            $btn .= HtmlHelper::linkButton('View', route('admin.submission.abstract', $s->id), "btn-xs btn-info btn-modal", "", "glyphicon-view");
-            return $btn;
-        });
-
-        $datatable->addColumn('publication', function($s) {
-            $btn = "";
-            if(empty($s->publication)) {
-                $btn .= HtmlHelper::createTag('a',['btn btn-xs btn-modal'],['href' => route('admin.submission.assignpub', $s->id)],'Send to Publication');
-            }
-            return $btn;
-        });
+//        $datatable->addColumn('file_abstract', function($s) {
+//            $btn = HtmlHelper::linkButton("Abstract", route('admin.publication.getabstract', $s->id) , 'btn-xs btn-info btn-download', '',"glyphicon-download");
+//            $btn .= "<br>";
+//            $btn .= HtmlHelper::linkButton('View', route('admin.publication.abstract', $s->id), "btn-xs btn-info btn-modal", "", "glyphicon-view");
+//            return $btn;
+//        });
 
         $datatable->addColumn('file_paper', function($s) {
             if(!empty($s->file_paper)) {
-                $btn = HtmlHelper::linkButton("Paper", route('admin.submission.getpaper', $s->id), 'btn-xs btn-success btn-download', "",'glyphicon-download');
+                $btn = HtmlHelper::linkButton("Paper", route('admin.publication.getpaper', $s->id), 'btn-xs btn-success btn-download', "",'glyphicon-download');
                 return $btn;
             } else {
                 return "Not Yet Uploaded";
             }
         });
 
-        $datatable->rawColumns(['progress','approved','payment','file_abstract','feedback','file_paper','publication']);
+        $datatable->rawColumns(['progress','approved','payment','file_abstract','feedback','file_paper']);
 
         return $datatable->make(true);
     }
+
+
 
     function getAbstractFile($id) {
         $sub = Submission::findOrFail($id);
@@ -144,18 +137,6 @@ class ListController extends Controller
             'title'         => $submission->title,
             'submission'    => $submission
         ];
-        return view("SubmissionManagement::submission.abstractdetail", $data);
-    }
-
-    public function _ModalAssignPub($id) {
-        $submission = Submission::findOrFail($id);
-        $data = [
-            'class'         => 'modal-sm',
-            'title'         => 'Send to Publication',
-            'action'        => route('admin.submission.assignpub', $id),
-            'modalId'       => 'pricingmodal',
-            'submission'    => $submission
-        ];
-        return view("SubmissionManagement::submission.massignpub", $data);
+        return view("SubmissionManagement::publication.abstractdetail", $data);
     }
 }

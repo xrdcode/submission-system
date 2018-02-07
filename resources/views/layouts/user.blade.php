@@ -126,8 +126,8 @@
                         <a href="#submissions" class="list-group-item " data-toggle="collapse"><i class="glyphicon glyphicon-list"></i>Submission  <span class="glyphicon glyphicon-chevron-right"></span></a>
                         <div class="collapse" id="submissions">
                             <a href="{{ route('user.submission') }}" class="list-group-item">List</a>
-                            <a href="{{ route('user.conference.register') }}" class="list-group-item">Register Conference</a>
-                            <a href="{{ route('user.publication.register') }}" class="list-group-item">Register Publication</a>
+                            <a href="{{ route('user.conference.register') }}" class="list-group-item">Conference Registration</a>
+                            {{--<a href="{{ route('user.publication.register') }}" class="list-group-item">Register Publication</a>--}}
                             <a href="{{ route('user.payment') }}" class="list-group-item">Payment</a>
                         </div>
                     </li>

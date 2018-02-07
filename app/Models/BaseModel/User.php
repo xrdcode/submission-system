@@ -42,6 +42,15 @@ class User extends Authenticatable
         return $this->hasMany(Submission::class);
     }
 
+    public function submissionlist() {
+        $submission = $this->submissions()->where('ispublicationonly','=','0')->get();
+        $tmp = [];
+        foreach ($submission as $s) {
+            $tmp[$s->id] = $s->title;
+        }
+        return $tmp;
+    }
+
     public function general_payments() {
         return $this->hasMany(GeneralPayment::class);
     }

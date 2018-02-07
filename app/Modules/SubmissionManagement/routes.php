@@ -133,4 +133,42 @@ Route::group(
     Route::post('/setfeedback/{id}', ['as' => '.setfeedback', 'uses' => 'EditController@setfeedback', 'middleware' => []]);
 
     Route::get('/viewabstract/{id}', ['as' => '.abstract', 'uses' => 'ListController@_ModalViewAbstract', 'middleware' => []]);;
+
+    Route::get('/assignpub/{id}', ['as' => '.assignpub', 'uses' => 'ListController@_ModalAssignPub', 'middleware' => []]);;
+    Route::post('/assignpub/{id}', ['as' => '.assignpub', 'uses' => 'EditController@assignpub', 'middleware' => []]);;
+});
+
+Route::group(
+    [
+        'prefix' => 'admin/publication',
+        'as' => 'admin.publication',
+        'namespace' => 'App\Modules\SubmissionManagement\Controllers\Publication',
+        'middleware' => ['web', 'auth:admin']
+    ], function () {
+    Route::get('/', ['uses' => 'ListController@index', 'middleware' => []]);
+
+
+    Route::get('/paymentinfo/{id}', ['as' => '.paymentinfo', 'uses' => 'ListController@paymentinfo', 'middleware' => []]);
+
+    Route::post('/setprogress/{id}', ['as' => '.progress', 'uses' => 'EditController@setprogress', 'middleware' => []]);
+    Route::post('/setapproved/{id}', ['as' => '.approve', 'uses' => 'EditController@setapproved', 'middleware' => []]);
+
+    /// DATATABLE LIST ///
+    Route::get('/dt', ['as' => '.dt', 'uses' => 'ListController@DT', 'middleware' => []]);
+
+    /// DOWNLOAD FILE ///
+    //Route::get('/getabstract/{id}', ['as' => '.getabstract', 'uses' => 'ListController@getAbstractFile', 'middleware' => []]);
+    Route::get('/getpaper/{id}', ['as' => '.getpaper', 'uses' => 'ListController@getpaper', 'middleware' => []]);
+
+
+    //// MODAL ////
+    Route::get('/edit/{id}', ['as' => '.edit', 'uses' => 'EditController@index', 'middleware' => []]);
+    Route::post('/edit/{id}', ['as' => '.update', 'uses' => 'EditController@update', 'middleware' => []]);
+
+    Route::get('/payment/{id}', ['as' => '.payment', 'uses' => 'EditController@_ModalAssignPayment', 'middleware' => []]);;
+    Route::post('/setpayment/{id}', ['as' => '.setpayment', 'uses' => 'EditController@setpayment', 'middleware' => []]);
+
+    Route::post('/setfeedback/{id}', ['as' => '.setfeedback', 'uses' => 'EditController@setfeedback', 'middleware' => []]);
+
+    Route::get('/viewabstract/{id}', ['as' => '.abstract', 'uses' => 'ListController@_ModalViewAbstract', 'middleware' => []]);;
 });

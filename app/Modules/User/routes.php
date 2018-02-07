@@ -46,8 +46,6 @@ Route::group(['prefix' => 'user/conference', 'as' => 'user.conference', 'namespa
     //Papers
     Route::get('/{id}/upload', 'PapersController@index')->name('.upload');
     Route::post('/{id}/upload', 'PapersController@upload')->name('.doupload');
-
-
 });
 
 Route::group(['prefix' => 'user/publication', 'as' => 'user.publication', 'namespace' => 'App\Modules\User\Controllers\Submission', 'middleware' => ['web','auth','profile_complete']], function() {
@@ -55,6 +53,7 @@ Route::group(['prefix' => 'user/publication', 'as' => 'user.publication', 'names
     Route::get('/', 'PublicationController@register');
     Route::get('/register', 'PublicationController@register')->name('.register');
     Route::post('/submit', 'PublicationController@submit')->name('.submit');
+
 });
 
 Route::group(['prefix' => 'user/workshop', 'as' => 'user.workshop', 'namespace' => 'App\Modules\User\Controllers\Workshop', 'middleware' => ['web','auth','profile_complete']], function() {

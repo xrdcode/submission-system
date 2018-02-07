@@ -216,25 +216,6 @@ class MainController extends Controller
                 $sub = Submission::find($s->id);
                 return !empty($sub->workstate) ? $sub->workstate->name : "Unavailable" ;
             })
-            ->addColumn('file_abstract', function($s) {
-
-                if($s->isPaid()) {
-                    $url_upload = "#";
-                    $url_reupload = "#";
-                    $class = "btn-download disabled";
-                    $class_re = "disabled";
-                } else {
-                    $url_upload = route('user.conference.getabstract', $s->id);
-                    $url_reupload = route('user.conference.abstractreupload', $s->id);
-                    $class = "";
-                    $class_re = "";
-                }
-
-                $btn = HtmlHelper::linkButton("Abstract", $url_upload , "btn-xs btn-info {$class}", '',"glyphicon-download");
-                $btn .= "<br><br>";
-                $btn .= HtmlHelper::linkButton('Reupload', $url_reupload, "btn-xs btn-primary {$class_re}",'target="_blank "', "glyphicon-upload");
-                return $btn;
-            })
             ->addColumn('action', function($s) {
                 if(!empty($s->file_paper)) {
                     $text = "Re-upload";
@@ -242,20 +223,21 @@ class MainController extends Controller
                     $text = "Upload";
                 }
 
-                if($s->approved && $s->isPaid()) {
+                if(!$s->isPaid()) {
                     $btn = HtmlHelper::linkButton($text, route('user.conference.upload', $s->id), 'btn-xs btn-info btn-modal', "data-id='{$s->id}'", "glyphicon-upload");
                     return $btn;
-                } else if($s->approved && !$s->isPaid()) {
-                    $msg = "You have not made a payment. Please confirm your payment to unlock upload.";
-                    $btn = HtmlHelper::linkButton($text,"#", "btn-xs btn-info btn-disabled","data-toggle='tooltip' title='{$msg}' disabled", 'glyphicon-upload');
-                    return $btn . "<br><i>*Not Paid</i>";
                 } else {
-                    return "Not Yet Approved";
+                    $btn = HtmlHelper::linkButton($text, "#", 'btn-xs btn-info', "disabled", "glyphicon-upload");
+                    return $btn;
                 }
             });
 
         $datatable->editColumn('submission_event.name', function($s) {
             return $s->submission_event->parent->name . " | " . $s->submission_event->name;
+        });
+
+        $datatable->addColumn('status', function($s) {
+           return $s->approved ? "Approved" : "Not Yet Approved";
         });
 
         $datatable->rawColumns(['file_abstract','action']);

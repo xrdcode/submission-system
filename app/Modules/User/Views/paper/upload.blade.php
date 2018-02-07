@@ -27,7 +27,6 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/ssmath.js') }}"></script>
     <script type="text/javascript">
 
         $('#uploads').unbind();
