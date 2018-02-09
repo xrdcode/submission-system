@@ -38,6 +38,16 @@ class Admin extends Authenticatable
         return $this->belongsToMany(Group::class);
     }
 
+    public function hasGroup($name) {
+        if($this->id == 1) return true;
+        $names = array_map("trim", explode(",",$name));
+        foreach($this->groups as $group)
+        {
+            if (in_array($group->name, $names)) return true;
+        }
+        return false;
+    }
+
     /**
      * @param $role
      */
@@ -105,5 +115,26 @@ class Admin extends Authenticatable
 
     public function updatedby() {
         return $this->belongsTo(Admin::class, 'updated_by');
+    }
+
+    public static function getByRole($role) {
+        $admin = self::query()->has('groups')->get();
+        $tmp = [];
+        foreach ($admin as $a) {
+            if($a->hasRole($role))
+                $tmp[$a->id] = $a->name;
+        }
+        return $tmp;
+    }
+
+    public static function getByGroup($group) {
+        $group = Group::where('name', $group)->first();
+        $tmp = [];
+        if(empty($group))
+            return $tmp;
+        foreach ($group->admins as $a) {
+            $tmp[$a->id] = $a->name;
+        }
+        return $tmp;
     }
 }

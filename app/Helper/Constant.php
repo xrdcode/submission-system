@@ -11,6 +11,9 @@ namespace App\Helper;
 
 class Constant
 {
+    const WORKSTATE_ID_SUBMISSION = 1;
+    const WORKSTATE_ID_PAYMENT = 2;
+
     // DO NOT CHANGE !!
     const ABSTRACT_REVIEW = 1;
     const AFTER_APPROVED = 2;

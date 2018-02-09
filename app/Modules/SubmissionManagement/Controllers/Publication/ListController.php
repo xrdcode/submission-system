@@ -12,8 +12,10 @@ use App\Helper\AppHelper;
 use App\Helper\HtmlHelper;
 use App\Models\BaseModel\Submission;
 use App\Models\BaseModel\Workstate;
+use App\Modules\AdminManagement\Models\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Yajra\Datatables\Datatables;
 
@@ -21,7 +23,7 @@ class ListController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('role:SubmissionManagement-View');
+        $this->middleware('role:PublicationManagement-View');
     }
 
     public function index() {
@@ -42,7 +44,7 @@ class ListController extends Controller
                 "submission_type_id",
                 "approved",
                 "feedback",
-                "file_paper_id"])->where('ispublicationonly','=',1)->with(['user','submission_event','workstate','payment_submission','submission_type','payment_submission.pricing']);
+                "file_paper_id"])->where('ispublicationonly','=',1)->with(['user','submission_event','payment_submission','submission_type','payment_submission.pricing']);
         $datatable = Datatables::of($submission)
             ->editColumn('approved', function($s) {
                 if(!$s->isPaid()) {
@@ -55,7 +57,7 @@ class ListController extends Controller
                 return $row;
             })
             ->addColumn('progress', function($s) {
-                $ws = Workstate::getList();
+                $ws = Workstate::getList(1);
                 $w = $s->workstate;
                 $url = route('admin.publication.progress', $s->id);
                 $row = HtmlHelper::createTag("i",["click-edit"],["title"=>"click to change"], $w->name);
@@ -93,6 +95,19 @@ class ListController extends Controller
 //            return $btn;
 //        });
 
+        if(Auth::user()->hasGroup('Editor, SuperAdmin')) {
+            $datatable->addColumn('reviewer', function($s) {
+                $btn = "";
+                if(empty($s->reviewer())) {
+                    $btn .= HtmlHelper::linkButton(' Assign',route('admin.publication.assignrev', $s->id), 'btn-xs btn-default btn-modal','','glyphicon-user');
+                } else {
+                    $btn .= HtmlHelper::createTag('i',[],['style' => 'padding:5px 5px 0px 0px'],$s->reviewer->name);
+                    $btn .= HtmlHelper::linkButton(' Change',route('admin.publication.assignrev', $s->id), 'btn-xs btn-default btn-modal','','glyphicon-user');
+                }
+                return $btn;
+            });
+        }
+
         $datatable->addColumn('file_paper', function($s) {
             if(!empty($s->file_paper)) {
                 $btn = HtmlHelper::linkButton("Paper", route('admin.publication.getpaper', $s->id), 'btn-xs btn-success btn-download', "",'glyphicon-download');
@@ -102,7 +117,7 @@ class ListController extends Controller
             }
         });
 
-        $datatable->rawColumns(['progress','approved','payment','file_abstract','feedback','file_paper']);
+        $datatable->rawColumns(['progress','approved','payment','file_abstract','feedback','file_paper','reviewer']);
 
         return $datatable->make(true);
     }
@@ -139,4 +154,6 @@ class ListController extends Controller
         ];
         return view("SubmissionManagement::publication.abstractdetail", $data);
     }
+
+
 }

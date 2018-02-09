@@ -14,6 +14,7 @@ use App\Models\BaseModel\Submission;
 use App\Models\BaseModel\Workstate;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Yajra\Datatables\Datatables;
 
@@ -43,7 +44,7 @@ class ListController extends Controller
                 "approved",
                 "feedback",
                 "submission_id",
-                "file_paper_id"])->where('ispublicationonly','=',0)->with(['user','submission_event','workstate','payment_submission','submission_type']);
+                "file_paper_id"])->where('ispublicationonly','=',0)->with(['user','submission_event','workstate','payment_submission','submission_type','publication.payment_submission.pricing']);
         $datatable = Datatables::of($submission)
             ->editColumn('approved', function($s) {
                 if(!$s->isPaid() && empty($s->payment_submission)) {
@@ -56,7 +57,7 @@ class ListController extends Controller
                 return $row;
             })
             ->addColumn('progress', function($s) {
-                $ws = Workstate::getList();
+                $ws = Workstate::getList(1);
                 $w = $s->workstate;
                 $url = route('admin.submission.progress', $s->id);
                 $row = HtmlHelper::createTag("i",["click-edit"],["title"=>"click to change"], $w->name);
@@ -94,13 +95,14 @@ class ListController extends Controller
             return $btn;
         });
 
-        $datatable->addColumn('publication', function($s) {
-            $btn = "";
-            if(empty($s->publication)) {
-                $btn .= HtmlHelper::createTag('a',['btn btn-xs btn-modal'],['href' => route('admin.submission.assignpub', $s->id)],'Send to Publication');
-            }
-            return $btn;
-        });
+//        $datatable->addColumn('publication', function($s) {
+//            $btn = "";
+//            if(empty($s->publication)) {
+//                $btn .= HtmlHelper::createTag('a',['btn btn-xs btn-default btn-modal'],['href' => route('admin.submission.assignpub', $s->id)],'Send to Publication');
+//                return $btn;
+//            }
+//            return $s->publication->payment_submission->pricing->title;
+//        });
 
         $datatable->addColumn('file_paper', function($s) {
             if(!empty($s->file_paper)) {

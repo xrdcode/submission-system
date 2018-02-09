@@ -106,8 +106,8 @@ class RegisterController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'address' => 'required|string|max:255',
-            'phone' => 'required|string|numeric',
-            'birthdate' => 'required|string',
+            'phone' => '|string|numeric',
+            'birthdate' => 'string',
         ]);
     }
 
@@ -125,9 +125,8 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
             'address' => $data['address'],
             'phone' => $data['phone'],
-            'email_token' => base64_encode($data['email']),
+            'email_token' => base64_encode($data['email'] . "_" . str_random(10)),
             'api_token' => str_random(60),
-            'birthdate' => $data['birthdate']
         ]);
 
         return $user;

@@ -71,6 +71,34 @@ class Submission extends Model
         return false;
     }
 
+    public function selectedReviewer() {
+
+    }
+
+    public function admin_task() {
+        return $this->hasOne(AdminTask::class);
+    }
+
+    public function reviewer() {
+        if(!empty($this->admin_task))
+            return $this->admin_task->admin();
+        return null;
+    }
+
+    public function assignReviewer(Admin $admin, $notes = null) {
+        if(empty($this->admin_task)) {
+            $at = new AdminTask();
+        } else {
+            $at = $this->admin_task;
+        }
+        $at->name = $admin->name;
+        if(!empty($notes))
+            $at->notes = $admin->notes = $notes;
+        $at->submission()->associate($this);
+        $at->admin()->associate($admin);
+        return $at->save();
+    }
+
     /**
      * Future Update
      */
@@ -79,6 +107,23 @@ class Submission extends Model
         $nws = Workstate::where('order','=',$ws->order + 1)->first();
         $this->workstate()->associate($nws);
         $this->update();
+    }
+
+    public function create_publication() {
+        if(empty($this->publication)) {
+            $pub = new Submission();
+            $pub->title = $this->title;
+            $pub->abstract = $this->abstract;
+            $pub->user_id = $this->user_id;
+            $pub->ispublicationonly = 1;
+            $pub->abstractfile = $this->abstactfile;
+            $pub->submission_event_id = $this->submission_event_id;
+            $pub->submission_type_id = $this->submission_type_id;
+            $pub->approved = 0;
+            $pub->submission_id = $this->id;
+            return $pub->save();
+        }
+        return false;
     }
 
 }

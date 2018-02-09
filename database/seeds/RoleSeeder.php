@@ -142,6 +142,22 @@ class RoleSeeder extends Seeder
                 'name'  => 'AdminManagement-Update',
                 'description' => 'Admin Management'
             ]
+            ,
+            [
+                'id'    => 27,
+                'name'  => 'PublicationManagement-MinimumSaveAccess',
+                'description' => 'Publication Management'
+            ],
+            [
+                'id'    => 28,
+                'name'  => 'PublicationManagement-View',
+                'description' => 'Publication Management View'
+            ],
+            [
+                'id'    => 29,
+                'name'  => 'PublicationManagement-Save',
+                'description' => 'Publication Management'
+            ]
         ]);
 
         DB::table('groups')->insert([
@@ -149,6 +165,21 @@ class RoleSeeder extends Seeder
                 'id'    => 1,
                 'name'  => 'SuperAdmin',
                 'description' => 'God'
+            ],
+            [
+                'id'    => 2,
+                'name'  => 'Editor',
+                'description'   => 'Editor'
+            ],
+            [
+                'id'    => 3,
+                'name'  => 'Reviewer',
+                'description'   => 'Reviewer'
+            ],
+            [
+                'id'    => 4,
+                'name'  => 'Verificator',
+                'description'   => 'Payment Verification'
             ]
         ]);
 
@@ -176,6 +207,30 @@ class RoleSeeder extends Seeder
             [
                 'group_id' => 1,
                 'role_id'  => 6,
+            ],
+            [
+                'group_id' => 2,
+                'role_id'  => 10,
+            ],
+            [
+                'group_id' => 2,
+                'role_id'  => 11,
+            ],
+            [
+                'group_id' => 3,
+                'role_id'  => 27,
+            ],
+            [
+                'group_id' => 3,
+                'role_id'  => 28,
+            ],
+            [
+                'group_id' => 13,
+                'role_id'  => 27,
+            ],
+            [
+                'group_id' => 14,
+                'role_id'  => 28,
             ],
 
         ]);

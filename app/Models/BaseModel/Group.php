@@ -12,6 +12,10 @@ class Group extends Model
         return $this->belongsToMany(Role::class);
     }
 
+    public function admins() {
+        return $this->belongsToMany(Admin::class);
+    }
+
     /**
      * @param $role
      */

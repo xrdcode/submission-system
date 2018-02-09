@@ -16,8 +16,8 @@ class Workstate extends Model
         return $this->belongsTo(Admin::class, 'updated_by');
     }
 
-    public static function getList() {
-        $ws = self::all();
+    public static function getList($id = null) {
+        $ws = self::where('workstate_type_id', $id)->get();
         $tmp = [];
         foreach ($ws as $w) {
             $tmp[$w->id] = $w->name;

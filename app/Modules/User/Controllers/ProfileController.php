@@ -11,6 +11,7 @@ namespace App\Modules\User\Controllers;
 
 use App\Helper\HtmlHelper;
 use App\Http\Controllers\Controller;
+use App\Models\BaseModel\Country;
 use App\Models\BaseModel\PersonalData;
 use App\Models\BaseModel\User;
 use Illuminate\Http\Request;
@@ -34,23 +35,31 @@ class ProfileController extends Controller
         $validator = Validator::make($request->all(),[
             "name"      => "required|string|max:150",
             "address"   => "required|string|max:190",
-            "phone"     => "required|numeric",
-            "birthdate" => "required|string",
+            "phone"     => "numeric",
+            "birthdate" => "string",
             "student"   => "required|string",
-            "nik"               => "required|string",
-            "identity_type_id"  => "required|numeric",
-            "identity_number"   => "required|string",
+            "nik"               => "string",
+            "identity_type_id"  => "numeric",
+            "identity_number"   => "string",
             "institution"       => "required|string",
             "department"        => "required|string",
-            "islocal"           => "required",
+            "islocal"           => "",
         ]);
 
         if($validator->passes()) {
             $user = Auth::user();
-            if(empty($user->personal_data)) {
-               $pd  = new PersonalData();
+            $country = Country::find($request->get('country_id'));
+            if($country->code == "ID")
+                $request['islocal'] = 1;
+            else
+                $request['islocal'] = 0;
+            if(empty($user->personal_data)) {$pd  = new PersonalData();
                $pd->user_id = $user->id;
-               $pd->setRawAttributes($request->only(['islocal','nik','institution','department','identity_number','identity_type_id']));
+               $pd->setRawAttributes($request->only(['nik','institution','department','country_id']));
+               if($country->code == "ID")
+                   $pd->islocal = 1;
+               else
+                   $pd->islocal = 0;
                $pd->user()->associate($user);
                $pd->save();
             } else {

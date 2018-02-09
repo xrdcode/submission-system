@@ -19,7 +19,7 @@ class CreateAdminTask extends Migration
            $table->string('notes')->nullable();
            $table->unsignedInteger('submission_id')->nullable();
            $table->unsignedInteger('submission_event_id')->nullable();
-           $table->unsignedInteger('user_id')->nullable();
+           $table->unsignedInteger('admin_id')->nullable();
 
            $table->timestamps();
 
@@ -30,7 +30,7 @@ class CreateAdminTask extends Migration
             $table->unsignedInteger("created_by")->nullable();
             $table->unsignedInteger("updated_by")->nullable();
 
-            $table->foreign('user_id')->references('id')->on('admins')->onDelete('set null');
+            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('set null');
             $table->foreign('created_by')->references('id')->on('admins')->onDelete('set null');
             $table->foreign('updated_by')->references('id')->on('admins')->onDelete('set null');
         });

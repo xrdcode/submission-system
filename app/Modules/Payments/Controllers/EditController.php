@@ -49,6 +49,7 @@ class EditController extends Controller
 
             $submission->payment_submission()->update($request->only(['verified']));
             $status = $submission->update();
+            $submission->create_publication();
 
             return response()->json(["success" => $status , $submission]);
         } else {

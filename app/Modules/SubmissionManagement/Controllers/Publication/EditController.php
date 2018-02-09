@@ -15,6 +15,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BaseModel\PaymentSubmission;
 use App\Models\BaseModel\Submission;
 use App\Models\BaseModel\User;
+use App\Modules\AdminManagement\Models\Admin;
 use App\Modules\SubmissionManagement\Models\Pricing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,8 +29,8 @@ class EditController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['role:SubmissionManagement-Save'])->only(['index', 'update']);
-        $this->middleware(['role:SubmissionManagement-MinimumSaveAccess'])->only(['setprogress','setapproved','setpayment','_ModalAssignPayment']);
+        $this->middleware(['role:PublicationManagement-Save'])->only(['index', 'update']);
+        $this->middleware(['role:PublicationManagement-MinimumSaveAccess'])->only(['setprogress','setapproved','setpayment','_ModalAssignPayment']);
     }
 
     public function index($id) {
@@ -165,6 +166,12 @@ class EditController extends Controller
         }
     }
 
+    public function assign_rev(Request $request, $id) {
+        $admin = Admin::find($request->get('admin_id'));
+        $submission = Submission::findOrFail($id);
+        return response()->json(['success' => $submission->assignReviewer($admin)]);
+    }
+
     //// MODAL ////
 
     /**
@@ -180,6 +187,17 @@ class EditController extends Controller
             'submission'       => $submission
         ];
         return view("SubmissionManagement::submission.massign", $data);
+    }
+
+    public function _ModalAssignToReviewer($id) {
+
+        $data = [
+            'action'        => route('admin.publication.assignrev', $id),
+            'class' => 'modal-sm', //Kelas Modal
+            'title'         => 'Assign a Reviewer',
+            'publication'       => Submission::where('id', $id)->where('ispublicationonly', 1)->first()
+        ];
+        return view("SubmissionManagement::publication.massignreviewer", $data);
     }
 
 

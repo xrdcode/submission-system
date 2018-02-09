@@ -164,5 +164,6 @@ class MasterSeeder extends Seeder
                 'description'  => 'Poster Presenter',
             ],
         ]);
+
     }
 }

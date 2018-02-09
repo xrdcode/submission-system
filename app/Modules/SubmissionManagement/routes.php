@@ -168,7 +168,9 @@ Route::group(
     Route::get('/payment/{id}', ['as' => '.payment', 'uses' => 'EditController@_ModalAssignPayment', 'middleware' => []]);;
     Route::post('/setpayment/{id}', ['as' => '.setpayment', 'uses' => 'EditController@setpayment', 'middleware' => []]);
 
-    Route::post('/setfeedback/{id}', ['as' => '.setfeedback', 'uses' => 'EditController@setfeedback', 'middleware' => []]);
+    Route::get('/assign_rev/{id}', ['as' => '.assignrev', 'uses' => 'EditController@_ModalAssignToReviewer', 'middleware' => []]);;
+    Route::post('/assign_rev/{id}', ['as' => '.assignrev', 'uses' => 'EditController@assign_rev', 'middleware' => []]);;
 
+    Route::post('/setfeedback/{id}', ['as' => '.setfeedback', 'uses' => 'EditController@setfeedback', 'middleware' => []]);
     Route::get('/viewabstract/{id}', ['as' => '.abstract', 'uses' => 'ListController@_ModalViewAbstract', 'middleware' => []]);;
 });
