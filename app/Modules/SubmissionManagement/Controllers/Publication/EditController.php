@@ -89,31 +89,19 @@ class EditController extends Controller
 
         if($validator->passes()) {
 
-            $submission = new Submission();
-            $submission = $submission->findOrFail($request->get('id'));
+            $publication = new Submission();
+            $publication = $publication->findOrFail($request->get('id'));
 
-            DB::transaction(function() use ($submission, $request) {
+            DB::transaction(function() use ($publication, $request) {
 
-                if($submission->ispublicationonly) {
-                    $pricing = Pricing::findOrFail($submission->publication_id);
-                } else {
-                    $user = $submission->user->personal_data->student ? "Non-Student" : "Student";
-                    $pricing = $submission->submission_event->pricings()
-                        ->where("occupation","=",$user)->first();
-                }
+                $publication->approved = $request->get('approved');
 
-                if($submission->isPaid())
-                    return response()->json(["success" => true , $submission]);
-                if(empty($submission->payment_submission)) {
-                    $payment_submission = new PaymentSubmission();
-                    $payment_submission->pricing()->associate($pricing);
-                    $payment_submission->submission()->associate($submission);
-                    $payment_submission->save();
-                }
-                $submission->workstate_id = Constant::AFTER_APPROVED;
-                $submission->approved = $request->get('approved');
-                $status = $submission->update();
-                return response()->json(["success" => $status , $submission]);
+                if($publication->approved && !Auth::user()->hasGroup('SuperAdmin'))
+                    return response()->json(["success" => true]);
+
+                $publication->save();
+
+                return response()->json(["success" => true]);
             });
 
 
@@ -123,7 +111,7 @@ class EditController extends Controller
         }
     }
 
-    public function setpayment(Request $request, $id) {
+    public function setPricePublication(Request $request, $id) {
         $validator = Validator::make($request->all(), [
             'submission_id'  => 'required|numeric',
             'pricing_id'     => 'required|numeric',
@@ -137,6 +125,7 @@ class EditController extends Controller
                 $ps->created_by = Auth::id();
                 $ps->modified_by = Auth::id();
                 $submission->workstate_id = Constant::AFTER_APPROVED;
+                $submission->approved = 1;
                 $submission->update();
                 $status = $ps->update();
             } else {
@@ -177,16 +166,16 @@ class EditController extends Controller
     /**
      * @param $id : submission id
      */
-    public function _ModalAssignPayment($id) {
-        $submission = Submission::findOrFail($id);
+    public function _ModalSetPublication($id) {
+        $publication = Submission::findOrFail($id);
         $data = [
-            'action'        => route('admin.submission.setpayment', $id),
+            'action'        => route('admin.publication.setpublication', $id),
             // 'class' => 'modal-lg', //Kelas Modal
             'modalId'       => 'pricingmodal',
-            'title'         => 'Assign Payment',
-            'submission'       => $submission
+            'title'         => 'Approve & Choose Publication',
+            'publication'       => $publication
         ];
-        return view("SubmissionManagement::submission.massign", $data);
+        return view("SubmissionManagement::publication.msetpublication", $data);
     }
 
     public function _ModalAssignToReviewer($id) {

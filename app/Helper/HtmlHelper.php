@@ -78,7 +78,11 @@ EOF;
     protected static function join_attr(array $arr) {
         return join(" ", array_map(
             function(&$v, $k) {
-                return $v = "{$k}='{$v}'";
+                if(is_bool($v)) {
+                    return $k;
+                } else {
+                    return $v = "{$k}='{$v}'";
+                }
             },
             $arr,
             array_keys($arr)

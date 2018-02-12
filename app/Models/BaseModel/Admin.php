@@ -137,4 +137,18 @@ class Admin extends Authenticatable
         }
         return $tmp;
     }
+
+    public function admin_tasks() {
+        return $this->hasMany(AdminTask::class);
+    }
+
+    public function taskList() {
+        $at = $this->admin_tasks;
+        $tmp = [];
+        if(!empty($at))
+            foreach ($at as $a)
+                $tmp[] = $a->submission_id;
+        return $tmp;
+    }
+
 }

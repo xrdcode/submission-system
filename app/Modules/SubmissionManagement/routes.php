@@ -165,8 +165,9 @@ Route::group(
     Route::get('/edit/{id}', ['as' => '.edit', 'uses' => 'EditController@index', 'middleware' => []]);
     Route::post('/edit/{id}', ['as' => '.update', 'uses' => 'EditController@update', 'middleware' => []]);
 
-    Route::get('/payment/{id}', ['as' => '.payment', 'uses' => 'EditController@_ModalAssignPayment', 'middleware' => []]);;
-    Route::post('/setpayment/{id}', ['as' => '.setpayment', 'uses' => 'EditController@setpayment', 'middleware' => []]);
+    Route::get('/setpublication/{id}', ['as' => '.publication', 'uses' => 'EditController@_ModalSetPublication', 'middleware' => []]);;
+    Route::post('/setpublication/{id}', ['as' => '.setpublication', 'uses' => 'EditController@setPricePublication', 'middleware' => []]);
+//    Route::post('/undoset/{id}', ['as' => '.undoset', 'uses' => 'EditController@undoset', 'middleware' => []]);
 
     Route::get('/assign_rev/{id}', ['as' => '.assignrev', 'uses' => 'EditController@_ModalAssignToReviewer', 'middleware' => []]);;
     Route::post('/assign_rev/{id}', ['as' => '.assignrev', 'uses' => 'EditController@assign_rev', 'middleware' => []]);;

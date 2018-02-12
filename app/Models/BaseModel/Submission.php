@@ -71,10 +71,6 @@ class Submission extends Model
         return false;
     }
 
-    public function selectedReviewer() {
-
-    }
-
     public function admin_task() {
         return $this->hasOne(AdminTask::class);
     }

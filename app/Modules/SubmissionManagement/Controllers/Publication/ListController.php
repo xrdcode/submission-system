@@ -31,7 +31,9 @@ class ListController extends Controller
         return view('SubmissionManagement::publication.index', ['list' => $list]);
     }
 
+
     public function DT(Request $request) {
+        $approved = !empty($request->get('a')) ? $request->get('a') : 0;
         $submission = Submission::select(
             [
                 "id",
@@ -44,15 +46,21 @@ class ListController extends Controller
                 "submission_type_id",
                 "approved",
                 "feedback",
-                "file_paper_id"])->where('ispublicationonly','=',1)->with(['user','submission_event','payment_submission','submission_type','payment_submission.pricing']);
+                "file_paper_id"]);
+        if(Auth::user()->hasGroup('Reviewer')) {
+            $submission->whereIn('id', Auth::user()->taskList());
+        }
+        $submission->where('approved', $approved);
+        $submission->where('ispublicationonly','=',1)->with(['user','submission_event','payment_submission','submission_type','payment_submission.pricing']);
+
+
         $datatable = Datatables::of($submission)
             ->editColumn('approved', function($s) {
-                if(!$s->isPaid()) {
-                    $row  = HtmlHelper::createTag("i",["click-edit"],["title"=>"click to change"], $s->approved ? "Approved" : "Not Yet");
-                    $list = [1 => 'Approved', 0 => 'Not yet'];
-                    $row .= HtmlHelper::selectList($list, $s->approved, "approved", "form-control hide-n-seek", ["data-action" => route('admin.publication.approve', $s->id), "data-id" => $s->id, "style" => "display:none"]);
+                $row = '';
+                if(!$s->approved) {
+                    $row .= HtmlHelper::createTag('a',['btn btn-xs btn-info btn-modal'],['href' => route('admin.publication.setpublication', $s->id)], 'Approve');
                 } else {
-                    $row  = HtmlHelper::createTag("i",[],[], $s->approved ? "Approved" : "Not Yet");
+                    $row .= HtmlHelper::createTag('button', ['btn btn-xs btn-info disabled'] , ['id' => "#pub{$s->id}","disabled" => true , "data-id" => $s->id], 'Approved');
                 }
                 return $row;
             })
@@ -65,21 +73,21 @@ class ListController extends Controller
                 return $row;
             });
 
-        $datatable->addColumn('payment', function($s) {
-            if($s->approved && empty($s->payment_submission)) {
-                return HtmlHelper::linkButton('Assign', route('admin.publication.payment', $s->id), 'btn-xs btn-primary btn-edit', '');
-            } else {
-                if($s->approved) {
-                    if(!$s->isPaid()) {
-                        return HtmlHelper::linkButton('Re-Assign', route('admin.publication.payment', $s->id), 'btn-xs btn-primary btn-edit', '');
-                    } else {
-                        return "Paid";
-                    }
-
-                }
-                return "";
-            }
-        });
+//        $datatable->addColumn('payment', function($s) {
+//            if($s->approved && empty($s->payment_submission)) {
+//                return HtmlHelper::linkButton('Assign', route('admin.publication.payment', $s->id), 'btn-xs btn-primary btn-edit', '');
+//            } else {
+//                if($s->approved) {
+//                    if(!$s->isPaid()) {
+//                        return HtmlHelper::linkButton('Re-Assign', route('admin.publication.payment', $s->id), 'btn-xs btn-primary btn-edit', '');
+//                    } else {
+//                        return "Paid";
+//                    }
+//
+//                }
+//                return "";
+//            }
+//        });
 
         $datatable->editColumn('feedback', function($s) {
             $url = route('admin.publication.setfeedback', $s->id);

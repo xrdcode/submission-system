@@ -179,6 +179,49 @@ function toggleDelete(btnid, onsuccess, onerror) {
 }
 
 /**
+ * Must btn and have data-action
+ * @param btnid
+ */
+function toggleUndo(btnid, onsuccess, onerror) {
+    $('body').on('click', btnid, function(e) {
+        e.preventDefault();
+        var me = $(this);
+        //BootstrapDialog.confirm("<p>re you sure you want delete this data permanently?</p>", function(result) {
+        BootstrapDialog.confirm({
+            title: "Warning !",
+            type: BootstrapDialog.TYPE_WARNING,
+            size: BootstrapDialog.SIZE_SMALL,
+            message: "Are you sure you want undo this action?",
+            callback: function(result) {
+                if(result) {
+                    $.ajax({
+                        url: $(me).data('action'),
+                        method: 'post',
+                        data: { data: $(me).data('id') },
+                        dataType: 'json',
+                        success: function(dt) {
+                            if(isFunction(onsuccess)) {
+                                onsuccess.call(this, dt);
+                            } else {
+                                showAlert("Undoing action success", "success", "Success:");
+                            }
+                        },
+                        error: function(xHr) {
+                            if(isFunction(onerror)) {
+                                onsuccess.call(this, xHr);
+                            } else {
+                                showAlert("Oooops.. something when wrong..", "danger", "Error:");
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+    });
+}
+
+/**
  * This function for instant edit on a detail field, ex. on table.
  * attributes component need :
  * 1 label with click-edit class
