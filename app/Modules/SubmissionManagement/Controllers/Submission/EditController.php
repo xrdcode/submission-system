@@ -109,7 +109,7 @@ class EditController extends Controller
                     $payment_submission->submission()->associate($submission);
                     $payment_submission->save();
                 }
-                $submission->workstate_id = Constant::AFTER_APPROVED;
+                $submission->workstate_id = Constant::AFTER_PAID;
                 $submission->approved = $request->get('approved');
                 $status = $submission->update();
                 return response()->json(["success" => $status , $submission]);
