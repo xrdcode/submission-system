@@ -32,7 +32,7 @@
             <label for="address" class="col-md-4 control-label">Address</label>
 
             <div class="col-md-6">
-                <textarea id="description" type="text" class="form-control" name="address" required autofocus></textarea>
+                <textarea id="address" type="text" class="form-control" name="address" required autofocus></textarea>
             </div>
         </div>
 

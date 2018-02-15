@@ -175,3 +175,26 @@ Route::group(
     Route::post('/setfeedback/{id}', ['as' => '.setfeedback', 'uses' => 'EditController@setfeedback', 'middleware' => []]);
     Route::get('/viewabstract/{id}', ['as' => '.abstract', 'uses' => 'ListController@_ModalViewAbstract', 'middleware' => []]);;
 });
+
+
+Route::group(
+    [
+        'prefix' => 'admin/submission/room',
+        'as' => 'admin.submission.room',
+        'namespace' => 'App\Modules\SubmissionManagement\Controllers\RoomSubmission',
+        'middleware' => ['web', 'auth:admin']
+    ], function () {
+    Route::get('/', ['uses' => 'ListController@index', 'middleware' => []]);
+    Route::get('/search', ['as' => '.search', 'uses' => 'ListController@search', 'middleware' => []]);
+
+    Route::get('/edit/{id}', ['as' => '.edit', 'uses' => 'EditController@index', 'middleware' => []]);
+    Route::post('/edit/{id}', ['as' => '.update', 'uses' => 'EditController@update', 'middleware' => []]);
+
+    Route::get('/new', ['as' => '.new', 'uses' => 'EditController@newevent', 'middleware' => []]);;
+    Route::post('/store', ['as' => '.store', 'uses' => 'EditController@store', 'middleware' => []]);;
+    Route::get('/activate/{id}', ['as' => '.activate', 'uses' => 'EditController@activate', 'middleware' => []]);;
+
+    //Route::get('/detail/{id}', ['as' => '.detail', 'uses' => 'DetailController@index', 'middleware' => []]);
+
+    Route::get('/dt', ['as' => '.dt', 'uses' => 'ListController@DT', 'middleware' => []]);
+});

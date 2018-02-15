@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section("content")
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
@@ -45,7 +45,9 @@
                     { title: 'Name',data: 'name',},
                     { title: 'Building',data: 'building'},
                     { title: 'Notes',data: 'notes'},
-                    //{ data: 'action', orderable: false, searchable: false}
+                    { title: 'Created',data: 'created_at'},
+                    { title: 'Updated',data: 'updated_at'},
+                    { data: 'action', orderable: false, searchable: false}
                 ]
 
             });

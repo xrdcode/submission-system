@@ -22,7 +22,7 @@ class ListController extends Controller
     }
 
     public function index() {
-        return view("SubmissionManagement::roomsubmission");
+        return view("SubmissionManagement::roomsubmission.index");
     }
 
     public function DT() {

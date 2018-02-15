@@ -225,12 +225,12 @@ class RoleSeeder extends Seeder
                 'role_id'  => 28,
             ],
             [
-                'group_id' => 13,
-                'role_id'  => 27,
+                'group_id' => 4,
+                'role_id'  => 13,
             ],
             [
-                'group_id' => 14,
-                'role_id'  => 28,
+                'group_id' => 4,
+                'role_id'  => 14,
             ],
 
         ]);

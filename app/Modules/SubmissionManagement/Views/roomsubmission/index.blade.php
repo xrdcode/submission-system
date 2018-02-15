@@ -5,6 +5,17 @@
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="form-inline pull-right">
+                            <button id="btn_new" class="btn btn-primary">New</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="panel panel-default">
                     <div class="panel-heading">
                         Submission List
                     </div>
@@ -67,7 +78,7 @@
 
             $('#btn_new').on('click', function(e) {
                 $.ajax({
-                    url: '{{ route('admin.pricing.new') }}',
+                    url: '{{ route('admin.submission.room.new') }}',
                     method: 'GET',
                     success: function(response) {
                         $("#modal-container").html(response);

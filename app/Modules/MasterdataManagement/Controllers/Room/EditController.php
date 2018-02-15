@@ -24,11 +24,11 @@ class EditController extends Controller
 
     public function index($id) {
         $data = [
-            'action'    => route('admin.master.room.update'),
+            'action'    => route('admin.master.room.update', $id),
             'room'      => Rooms::findOrFail($id),
             'title'     => "Edit Room"
         ];
-        return view("MasterdataManagement::room.edit", $data);
+        return view("MasterdataManagement::room.medit", $data);
     }
 
     public function newroom() {
@@ -64,7 +64,14 @@ class EditController extends Controller
     }
 
     public function update(Request $request, $id) {
-
+        $validate = $this->validates($request);
+        if($validate->passes()) {
+            $room = Rooms::findOrFail($id);
+            $room->update($request->only('name','number','building','notes', 'address'));
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['success' => false, 'errors' => $validate->getMessageBag()->toArray()]);
+        }
     }
 
     public function delete(Request $request, $id) {

@@ -19,7 +19,10 @@ class ModuleServiceProvider extends ServiceProvider
         try {
             $modules = Module::all();
 
+            
+
             foreach ($modules as $m) {
+
                 // Load the routes for each of the modules
                 if(file_exists(__DIR__.'/'.$m->pathname.'/routes.php')) {
                     include __DIR__.'/'.$m->pathname.'/routes.php';
@@ -32,6 +35,7 @@ class ModuleServiceProvider extends ServiceProvider
             }
         } catch (\Illuminate\Database\QueryException $ex) {
             $modules = config("module.modules");
+
 
             while (list(,$module) = each($modules)) {
 

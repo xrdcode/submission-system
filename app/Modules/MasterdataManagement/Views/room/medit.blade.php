@@ -32,7 +32,7 @@
             <label for="address" class="col-md-4 control-label">Description</label>
 
             <div class="col-md-6">
-                <textarea id="description" type="text" class="form-control" name="address" required autofocus>{{ $room->address }}</textarea>
+                <textarea id="address" type="text" class="form-control" name="address" required autofocus>{{ $room->address }}</textarea>
             </div>
         </div>
 

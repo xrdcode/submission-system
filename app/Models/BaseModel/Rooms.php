@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Rooms extends Model
 {
 
-    protected $fillable = ['name', 'number','address','building'];
+    protected $fillable = ['name', 'number','address','building','notes'];
 
     public function createdby() {
         return $this->belongsTo(Admin::class, 'created_by');

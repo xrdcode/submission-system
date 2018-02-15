@@ -9,6 +9,7 @@
 namespace App\Modules\MasterdataManagement\Controllers\Room;
 
 
+use App\Helper\HtmlHelper;
 use App\Http\Controllers\Controller;
 use App\Models\BaseModel\Rooms;
 use Yajra\Datatables\Datatables;
@@ -27,6 +28,10 @@ class ListController extends Controller
     public function DT() {
         $room = Rooms::query();
         $dt = Datatables::of($room);
+
+        $dt->addColumn('action', function ($r) {
+           return HtmlHelper::linkButton('Edit', route('admin.master.room.edit', $r->id), 'btn-xs btn-default btn-edit','','glyphicon-edit');
+        });
 
         return $dt->make(true);
     }
