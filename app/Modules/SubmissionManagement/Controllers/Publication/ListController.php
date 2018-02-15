@@ -47,7 +47,7 @@ class ListController extends Controller
                 "approved",
                 "feedback",
                 "file_paper_id"]);
-        if(Auth::user()->hasGroup('Reviewer')) {
+        if(Auth::user()->hasGroup('Reviewer') && !Auth::user()) {
             $submission->whereIn('id', Auth::user()->taskList());
         }
         $submission->where('approved', $approved);
