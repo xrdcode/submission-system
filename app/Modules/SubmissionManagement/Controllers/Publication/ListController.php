@@ -57,6 +57,10 @@ class ListController extends Controller
         $datatable = Datatables::of($submission)
             ->editColumn('approved', function($s) {
                 $row = '';
+
+                if(empty($s->file_paper)) {
+                    $row .= HtmlHelper::createTag('button', ['btn btn-xs btn-info disabled'] , ['id' => "#pub{$s->id}","disabled" => true , "data-id" => $s->id], 'Approve');
+                } else
                 if(!$s->approved) {
                     $row .= HtmlHelper::createTag('a',['btn btn-xs btn-info btn-modal'],['href' => route('admin.publication.setpublication', $s->id)], 'Approve');
                 } else {
