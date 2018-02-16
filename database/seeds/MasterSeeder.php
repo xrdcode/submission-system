@@ -33,15 +33,18 @@ class MasterSeeder extends Seeder
         DB::table('pricing_types')->insert([
             [
                 'name'          => 'Workshop',
-                'description'   => 'Workshop only'
+                'description'   => 'Workshop only',
+                'active'        => 1
             ],
             [
                 'name'          => 'Conference and Workshop',
-                'description'   => 'Conference and Workshop'
+                'description'   => 'Conference and Workshop',
+                'active'        => 1
             ],
             [
                 'name'          => 'Publication',
-                'description'   => 'Publication'
+                'description'   => 'Publication',
+                'active'        => 1
             ]
         ]);
 

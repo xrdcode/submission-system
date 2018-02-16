@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row" style="text-align: center">
-        <img src="{{ asset('img/logo_ismec.png') }}" width="150px">
+        <img src="{{ asset('img/logo_smic.png') }}" width="150px">
     </div>
     <form id="user-login" class="form-signin" method="POST" action="{{ route('user.login') }}">
         {{ csrf_field() }}

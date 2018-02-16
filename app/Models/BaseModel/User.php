@@ -6,6 +6,7 @@ use App\Models\BaseModel\Biodata;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Notification\ResetPassword as ResetPasswordNotification;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -63,8 +64,22 @@ class User extends Authenticatable
         return $data;
     }
 
+    public function user_notifications() {
+        return $this->hasMany(UserNotification::class);
+    }
+
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPasswordNotification($token));
+    }
+
+    public function createNotification($title, $body, $class = '') {
+        $un = new UserNotification();
+        $un->title = $title;
+        $un->body   = $body;
+        $un->user()->associate($this);
+        $un->admin()->associate(Auth::id());
+        $un->class = $class;
+        return $un->save();
     }
 }
