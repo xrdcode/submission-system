@@ -267,7 +267,7 @@
                                             @endif
                                             <li class="divider"></li>
                                             <li class="dropdown-header">Participant</li>
-                                            <li><a href="#">User List <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
+                                            <li><a href="{{ route("admin.users") }}">User List <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
                                         </ul>
                                     </li>
                                 @endif

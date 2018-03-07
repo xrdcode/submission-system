@@ -136,7 +136,12 @@ Route::group(
 
     Route::get('/assignpub/{id}', ['as' => '.assignpub', 'uses' => 'ListController@_ModalAssignPub', 'middleware' => []]);;
     Route::post('/assignpub/{id}', ['as' => '.assignpub', 'uses' => 'EditController@assignpub', 'middleware' => []]);;
+
+
 });
+
+Route::get('/admin/users', ['as' => 'admin.users', 'uses' => 'App\Modules\SubmissionManagement\Controllers\User\ListController@index', 'middleware' => ['web','auth:admin']]);;
+Route::get('/admin/dt', ['as' => 'admin.users.dt', 'uses' => 'App\Modules\SubmissionManagement\Controllers\User\ListController@DT', 'middleware' => ['web','auth:admin']]);;
 
 Route::group(
     [
