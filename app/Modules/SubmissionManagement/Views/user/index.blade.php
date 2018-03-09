@@ -64,7 +64,8 @@
                     },
                     { title: 'Name',data: 'name'},
                     { title: 'Mail',data: 'email'},
-                    { title: 'Address',data: 'phone', class:'force-wrap'}
+                    { title: 'Phone',data: 'phone', class:'force-wrap'},
+                    { title: 'Institution',data: 'personal_data.institution', class:'force-wrap', orderable: false},
                 ]
 
             });

@@ -21,8 +21,9 @@ class ListController extends Controller
     }
 
     public function DT() {
-        $users = User::query();
+        $users = User::query()->has("personal_data")->with(["personal_data"]);
         $datatable = Datatables::of($users);
+
 
         return $datatable->make(true);
     }
