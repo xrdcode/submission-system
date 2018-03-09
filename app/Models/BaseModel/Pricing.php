@@ -34,13 +34,12 @@ class Pricing extends Model
         return $this->belongsTo(Admin::class, 'updated_by');
     }
 
-    public function getOccupationAtribute($value) {
-        if(empty($value)) return "";
-        return Constant::OCCUPATION_R[$value];
+    public function getOccupationAttribute($value) {
+        return $value;
     }
 
     public function setOccupationAttribute($value) {
-        if(empty($value)) return "";
+        if(!in_array($value, [0,1,2])) return Constant::OCCUPATION[0];
         $this->attributes['occupation'] = Constant::OCCUPATION[$value];
     }
 }

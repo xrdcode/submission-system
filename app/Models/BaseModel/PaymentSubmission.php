@@ -10,7 +10,7 @@ class PaymentSubmission extends Model
     protected $fillable = ['submission_id','pricing_id','file'];
 
     public function submission() {
-        return $this->belongsTo(Submission::class);
+        return $this->belongsTo(Submission::class)->has("user");
     }
 
     public function pricing() {

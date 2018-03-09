@@ -54,7 +54,7 @@
                 processing: true,
                 serverSide: true,
                 scrollX: true,
-                ajax: '{!! route('admin.users.dt') !!}',
+                ajax: '{!! route('admin.participant.dt') !!}',
                 columns: [
                     {
                         title: 'No',
@@ -66,8 +66,45 @@
                     { title: 'Mail',data: 'email'},
                     { title: 'Phone',data: 'phone', class:'force-wrap'},
                     { title: 'Institution',data: 'personal_data.institution', class:'force-wrap', orderable: false},
+                    { title: 'Action',data: 'action', searchable: false, class:'force-wrap', orderable: false},
                 ]
 
+            });
+
+            $('body').on('click','a.btn-modal', function(e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: $(this).attr('href'),
+                    method: 'GET',
+                    success: function(response) {
+                        $("#modal-container").html(response);
+                        $(".modal", "#modal-container").modal();
+                    },
+                    error: function(xHr) {
+                        console.log(xHr);
+                    }
+                });
+            });
+
+            toggleDelete("a.btn-delete", function(d) {
+                if(d.success) {
+                    showAlert(d.message, "success", "Success");
+                    var table = $("#datalist").DataTable();
+                    table.draw();
+                } else {
+                    showAlert(d.message, "warning","Failed: ")
+                }
+            });
+
+            toggleRecover("a.btn-recover", function(d) {
+                if(d.success) {
+                    showAlert(d.message, "success", "Success");
+                    var table = $("#datalist").DataTable();
+                    table.draw();
+                } else {
+                    showAlert(d.message, "warning","Failed: ")
+                }
             });
 
         });

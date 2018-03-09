@@ -148,7 +148,7 @@ function toggleDelete(btnid, onsuccess, onerror) {
             title: "Warning !",
             type: BootstrapDialog.TYPE_WARNING,
             size: BootstrapDialog.SIZE_SMALL,
-            message: "Are you sure you want delete this data permanently?",
+            message: "Are you sure you want delete this data?",
             callback: function(result) {
                 if(result) {
                     $.ajax({
@@ -161,6 +161,49 @@ function toggleDelete(btnid, onsuccess, onerror) {
                                 onsuccess.call(this, dt);
                             } else {
                                 showAlert("Data has been deleted", "success", "Success:");
+                            }
+                        },
+                        error: function(xHr) {
+                            if(isFunction(onerror)) {
+                                onsuccess.call(this, xHr);
+                            } else {
+                                showAlert("Oooops.. something when wrong..", "danger", "Error:");
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+    });
+}
+
+/**
+ * Must btn and have data-action
+ * @param btnid
+ */
+function toggleRecover(btnid, onsuccess, onerror) {
+    $('body').on('click', btnid, function(e) {
+        e.preventDefault();
+        var me = $(this);
+        //BootstrapDialog.confirm("<p>re you sure you want delete this data permanently?</p>", function(result) {
+        BootstrapDialog.confirm({
+            title: "Warning !",
+            type: BootstrapDialog.TYPE_WARNING,
+            size: BootstrapDialog.SIZE_SMALL,
+            message: "Are you sure you want recover this data?",
+            callback: function(result) {
+                if(result) {
+                    $.ajax({
+                        url: $(me).attr('href'),
+                        method: 'post',
+                        data: { data: $(me).data('id') },
+                        dataType: 'json',
+                        success: function(dt) {
+                            if(isFunction(onsuccess)) {
+                                onsuccess.call(this, dt);
+                            } else {
+                                showAlert("Data has been recovered", "success", "Success:");
                             }
                         },
                         error: function(xHr) {

@@ -152,7 +152,7 @@ class SubmissionEvent extends Model
     }
 
     public function workshoplist() {
-        if($this->eventfor == Constant::EVENT_FOR_LIST[0])
+        if($this->eventfor == Constant::EVENT_FOR_LIST[1])
             return [];
         $price = $this->pricings;
         $tmp = [];

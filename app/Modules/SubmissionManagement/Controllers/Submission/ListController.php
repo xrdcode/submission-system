@@ -44,7 +44,7 @@ class ListController extends Controller
                 "approved",
                 "feedback",
                 "submission_id",
-                "file_paper_id"])->where('ispublicationonly','=',0)->with(['user','submission_event','workstate','payment_submission','submission_type','publication.payment_submission.pricing']);
+                "file_paper_id"])->where('ispublicationonly','=',0)->has("user")->with(['user','submission_event','workstate','payment_submission','submission_type','publication.payment_submission.pricing']);
         $datatable = Datatables::of($submission)
             ->editColumn('approved', function($s) {
                 if(!$s->isPaid() && empty($s->payment_submission)) {

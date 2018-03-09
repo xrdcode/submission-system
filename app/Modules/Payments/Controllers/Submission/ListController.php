@@ -8,11 +8,10 @@
 
 namespace App\Modules\Payments\Controllers\Submission;
 
-use App\Models\BaseModel\PaymentSubmission;
+
 use App\Models\BaseModel\Submission;
 use App\Http\Controllers\Controller;
 use App\Constants;
-use Illuminate\Support\Facades\Storage;
 use Yajra\Datatables\Datatables;
 use Carbon\Carbon;
 use App\Helper\HtmlHelper;
@@ -33,7 +32,7 @@ class ListController extends Controller
             ->whereHas('submission_event', function($q) {
                 $q->where('valid_from','<=', Carbon::now())
                     ->where('valid_thru','>=', Carbon::now());
-            })
+            })->has("user")
             ->has('payment_submission')->with(['payment_submission.pricing','submission_type','submission_event','user']);
 
         $dt = Datatables::of($submission);

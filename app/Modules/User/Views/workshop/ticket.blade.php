@@ -3,7 +3,7 @@
 @section('body')
     <div class="row">
         <div class="col-md-4 col-md-offset-1" style="alignment: center">
-            <img src="data:image/png;base64,{{ \Milon\Barcode\DNS2D::getBarcodePNG($ticket->code, "QRCODE", 5,5) }}" alt="barcode"   />
+            <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG($ticket->code, "QRCODE", 5,5) }}" alt="barcode"   />
         </div>
         <div class="col-md-6">
             <h5 style="margin: 5px 0px 5px 0px">{{ $gp->user->name }}</h5>

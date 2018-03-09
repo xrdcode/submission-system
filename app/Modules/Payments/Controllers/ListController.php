@@ -48,7 +48,7 @@ class ListController extends Controller
             ->whereHas('submission_event', function($q) {
                 $q->where('valid_from','<=', Carbon::now())
                     ->where('valid_thru','>=', Carbon::now());
-            })
+            })->has("user")
             ->has('payment_submission')->with(['payment_submission.pricing','submission_event','submission_type','user']);
 
         $dt = Datatables::of($submission);

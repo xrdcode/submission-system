@@ -12,7 +12,7 @@ class Submission extends Model
     protected $fillable = ['title','abstract','feedback','abstractfile','user_id','submission_event_id','workstate_id','submission_type_id','file_paper_id','ispublicationonly'];
 
     public function user() {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->where("deleted", 0);
     }
 
     public function file_paper() {

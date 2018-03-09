@@ -267,7 +267,7 @@
                                             @endif
                                             <li class="divider"></li>
                                             <li class="dropdown-header">Participant</li>
-                                            <li><a href="{{ route("admin.users") }}">User List</a></li>
+                                            <li><a href="{{ route("admin.participant") }}">User List</a></li>
                                         </ul>
                                     </li>
                                 @endif
@@ -281,21 +281,10 @@
                                         @endif
                                         @if(Auth::user()->hasRole('PaymentManagement-View'))
                                             <li class="dropdown-header">Payments</li>
-                                            <li><a href="{{ route('admin.payment.submission') }}">Assign Payment</a></li>
+                                            {{--<li><a href="{{ route('admin.payment.submission') }}">Assign Payment</a></li>--}}
                                             <li><a href="{{ route('admin.payment') }}">Verify Payment</a></li>
-                                            <li><a href="#">Workshop Payment <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
+                                            {{--<li><a href="#">Workshop Payment <i class="glyphicon glyphicon-ban-circle red"></i></a></li>--}}
                                         @endif
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="dropdown dropdown-large">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reports<span class="caret"></span></a>
-                            <ul class="dropdown-menu dropdown-menu-large row">
-                                <li class="col-md-4">
-                                    <ul>
-                                        <li><a href="#">Payment Mutation <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
-                                        <li><a href="#">Participant Data <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
                                     </ul>
                                 </li>
                             </ul>

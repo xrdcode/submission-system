@@ -12,7 +12,7 @@
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <label for="pricing_id">Publication</label>
+                    <label for="pricing_id">Topics</label>
                     {{ Form::select('pricing_id', $gp->submission_event->workshoplist(), [$gp->pricing_id] ,["id" => "pricing_id","class" => "form-control select2-single"]) }}
                     <input name="submission_event_id" type="hidden" value="{{ $gp->submission_event_id }}">
                 </div>

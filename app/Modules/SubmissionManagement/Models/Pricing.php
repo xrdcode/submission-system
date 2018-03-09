@@ -8,8 +8,8 @@
 
 namespace App\Modules\SubmissionManagement\Models;
 
+use App\Helper\Constant;
 use App\Models\BaseModel\Pricing as BasePricing;
-use App\Modules\SubmissionManagement\Models\SubmissionEvent;
 
 class Pricing extends BasePricing
 {
@@ -45,6 +45,5 @@ class Pricing extends BasePricing
         }
         return $tmp;
     }
-
 
 }

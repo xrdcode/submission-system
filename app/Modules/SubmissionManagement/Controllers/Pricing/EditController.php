@@ -59,8 +59,10 @@ class EditController extends Controller
             $pricing = Pricing::find($id);
 
             $pricing->updated_by = Auth::user()->id;
-            $pricing->update($request->only(['title','price','submission_event_id','pricing_types','usd_price','isparticipant','occupation']));
-            return response()->json([$pricing]);
+            $pricing->occupation = $request->get("occupation");
+            $check = $pricing->occupation;
+            $pricing->update($request->only(['title','price','submission_event_id','pricing_types','usd_price','isparticipant']));
+            return response()->json([$check]);
         } else {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
         }

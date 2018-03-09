@@ -140,8 +140,21 @@ Route::group(
 
 });
 
-Route::get('/admin/users', ['as' => 'admin.users', 'uses' => 'App\Modules\SubmissionManagement\Controllers\User\ListController@index', 'middleware' => ['web','auth:admin']]);;
-Route::get('/admin/dt', ['as' => 'admin.users.dt', 'uses' => 'App\Modules\SubmissionManagement\Controllers\User\ListController@DT', 'middleware' => ['web','auth:admin']]);;
+Route::group(
+    [
+        'prefix' => 'admin/participant',
+        'as' => 'admin.participant',
+        'namespace' => 'App\Modules\SubmissionManagement\Controllers\Participant',
+        'middleware' => ['web', 'auth:admin']
+    ], function() {
+    Route::get('/', ['uses' => 'ListController@index', 'middleware' => ['web','auth:admin']]);;
+    Route::get('/dt', ['as' => '.dt', 'uses' => 'ListController@DT', 'middleware' => ['web','auth:admin']]);;
+    Route::get('/detail/{id}', ['as' => '.detail', 'uses' => 'ListController@detail', 'middleware' => ['web','auth:admin']]);;
+    Route::post('/delete/{id}', ['as' => '.delete', 'uses' => 'EditController@delete', 'middleware' => ['web','auth:admin']]);;
+    Route::post('/recover/{id}', ['as' => '.recover', 'uses' => 'EditController@recover', 'middleware' => ['web','auth:admin']]);;
+
+});
+
 
 Route::group(
     [
