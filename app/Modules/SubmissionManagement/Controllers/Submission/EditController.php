@@ -12,6 +12,8 @@ namespace App\Modules\SubmissionManagement\Controllers\Submission;
 use App\Helper\Constant;
 use App\Http\Controllers\Controller;
 
+use App\Jobs\SendAbstractApprovedEmail;
+use App\Mail\AbstractApprovedNotification;
 use App\Models\BaseModel\PaymentSubmission;
 use App\Models\BaseModel\Submission;
 use App\Models\BaseModel\User;
@@ -112,6 +114,9 @@ class EditController extends Controller
                 $submission->workstate_id = Constant::AFTER_PAID;
                 $submission->approved = $request->get('approved');
                 $status = $submission->update();
+
+                $this->dispatch(new SendAbstractApprovedEmail($submission));
+
                 return response()->json(["success" => $status , $submission]);
             });
 

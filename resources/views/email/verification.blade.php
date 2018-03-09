@@ -18,6 +18,13 @@
                                     <td class="x_content-cell" style="font-family:Avenir,Helvetica,sans-serif; padding:35px">
                                         <h1 style="font-family:Avenir,Helvetica,sans-serif; color:#2F3133; font-size:19px; font-weight:bold; margin-top:0; text-align:left">
                                             Hello {{$username}} !</h1>
+                                        @if(!empty($password))
+                                        <table>
+                                            <th><th colspan="3">Login Account:</th></th>
+                                            <tr><td>Email</td><td>:</td><td>{{ $email }}</td></tr>
+                                            <tr><td>Password</td><td>:</td><td>{{ $password }} (Please Keep it Secret)</td></tr>
+                                        </table>
+                                        @endif
                                         <p style="font-family:Avenir,Helvetica,sans-serif; color:#74787E; font-size:16px; line-height:1.5em; margin-top:0; text-align:left">
                                             You are receiving this email because you are registered to our system. Please complete the registration process by click the button below.</p>
                                         <table class="x_action" align="center" width="100%" cellpadding="0" cellspacing="0" style="font-family:Avenir,Helvetica,sans-serif; margin:30px auto; padding:0; text-align:center; width:100%">

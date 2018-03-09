@@ -129,6 +129,7 @@ class RegisterController extends Controller
             'api_token' => str_random(60),
         ]);
 
+        $user->tmp_pass = $data['password'];
         return $user;
     }
 

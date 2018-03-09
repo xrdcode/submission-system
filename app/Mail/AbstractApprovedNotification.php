@@ -32,6 +32,6 @@ class AbstractApprovedNotification extends Mailable
     public function build()
     {
         $submission = $this->submision;
-        return $this->view('email:abstract.name', compact('submission'));
+        return $this->view('email.abstract', compact('submission'));
     }
 }

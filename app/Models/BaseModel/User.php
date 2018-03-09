@@ -17,6 +17,9 @@ class User extends Authenticatable
      *
      * @var array
      */
+
+    public $tmp_pass = "";
+
     protected $fillable = [
         'name', 'email', 'password','phone','address','email_token','api_token','birthdate',
     ];

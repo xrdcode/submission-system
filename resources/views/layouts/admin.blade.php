@@ -259,7 +259,7 @@
                                     </ul>
                                 </li>
                                 @if(Auth::user()->hasRole('RoomManagement-View, UserManagement-View'))
-                                    <li class="col-md-4">
+                                <li class="col-md-4">
                                         <ul>
                                             @if(Auth::user()->hasRole('RoomManagement-View'))
                                                 <li class="dropdown-header">Room</li>
@@ -267,7 +267,7 @@
                                             @endif
                                             <li class="divider"></li>
                                             <li class="dropdown-header">Participant</li>
-                                            <li><a href="{{ route("admin.users") }}">User List <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
+                                            <li><a href="{{ route("admin.users") }}">User List</a></li>
                                         </ul>
                                     </li>
                                 @endif

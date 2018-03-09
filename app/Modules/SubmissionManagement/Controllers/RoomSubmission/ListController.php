@@ -11,6 +11,7 @@ namespace App\Modules\SubmissionManagement\Controllers\RoomSubmission;
 
 use App\Http\Controllers\Controller;
 use App\Models\BaseModel\RoomSubmission;
+use App\Models\BaseModel\Submission;
 use Yajra\Datatables\Datatables;
 
 class ListController extends Controller
@@ -26,7 +27,7 @@ class ListController extends Controller
     }
 
     public function DT() {
-        $rs = RoomSubmission::query();
+        $rs = Submission::query()->with(["room_submission", "submission_type", "workstate", "submission_event", "user"]);
         $dt = Datatables::of($rs);
 
         return $dt->make(true);

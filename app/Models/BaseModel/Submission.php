@@ -47,6 +47,10 @@ class Submission extends Model
         return $this->hasOne(PaymentSubmission::class);
     }
 
+    public function room_submission() {
+        return $this->belongsTo(RoomSubmission::class);
+    }
+
     public function pricelist() {
         $isstudent = $this->user->personal_data->student ? "Student" : "Non-Student";
         $filter = $this->ispublicationonly ? "Publication" : "Conference and Workshop";
