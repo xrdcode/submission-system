@@ -34,8 +34,12 @@ class ListController extends Controller
     }
 
     public function DT() {
-        $users = User::query()->has("personal_data")->with(["personal_data"]);
+        $users = User::query()->with(["personal_data"]);
         $datatable = Datatables::of($users);
+
+        $datatable->editColumn("personal_data.institution", function($u) {
+            return empty($u->personal_data) ? " - " : $u->personal_data->institution;
+        });
 
         $datatable->addColumn('action', function($u) {
             $btn = HtmlHelper::linkButton("View", route('admin.participant.detail', $u->id), "btn-xs btn-info btn-modal", "", "glyphicon-search");
