@@ -43,7 +43,7 @@
             <div class="col-md-6">
                 <div class="input-group">
                     <div class="input-group-addon">
-                        Rp
+                        USD
                     </div>
                     <input id="usd_price" type="text" class="form-control" name="usd_price" value="" style="text-align: right" required autofocus>
                 </div>
