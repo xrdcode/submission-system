@@ -28,20 +28,20 @@
         <div class="col-md-6">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Notification</h3>
+                    <h3 class="panel-title">Progress Log</h3>
                 </div>
                 <div class="panel-body" style="max-height: 600px; overflow-x: scroll">
                     @if(Auth::user()->user_notifications->count() == 0)
                         <p>Empty</p>
                     @endif
                     <ul class="media-list">
-                        @foreach(Auth::user()->user_notifications as $un)
+                        @foreach(Auth::user()->user_notifications()->latest("created_at")->get() as $un)
                             <li class="media">
                                 <a class="pull-right" href="#"></a>
                                 <div class="media-body">
                                     <h4 class="media-heading">{{ $un->title }}</h4>
                                     <p>{{ $un->created_at }}</p>
-                                    <p>{{ $un->body }}</p>
+                                    <p style="color: #2B303A">{!! $un->body !!}</p>
                                 </div>
                             </li>
                         @endforeach

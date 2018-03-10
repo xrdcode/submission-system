@@ -76,6 +76,8 @@ class EditController extends Controller
             $submission = Submission::findOrFail($request->get('id'));
             $submission->workstate_id = $request->get('workstate_id');
             $status = $submission->update();
+            $user = User::find($submission->user_id);
+            $user->createNotification("Submission Progress", "<strong>{$submission->title}</strong><br>Your submission progress changed to {$submission->workstate->name} by " . Auth::user()->name);
             return response()->json(["success" => $status , $submission]);
         } else {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -116,9 +118,12 @@ class EditController extends Controller
                 $status = $submission->update();
 
                 $this->dispatch(new SendAbstractApprovedEmail($submission));
+                $user = User::find($submission->user_id);
+                $user->createNotification("Abstract Approved", "<strong>{$submission->title}</strong><br>Your abstract has been approved by reviewer " . Auth::user()->name);
 
                 return response()->json(["success" => $status , $submission]);
             });
+
 
 
             return response()->json(["success" => false]);
@@ -164,6 +169,8 @@ class EditController extends Controller
         if($validator->passes()) {
             $submission = Submission::findOrFail($id);
             $status = $submission->update($request->only('feedback'));
+            $user = User::find($submission->user_id);
+            $user->createNotification("Submission Feedback", "<strong>{$submission->title}</strong><br>You've got feedback from " . Auth::user()->name);
             return response()->json(["success" => $status]);
         } else {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -194,6 +201,9 @@ class EditController extends Controller
                     $newpub->workstate_id = Constant::AFTER_PAID;
                     $newpub->submission_id = $request->get('submission_id');
                     $newpub->save();
+
+                    $user = User::find($submission->user_id);
+                    $user->createNotification("Submission Update", "<strong>{$submission->title}</strong><br>Your submission assigned to publication by " . Auth::user()->name);
 
                     $payment_submission = new PaymentSubmission();
                     $payment_submission->pricing()->associate($pricing);
