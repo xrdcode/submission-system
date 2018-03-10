@@ -65,7 +65,7 @@ class RegisterController extends Controller
             "password" => $request->get("password")
         ];
 
-        dispatch(new SendVerificationEmail($user));
+        dispatch(new SendVerificationEmail($user, $field));
 
         return response()->json(['redirect' => route('register.done')]);
     }
