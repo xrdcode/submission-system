@@ -16,7 +16,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="pricing_id">Publication</label>
+                                <label for="pricing_id">Topics</label>
                                 <select id="workshoplist" name="pricing_id" data-need="#submission_event_id" data-src="{{ url('api/workshop/list') }}" class="form-control select2-single"></select>
                             </div>
                         </div>
