@@ -13,14 +13,21 @@ class EmailVerification extends Mailable
     use Queueable, SerializesModels;
 
     protected $user;
+
+    protected $field = [
+        'password' => null
+    ];
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct(User $user, $custField = null)
     {
         $this->user = $user;
+        if (!empty($custField["password"])) {
+            $this->field = $custField;
+        }
     }
 
     /**
@@ -33,8 +40,8 @@ class EmailVerification extends Mailable
         return $this->view("email.verification")->with([
             'email_token' => $this->user->email_token,
             'username' => $this->user->name,
-            'password' => $this->tmp_pass,
-            'email' => $this->email
+            'password' => $this->field["password"],
+            'email' => $this->user->email
         ]);
     }
 }

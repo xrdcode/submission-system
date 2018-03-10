@@ -61,6 +61,10 @@ class RegisterController extends Controller
 
         event(new Registered($user = $this->create($request->all())));
 
+        $field = (object)[
+            "password" => $request->get("password")
+        ];
+
         dispatch(new SendVerificationEmail($user));
 
         return response()->json(['redirect' => route('register.done')]);
@@ -115,7 +119,7 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return \App\Models\BaseModel\User
      */
     protected function create(array $data)
     {
@@ -129,7 +133,6 @@ class RegisterController extends Controller
             'api_token' => str_random(60),
         ]);
 
-        $user->tmp_pass = $data['password'];
         return $user;
     }
 

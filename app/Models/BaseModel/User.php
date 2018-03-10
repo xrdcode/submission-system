@@ -18,10 +18,8 @@ class User extends Authenticatable
      * @var array
      */
 
-    public $tmp_pass = "";
-
     protected $fillable = [
-        'name', 'email', 'password','phone','address','email_token','api_token','birthdate',
+        'name', 'email', 'password','phone','address','email_token','api_token','birthdate'
     ];
 
     /**
@@ -32,7 +30,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token','api_token','email_token',
     ];
-
     public function personal_data() {
         return $this->hasOne(PersonalData::class);
     }

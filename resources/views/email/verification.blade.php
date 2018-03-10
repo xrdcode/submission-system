@@ -18,15 +18,17 @@
                                     <td class="x_content-cell" style="font-family:Avenir,Helvetica,sans-serif; padding:35px">
                                         <h1 style="font-family:Avenir,Helvetica,sans-serif; color:#2F3133; font-size:19px; font-weight:bold; margin-top:0; text-align:left">
                                             Hello {{$username}} !</h1>
-                                        @if(!empty($password))
-                                        <table>
-                                            <th><th colspan="3">Login Account:</th></th>
-                                            <tr><td>Email</td><td>:</td><td>{{ $email }}</td></tr>
-                                            <tr><td>Password</td><td>:</td><td>{{ $password }} (Please Keep it Secret)</td></tr>
-                                        </table>
-                                        @endif
                                         <p style="font-family:Avenir,Helvetica,sans-serif; color:#74787E; font-size:16px; line-height:1.5em; margin-top:0; text-align:left">
-                                            You are receiving this email because you are registered to our system. Please complete the registration process by click the button below.</p>
+                                            You are receiving this email because you are registered to our system. </p>
+                                        @if(!empty($password))
+                                            <table width="100%">
+                                                <tr><th colspan="3">Login Account:</th></tr>
+                                                <tr><td>Email</td><td>:</td><td>{{ $email }}</td></tr>
+                                                <tr><td>Password</td><td>:</td><td>{{ $password }} (Please Keep it Secret)</td></tr>
+                                            </table>
+                                            <p style="font-family:Avenir,Helvetica,sans-serif; color:#74787E; font-size:16px; line-height:1.5em; margin-top:20px; text-align:left">
+                                                Before continuing, please complete the registration process by click the button below.</p>
+                                        @endif
                                         <table class="x_action" align="center" width="100%" cellpadding="0" cellspacing="0" style="font-family:Avenir,Helvetica,sans-serif; margin:30px auto; padding:0; text-align:center; width:100%">
                                             <tbody>
                                             <tr>
@@ -60,7 +62,7 @@
                                             <tr>
                                                 <td style="font-family:Avenir,Helvetica,sans-serif">
                                                     <p style="font-family:Avenir,Helvetica,sans-serif; color:#74787E; line-height:1.5em; margin-top:0; text-align:left; font-size:12px">
-                                                        If you’re having trouble clicking the "Verify Account" button, copy and paste the URL below into your web browser: <a href="{{ route('user.verifyemail', $email_token) }}" target="_blank" rel="noopener noreferrer" style="font-family:Avenir,Helvetica,sans-serif; color:#3869D4"></a><a href="{{ route('user.verifyemail', $email_token) }}" target="_blank" rel="noopener noreferrer" style="font-family:Avenir,Helvetica,sans-serif; color:#3869D4">http://localhost:8080/agraria-v2//password/reset/5d79ff4a5df9e1602ebd5e21bbe36a62317addbb09210e9a17d07658c4e19c2a</a></p>
+                                                        If you’re having trouble clicking the "Verify Account" button, copy and paste the URL below into your web browser: <a href="{{ route('user.verifyemail', $email_token) }}" target="_blank" rel="noopener noreferrer" style="font-family:Avenir,Helvetica,sans-serif; color:#3869D4"></a><a href="{{ route('user.verifyemail', $email_token) }}" target="_blank" rel="noopener noreferrer" style="font-family:Avenir,Helvetica,sans-serif; color:#3869D4">{{ route('user.verifyemail', $email_token) }}</a></p>
                                                 </td>
                                             </tr>
                                             </tbody>

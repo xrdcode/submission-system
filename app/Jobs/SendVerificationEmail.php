@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\BaseModel\User;
 use Mail;
 use App\Mail\EmailVerification;
 use Illuminate\Bus\Queueable;
@@ -15,15 +16,21 @@ class SendVerificationEmail implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $user;
+    protected $field = [
+        'password' => null
+    ];
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct(User $user, $custField = null)
     {
         $this->user = $user;
+        if (!empty($custField["password"])) {
+            $this->field = $custField;
+        }
     }
 
     /**
@@ -33,7 +40,7 @@ class SendVerificationEmail implements ShouldQueue
      */
     public function handle()
     {
-        $email = new EmailVerification($this->user);
+        $email = new EmailVerification($this->user, $this->field);
         if(!$this->user->active)
             Mail::to($this->user->email)->send($email);
     }
