@@ -6,7 +6,6 @@
             <form id="newsubmission" role="form" method="POST" action="{{ route('user.workshop.submit') }}" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <fieldset>
-                    <legend>Publication Detail</legend>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
