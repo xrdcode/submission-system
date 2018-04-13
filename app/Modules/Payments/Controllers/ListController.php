@@ -48,7 +48,9 @@ class ListController extends Controller
             ->whereHas('submission_event', function($q) {
                 $q->where('valid_from','<=', Carbon::now())
                     ->where('valid_thru','>=', Carbon::now());
-            })->has("user")
+            })->whereHas('user', function($q) {
+                $q->where('deleted', 0);
+            })
             ->has('payment_submission')->with(['payment_submission.pricing','submission_event','submission_type','user']);
 
         $dt = Datatables::of($submission);
@@ -94,7 +96,10 @@ class ListController extends Controller
     }
 
     public function DTWs() {
-        $gp = GeneralPayment::select(["id","submission_event_id","verified","notes","workstate_id","user_id","pricing_id","file"])->with(['submission_event','pricing','workstate','user']);
+        $gp = GeneralPayment::select(["id","submission_event_id","verified","notes","workstate_id","user_id","pricing_id","file"])
+            ->whereHas('user', function($q) {
+                $q->where('deleted', 1);
+            })->with(['submission_event','pricing','workstate','user']);
 
         $dt = Datatables::of($gp);
 
