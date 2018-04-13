@@ -18,7 +18,7 @@ class EditController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(["role:UserMangement-Edit"]);
+        $this->middleware(["role:UserManagement-Edit"]);
     }
 
     public function delete(Request $request, $id) {

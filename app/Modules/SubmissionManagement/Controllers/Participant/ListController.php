@@ -19,7 +19,7 @@ class ListController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(["role:UserMangement-View"]);
+        $this->middleware(["role:UserManagement-View"]);
     }
 
     public function index() {
