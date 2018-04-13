@@ -34,7 +34,12 @@ class ListController extends Controller
     }
 
     public function DT() {
-        $users = User::query()->with(["personal_data"]);
+        if (Auth::user()->hasRole("UserManagement-Edit")) {
+            $users = User::query()->with(["personal_data"]);
+        } else {
+            $users = User::where("deleted",0)->with(["personal_data"]);
+        }
+
         $datatable = Datatables::of($users);
 
         $datatable->editColumn("personal_data.institution", function($u) {
