@@ -28,8 +28,10 @@ class SendVerificationEmail implements ShouldQueue
     public function __construct(User $user, $custField = null)
     {
         $this->user = $user;
-        if (!empty($custField["password"])) {
-            $this->field = $custField;
+        if(is_array($custField)) {
+            if (!empty($custField["password"])) {
+                $this->field = $custField;
+            }
         }
     }
 

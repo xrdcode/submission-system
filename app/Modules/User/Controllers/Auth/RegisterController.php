@@ -61,7 +61,7 @@ class RegisterController extends Controller
 
         event(new Registered($user = $this->create($request->all())));
 
-        $field = (object)[
+        $field = [
             "password" => $request->get("password")
         ];
 
