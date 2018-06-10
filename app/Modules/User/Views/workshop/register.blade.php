@@ -36,7 +36,7 @@
                     if(d.success) {
                         showAlert('Your submission has been registered','success','Success:')
                         setTimeout(function() {
-                            location.href = '{{ route('user.submission') }}'
+                            location.href = d.redirect
                         }, 1000);
                     }
                 },
