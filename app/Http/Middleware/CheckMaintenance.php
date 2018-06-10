@@ -29,8 +29,9 @@ class CheckMaintenance
         if ($this->app->isDownForMaintenance() &&
             !in_array($this->request->getClientIp(), ['120.0.0.1','103.8.12.99','10.102.0.51'])) //add IP addresses you want to exclude
         {
-            throw new HttpException(503);
+            $data = json_decode(file_get_contents($this->app->storagePath().'/framework/down'), true);
 
+            throw new MaintenanceModeException($data['time'], $data['retry'], $data['message']);
         }
         return $next($request);
 
