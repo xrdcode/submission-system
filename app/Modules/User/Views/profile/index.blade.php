@@ -41,7 +41,7 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label">Country:</label>
-                    {{ Form::select('country_id', \App\Models\BaseModel\Country::lists(), $user->country_id,['class' => 'form-control select2-single']) }}
+                    {{ Form::select('country_id', \App\Models\BaseModel\Country::lists(), isset($user->personal_data) ? $user->personal_data->country_id : "" ,['class' => 'form-control select2-single']) }}
                 </div>
                 {{--<div class="form-group">--}}
                     {{--<label class="control-label">ID Card Number:</label>--}}

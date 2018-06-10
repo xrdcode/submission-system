@@ -54,7 +54,7 @@ class MainController extends Controller
 
     public function validator(Request $request) {
         return Validator::make($request->all(), [
-            'submission_event_id'       => 'required|numeric|unique:general_payments',
+            'submission_event_id'       => 'required|numeric',
             'pricing_id'                => 'required|numeric'
         ],[
             'submission_event_id.unique' => 'You only join the workshop once, if you wanna change the title please edit in workshop list'
@@ -63,11 +63,13 @@ class MainController extends Controller
 
     public function store(Request $request) {
         $validator = $this->validator($request);
+        $workshop = new GeneralPayment();
         if($validator->passes()) {
-            $workshop = new GeneralPayment();
-            $request['workstate_id'] = Constant::WS_TRX_CONFIRM;
-            $request['user_id'] = Auth::id();
-            $workshop->create($request->all());
+            if ($workshop->where("submission_event_id", $request->get('submission_event_id'))->where("user_id","=", Auth::id())->count() == 0) {
+                $request['workstate_id'] = Constant::WS_TRX_CONFIRM;
+                $request['user_id'] = Auth::id();
+                $workshop->create($request->all());
+            }
             return response()->json(['success' => true, 'redirect' => route('user.workshop')]);
         } else {
             return response()->json(['data' => $request->all(),'errors' => $validator->getMessageBag()->toArray()], 200);
