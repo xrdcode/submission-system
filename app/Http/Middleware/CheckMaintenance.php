@@ -3,6 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
+use Illuminate\Http\Request;
 
 class CheckMaintenance
 {
