@@ -54,7 +54,7 @@ class MainController extends Controller
 
     public function validator(Request $request) {
         return Validator::make($request->all(), [
-            'submission_event_id'       => 'required|numeric',
+            'submission_event_id'       => 'required|numeric|unique:submission_event_id,NULL,id,user_id,' . Auth::id(),
             'pricing_id'                => 'required|numeric'
         ],[
             'submission_event_id.unique' => 'You only join the workshop once, if you wanna change the title please edit in workshop list'
