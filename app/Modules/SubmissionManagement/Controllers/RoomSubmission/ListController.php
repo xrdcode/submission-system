@@ -9,6 +9,7 @@
 namespace App\Modules\SubmissionManagement\Controllers\RoomSubmission;
 
 
+use App\Helper\HtmlHelper;
 use App\Http\Controllers\Controller;
 use App\Models\BaseModel\Room;
 use App\Models\BaseModel\RoomSubmission;
@@ -43,6 +44,10 @@ class ListController extends Controller
             return $text;
         });
 
+        $dt->addColumn('action', function ($q) {
+            return HtmlHelper::linkButton(' Edit', route('admin.submission.room.edit', $q->id), 'btn-xs btn-default btn-edit',"" ,'glyphicon-edit');
+        });
+
         $dt->editColumn("datetimes", function($q) {
             $d = Carbon::createFromFormat("Y-m-d H:i:s", $q->datetimes);
 
@@ -58,7 +63,7 @@ class ListController extends Controller
             return $date;
         });
 
-        $dt->rawColumns(["room_detail","datetimes"]);
+        $dt->rawColumns(["room_detail","datetimes","action"]);
 
         return $dt->make(true);
     }

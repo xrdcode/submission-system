@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class RoomSubmission extends Model
 {
 
+    protected $dates = [
+        'datetimes',
+        'created_at',
+        'updated_at',
+        'deleted_at'
+    ];
+
     protected $fillable = ["room_id","submission_id","datetimes"];
 
     protected $attributes = [

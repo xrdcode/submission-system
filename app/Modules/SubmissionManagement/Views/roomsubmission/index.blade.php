@@ -67,8 +67,7 @@
                     { title: 'Title',data: 'submission.title', class: 'force-wrap', orderable: false},
                     { title: 'User',data: 'submission.user.name', orderable: false},
                     { title: 'Room',data: 'room_detail', orderable: false},
-                    // { title: 'Progress',data: 'workstate.name', orderable: false, searchable: false},
-                    // { title: 'Approved',data: 'approved', orderable: false, searchable: false}
+                    { title: 'Action',data: 'action', orderable: false, searchable: false}
                 ]
 
             });
