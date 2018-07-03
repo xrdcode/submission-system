@@ -10,7 +10,7 @@ namespace App\Modules\MasterdataManagement\Controllers\Room;
 
 
 use App\Http\Controllers\Controller;
-use App\Models\BaseModel\Rooms;
+use App\Models\BaseModel\Room;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -25,7 +25,7 @@ class EditController extends Controller
     public function index($id) {
         $data = [
             'action'    => route('admin.master.room.update', $id),
-            'room'      => Rooms::findOrFail($id),
+            'room'      => Room::findOrFail($id),
             'title'     => "Edit Room"
         ];
         return view("MasterdataManagement::room.medit", $data);
@@ -56,7 +56,7 @@ class EditController extends Controller
     public function store(Request $request) {
         $validate = $this->validates($request);
         if($validate->passes()) {
-            Rooms::create($request->all());
+            Room::create($request->all());
             return response()->json(['success' => true]);
         } else {
             return response()->json(['success' => false, 'errors' => $validate->getMessageBag()->toArray()]);
@@ -66,7 +66,7 @@ class EditController extends Controller
     public function update(Request $request, $id) {
         $validate = $this->validates($request);
         if($validate->passes()) {
-            $room = Rooms::findOrFail($id);
+            $room = Room::findOrFail($id);
             $room->update($request->only('name','number','building','notes', 'address'));
             return response()->json(['success' => true]);
         } else {

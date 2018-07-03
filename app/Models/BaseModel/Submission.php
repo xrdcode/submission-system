@@ -48,7 +48,7 @@ class Submission extends Model
     }
 
     public function room_submission() {
-        return $this->belongsTo(RoomSubmission::class);
+        return $this->hasOne(RoomSubmission::class);
     }
 
     public function pricelist() {

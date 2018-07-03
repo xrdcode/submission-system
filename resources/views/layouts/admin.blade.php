@@ -263,7 +263,7 @@
                                         <ul>
                                             @if(Auth::user()->hasRole('RoomManagement-View'))
                                                 <li class="dropdown-header">Room</li>
-                                                <li><a href="#">Submission Room <i class="glyphicon glyphicon-ban-circle red"></i></a></li>
+                                                <li><a href="{{ route("admin.submission.room") }}">Submission Room</a></li>
                                             @endif
                                             <li class="divider"></li>
                                             <li class="dropdown-header">Participant</li>

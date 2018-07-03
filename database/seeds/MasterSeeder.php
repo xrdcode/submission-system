@@ -159,10 +159,12 @@ class MasterSeeder extends Seeder
 
         DB::table('submission_types')->insert([
             [
+                'id' => 1,
                 'name'  => 'Oral Presenter',
                 'description'  => 'Oral Presenter',
             ],
             [
+                "id" => 2,
                 'name'  => 'Poster Presenter',
                 'description'  => 'Poster Presenter',
             ],

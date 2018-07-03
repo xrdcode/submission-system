@@ -208,11 +208,14 @@ Route::group(
     Route::get('/edit/{id}', ['as' => '.edit', 'uses' => 'EditController@index', 'middleware' => []]);
     Route::post('/edit/{id}', ['as' => '.update', 'uses' => 'EditController@update', 'middleware' => []]);
 
-    Route::get('/new', ['as' => '.new', 'uses' => 'EditController@newevent', 'middleware' => []]);;
+    Route::get('/new', ['as' => '.new', 'uses' => 'EditController@maproom', 'middleware' => []]);;
     Route::post('/store', ['as' => '.store', 'uses' => 'EditController@store', 'middleware' => []]);;
     Route::get('/activate/{id}', ['as' => '.activate', 'uses' => 'EditController@activate', 'middleware' => []]);;
 
     //Route::get('/detail/{id}', ['as' => '.detail', 'uses' => 'DetailController@index', 'middleware' => []]);
 
     Route::get('/dt', ['as' => '.dt', 'uses' => 'ListController@DT', 'middleware' => []]);
+
+    Route::get('/submission_slist',['as' => 'submission.selist','uses'=>'ListController@submission_list','middleware'=>[]]);
+    Route::get('/room_slist',['as' => 'room.selist','uses'=>'ListController@room_list','middleware'=>[]]);
 });

@@ -7,7 +7,7 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="form-inline pull-right">
-                            <button id="btn_new" class="btn btn-primary">New</button>
+                            <button id="btn_new" class="btn btn-primary">Assign</button>
                         </div>
                     </div>
                 </div>
@@ -59,14 +59,16 @@
                         title: 'No',
                         render: function (data, type, row, meta) {
                             return meta.row + meta.settings._iDisplayStart + 1;
-                        }
+                        }, orderable: false
                     },
-                    { title: 'Event',data: 'submission_event.name', orderable: false, searchable: false},
-                    { title: 'Title',data: 'title', class: 'force-wrap'},
-                    { title: 'User',data: 'user.name'},
-                    { title: 'Submission Type',data: 'submission_type.name', orderable: false},
-                    { title: 'Progress',data: 'workstate.name', orderable: false, searchable: false},
-                    { title: 'Approved',data: 'approved', orderable: false, searchable: false}
+                    { title: 'Date',data: 'datetimes'},
+                    { title: 'Time',data: 'times', orderable: false},
+                    { title: 'Topic',data: 'submission.submission_event.name', orderable: false, searchable: false},
+                    { title: 'Title',data: 'submission.title', class: 'force-wrap', orderable: false},
+                    { title: 'User',data: 'submission.user.name', orderable: false},
+                    { title: 'Room',data: 'room_detail', orderable: false},
+                    // { title: 'Progress',data: 'workstate.name', orderable: false, searchable: false},
+                    // { title: 'Approved',data: 'approved', orderable: false, searchable: false}
                 ]
 
             });

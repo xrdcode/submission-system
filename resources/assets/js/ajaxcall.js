@@ -443,12 +443,10 @@ function loadListOption(selectid) {
         $(selectid).ready(function(e) {
             var me = $(selectid);
             me.html("");
-            $(this).change(function() {
-                var url= $(selectid).data("src");
-                $.get(url, function(dt) {
-                    $.map(dt, function(val, i) {
-                        me.append("<option value='"+ i +"'>" + val + "</option>")
-                    });
+            var url= $(selectid).data("src");
+            $.get(url, function(dt) {
+                $.map(dt, function(val, i) {
+                    me.append("<option value='"+ i +"'>" + val + "</option>")
                 });
             });
         });

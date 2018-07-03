@@ -11,7 +11,7 @@ namespace App\Modules\MasterdataManagement\Controllers\Room;
 
 use App\Helper\HtmlHelper;
 use App\Http\Controllers\Controller;
-use App\Models\BaseModel\Rooms;
+use App\Models\BaseModel\Room;
 use Yajra\Datatables\Datatables;
 
 class ListController extends Controller
@@ -26,7 +26,7 @@ class ListController extends Controller
     }
 
     public function DT() {
-        $room = Rooms::query();
+        $room = Room::query();
         $dt = Datatables::of($room);
 
         $dt->addColumn('action', function ($r) {

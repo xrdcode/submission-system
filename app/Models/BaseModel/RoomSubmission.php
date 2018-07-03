@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class RoomSubmission extends Model
 {
+
+    protected $fillable = ["room_id","submission_id","datetimes"];
+
+    protected $attributes = [
+      'queue' => 0,
+    ];
+
     public function submission()
     {
         return $this->belongsTo(Submission::class);
@@ -17,6 +24,11 @@ class RoomSubmission extends Model
 
     public function updatedby() {
         return $this->belongsTo(Admin::class, 'updated_by');
+    }
+
+    public function room()
+    {
+        return $this->belongsTo(Room::class);
     }
 }
 
