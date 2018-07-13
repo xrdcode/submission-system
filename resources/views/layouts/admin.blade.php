@@ -267,7 +267,8 @@
                                             @endif
                                             <li class="divider"></li>
                                             <li class="dropdown-header">Participant</li>
-                                            <li><a href="{{ route("admin.participant") }}">User List</a></li>
+                                            <li><a href="{{ route("admin.participant") }}">Registered User</a></li>
+                                            <li><a href="{{ route("admin.participant.workshop") }}">Workshop List</a></li>
                                         </ul>
                                     </li>
                                 @endif
