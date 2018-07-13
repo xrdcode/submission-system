@@ -78,7 +78,7 @@ class ListController extends Controller
         $dt = Datatables::of($ws);
 
         $dt->editColumn('verified', function($w) {
-            return $w->verified ? "Paid" : "Not Paid";
+            return $w->verified == 1 ? "Paid" : "Not Paid";
         });
 
         return $dt->make(true);
