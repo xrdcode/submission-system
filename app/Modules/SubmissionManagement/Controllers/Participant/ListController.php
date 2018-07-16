@@ -11,6 +11,7 @@ namespace App\Modules\SubmissionManagement\Controllers\Participant;
 
 use App\Helper\HtmlHelper;
 use App\Http\Controllers\Controller;
+use App\Models\BaseModel\GeneralPayment;
 use App\Models\BaseModel\User;
 use Illuminate\Support\Facades\Auth;
 use Yajra\Datatables\Datatables;
@@ -25,6 +26,10 @@ class ListController extends Controller
     public function index() {
         $data['users'] = User::all();
         return view("SubmissionManagement::participant.index", $data);
+    }
+
+    public function wsindex() {
+        return view("SubmissionManagement::participant.wsindex");
     }
 
     public function detail($id) {
@@ -61,5 +66,21 @@ class ListController extends Controller
 
 
         return $datatable->make(true);
+    }
+
+    public function DTWsParticipant() {
+        $ws = GeneralPayment::query()
+            ->join("users","users.id","=","general_payments.user_id")
+            ->join("pricings","pricings.id","=","general_payments.pricing_id")
+            ->select(["general_payments.*","users.name","pricings.title"]);
+
+
+        $dt = Datatables::of($ws);
+
+        $dt->editColumn('verified', function($w) {
+            return $w->verified == 1 ? "Paid" : "Not Paid";
+        });
+
+        return $dt->make(true);
     }
 }

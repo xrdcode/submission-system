@@ -153,6 +153,10 @@ Route::group(
     Route::post('/delete/{id}', ['as' => '.delete', 'uses' => 'EditController@delete', 'middleware' => ['web','auth:admin']]);;
     Route::post('/recover/{id}', ['as' => '.recover', 'uses' => 'EditController@recover', 'middleware' => ['web','auth:admin']]);;
 
+    //WS list
+    Route::get('/workshop', ['as' => '.workshop', 'uses' => 'ListController@wsindex', 'middleware' => ['web','auth:admin']]);;
+    Route::get('/workshop/dt', ['as' => '.workshop.dt', 'uses' => 'ListController@DTWsParticipant', 'middleware' => ['web','auth:admin']]);;
+
 });
 
 
