@@ -48,19 +48,19 @@
         }
     </style>
 </head>
-<body data-gr-c-s-loaded="true">
+<body data-gr-c-s-loaded="true" style="background-image: url('{{ asset("img/Background-Web-ICERE-1.jpg") }}');background-repeat: no-repeat;background-position: top center">
 <div class="content">
     @yield("content")
 </div>
 <div class="clearfix"></div>
-<footer class="footer site-footer login-footer">
+<footer class="footer site-footer login-footer" style="background-color: rgba(255,255,255, 0.5);padding: 40px 0 70px">
     <div class="container">
         <div class="copyright clearfix text-center">
             <p>
                 <a href="{{ route('user.login') }}">Log In</a> &blacktriangleright;
                 <a href="{{ route('user.resendverification') }}">Resend Verification</a> &blacktriangleright;
                 <a href="#">FAQ</a> &blacktriangleright;
-                <a href="#">IC-SMECS</a> &blacktriangleright;
+                <a href="#">{{ config('app.name') }}</a>
             </p>
             <p> Lab Matematika UNJ &copy; 2018</p>
         </div>
