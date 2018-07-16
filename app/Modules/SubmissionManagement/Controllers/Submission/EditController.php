@@ -100,7 +100,7 @@ class EditController extends Controller
                 if($submission->ispublicationonly) {
                     $pricing = Pricing::findOrFail($submission->publication_id);
                 } else {
-                    $user = $submission->user->personal_data->student ? "Non-Student" : "Student";
+                    $user = $submission->user->personal_data->student == 0 ? "Non-Student" : "Student";
                     $pricing = $submission->submission_event->pricings()
                         ->where("occupation","=",$user)->first();
                 }
