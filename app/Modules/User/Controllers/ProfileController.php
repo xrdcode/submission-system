@@ -37,7 +37,7 @@ class ProfileController extends Controller
             "address"   => "required|string|max:190",
             "phone"     => "numeric",
             "birthdate" => "string",
-            "student"   => "required|string",
+            "student"   => "required|numeric",
             "nik"               => "string",
             "identity_type_id"  => "numeric",
             "identity_number"   => "string",
@@ -63,9 +63,9 @@ class ProfileController extends Controller
                $pd->user()->associate($user);
                $pd->save();
             } else {
-                $user->personal_data()->update($request->only(['islocal','nik','institution','department','identity_number','identity_type_id']));
+                $user->personal_data()->update($request->only(['islocal','nik','institution','department','identity_number','identity_type_id','student']));
             }
-            $user->update($request->only(['name','address','phone','birthdate','student']));
+            $user->update($request->only(['name','address','phone','birthdate']));
             return response()->json(['success' => true]);
         } else {
             return response()->json(['data' => $request->all(),'errors' => $validator->getMessageBag()->toArray()], 200);
