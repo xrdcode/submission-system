@@ -51,6 +51,7 @@
             });
 
             $('#btn_new').on('click', function(e) {
+                e.preventDefault();
                 $.ajax({
                     url: '{{ route('admin.mstrws.new') }}',
                     method: 'GET',

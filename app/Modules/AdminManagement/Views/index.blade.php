@@ -67,6 +67,7 @@
 
 
             $('#btn_new').on('click', function(e) {
+                e.preventDefault();
                 $.ajax({
                     url: '{{ route('admin.manageadmin.new') }}',
                     method: 'GET',

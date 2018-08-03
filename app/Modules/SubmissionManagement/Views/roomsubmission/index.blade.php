@@ -74,6 +74,7 @@
 
 
             $('#btn_new').on('click', function(e) {
+                e.preventDefault();
                 $.ajax({
                     url: '{{ route('admin.submission.room.new') }}',
                     method: 'GET',

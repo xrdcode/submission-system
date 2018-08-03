@@ -52,6 +52,7 @@
             });
 
             $('#btn_new').on('click', function(e) {
+                e.preventDefault();
                 $.ajax({
                     url: '{{ route('admin.module.newmodule') }}',
                     method: 'GET',
