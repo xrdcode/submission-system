@@ -94,8 +94,6 @@
             $("#assign_room").trigger('submit');
         });
 
-        $(".select2-single").select2({});
-
         loadListOption("#submission_list");
         loadListOption("#room_list");
 

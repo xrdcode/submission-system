@@ -55,11 +55,11 @@ class PaymentController extends Controller
             if(!empty($s->payment_submission)) {
                 switch ($s->payment_submission->price_copy) {
                     case $pricing->price:
-                        return "Rp." . AppHelper::formatCurrency($s->payment_submission->price_copy) . " - Normal";
+                        return "Rp." . AppHelper::formatCurrency($s->payment_submission->price_copy,".") . " - Normal";
                     case $pricing->early_price:
-                        return "Rp." . AppHelper::formatCurrency($s->payment_submission->price_copy) . " - Early";
+                        return "Rp." . AppHelper::formatCurrency($s->payment_submission->price_copy,".") . " - Early";
                     default:
-                        return "Rp." . AppHelper::formatCurrency($s->payment_submission->price_copy);
+                        return "Rp." . AppHelper::formatCurrency($s->payment_submission->price_copy,".");
                 }
             }
 
@@ -132,7 +132,7 @@ class PaymentController extends Controller
                 $ps->file = $path;
                 $ps->pricing()->associate($pricing);
                 $ps->submission()->associate($submission);
-                $ps->price_copy = $pricing->price;
+                $ps->price_copy = Carbon::now() < $pricing->early_date_until ? $pricing->early_price : $pricing->price;
                 $ps->save();
             } else {
                 $old = $ps->file;

@@ -70,7 +70,7 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/ssmath.js') }}"></script>
+    {{-- <script src="{{ asset('js/ssmath.js') }}"></script> --}}
     <script type="text/javascript">
 
         ajaxSaveUpdate("#newevent", function(d) {
@@ -101,5 +101,11 @@
         }
 
         setupDateRange("#valid_from", "#valid_thru");
+
+        $(".select2-single").select2({});
+        $(".select2-multiple").select2({
+            placeholder: "choose",
+            width: "100%"
+        });
     </script>
 @endsection

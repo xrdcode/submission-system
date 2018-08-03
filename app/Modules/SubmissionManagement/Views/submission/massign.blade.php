@@ -24,7 +24,7 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/ssmath.js') }}"></script>
+    {{-- <script src="{{ asset('js/ssmath.js') }}"></script> --}}
     <script type="text/javascript">
 
         $('#assign').unbind();
@@ -40,6 +40,11 @@
             $("#assign").trigger('submit');
         });
 
+        $(".select2-single").select2({});
+        $(".select2-multiple").select2({
+            placeholder: "choose",
+            width: "100%"
+        });
 
     </script>
 @endsection

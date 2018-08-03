@@ -87,7 +87,14 @@
             $("#assign_room").trigger('submit');
         });
 
-        $(".select2-single").select2({});
+        $(".select2-single").select2({
+            placeholder:"Choose",
+        });
+        $(".select2-multiple").select2({
+            placeholder: "choose",
+            width: "100%"
+        });
+
 
         loadListOption("#room_list");
 

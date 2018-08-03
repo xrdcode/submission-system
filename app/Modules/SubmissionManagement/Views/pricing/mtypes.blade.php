@@ -27,7 +27,7 @@
 @endsection
 
 @section('scripts')
-    {{--<script src="{{ asset('js/ssmath.js') }}"></script>--}}
+    {{--{{-- <script src="{{ asset('js/ssmath.js') }}"></script> --}}--}}
     <script type="text/javascript">
 
         ajaxSaveUpdate("#newtype", function(d) {
@@ -41,6 +41,11 @@
             $("#newtype").trigger('submit');
         });
 
+        $(".select2-single").select2({});
+        $(".select2-multiple").select2({
+            placeholder: "choose",
+            width: "100%"
+        });
 
     </script>
 @endsection

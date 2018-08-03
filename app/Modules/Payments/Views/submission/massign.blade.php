@@ -22,7 +22,7 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/ssmath.js') }}"></script>
+    {{-- <script src="{{ asset('js/ssmath.js') }}"></script> --}}
     <script type="text/javascript">
 
         $('#assign').unbind();

@@ -56,7 +56,7 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/ssmath.js') }}"></script>
+    {{-- <script src="{{ asset('js/ssmath.js') }}"></script> --}}
     <script type="text/javascript">
 
         ajaxSaveUpdate("#room", function() {
@@ -68,6 +68,11 @@
             e.preventDefault();
 
             $("#room").trigger('submit');
+        });
+
+        $(".select2-single").select2({
+            placholder: "Choose",
+            width: "100%"
         });
 
     </script>
