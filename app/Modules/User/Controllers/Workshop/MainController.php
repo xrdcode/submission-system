@@ -9,11 +9,13 @@
 namespace App\Modules\User\Controllers\Workshop;
 
 
+use App\Helper\AppHelper;
 use App\Helper\Constant;
 use App\Helper\HtmlHelper;
 use App\Http\Controllers\Controller;
 use App\Models\BaseModel\GeneralPayment;
 use App\Models\BaseModel\SubmissionEvent;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
@@ -121,9 +123,15 @@ class MainController extends Controller
         $dt = Datatables::of($gp);
 
         $dt->editColumn('pricing.price', function($gp) {
-            if(Auth::user()->personal_data->islocal)
-                return "IDR {$gp->pricing->price}";
-            return "USD {$gp->pricing->usd_price}";
+            if(Auth::user()->personal_data->islocal) {
+                $early = AppHelper::formatCurrency($gp->pricing->early_price,".");
+                $price = AppHelper::formatCurrency($gp->pricing->price,".");
+                if (Carbon::now() < $gp->pricing->early_date_until) {
+                    return "Rp. {$early}";
+                } else {
+                    return "Rp. {$price}";
+                }
+            }
         });
 
         $dt->addColumn('action', function($gp) {

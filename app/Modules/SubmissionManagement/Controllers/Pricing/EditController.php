@@ -61,7 +61,7 @@ class EditController extends Controller
             $pricing->updated_by = Auth::user()->id;
             $pricing->occupation = $request->get("occupation");
             $check = $pricing->occupation;
-            $pricing->update($request->only(['title','price','submission_event_id','pricing_types','usd_price','isparticipant']));
+            $pricing->update($request->only(['title','price','submission_event_id','pricing_types','early_price','early_date_until','isparticipant']));
             return response()->json([$check]);
         } else {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -85,7 +85,8 @@ class EditController extends Controller
             'title' => 'required|string',
             'pricing_type_id' => 'required|numeric',
             'price' => 'required|numeric',
-            'usd_price' => 'required|numeric',
+            'early_price' => 'required|numeric',
+            'early_date_until' => 'required|date_format:Y-m-d',
             'isparticipant' => 'required'
         ]);
     }
@@ -100,7 +101,8 @@ class EditController extends Controller
             'title' => 'required|string',
             'pricing_type_id' => 'required|numeric',
             'price' => 'required|numeric',
-            'usd_price' => 'required|numeric',
+            'early_price' => 'required|numeric',
+            'early_date_until' => 'required|date_format:Y-m-d',
             'isparticipant' => 'required'
         ]);
     }
@@ -117,9 +119,10 @@ class EditController extends Controller
                     ->first();
                 if(!empty($find)) {
                     $pricing = $find;
-                    $pricing->update($request->only(['price','usd_price','isparticipant']));
+                    $pricing->update($request->only(['price','early_date_until','early_price','isparticipant']));
                 } else {
                     $pricing = new Pricing();
+                    $request['usd_price'] = 0;
                     $request['submission_event_id'] = $sid;
                     $pricing = $pricing->create($request->all());
                     $pricing->created_by = Auth::user()->id;

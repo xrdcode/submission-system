@@ -101,18 +101,15 @@ class EditController extends Controller
                     $pricing = Pricing::findOrFail($submission->publication_id);
                 } else {
                     $user = $submission->user->personal_data->student == 0 ? "Non-Student" : "Student";
+                    $submission_type = $submission->submission_type_id == 1 ? "Presenter" : "Non Presenter"; // 1 presenter or 2 not presenter
                     $pricing = $submission->submission_event->pricings()
+                        ->where("title","LIKE", "{$submission_type}%")
                         ->where("occupation","=",$user)->first();
                 }
 
                 if($submission->isPaid())
                     return response()->json(["success" => true , $submission]);
-                if(empty($submission->payment_submission)) {
-                    $payment_submission = new PaymentSubmission();
-                    $payment_submission->pricing()->associate($pricing);
-                    $payment_submission->submission()->associate($submission);
-                    $payment_submission->save();
-                }
+
                 $submission->workstate_id = Constant::AFTER_PAID;
                 $submission->approved = $request->get('approved');
                 $status = $submission->update();

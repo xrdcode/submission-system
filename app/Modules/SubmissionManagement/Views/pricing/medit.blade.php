@@ -40,15 +40,22 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="usd_price" class="col-md-4 control-label">International Price</label>
+            <label for="early_price" class="col-md-4 control-label">Early Price</label>
 
             <div class="col-md-6">
                 <div class="input-group">
                     <div class="input-group-addon">
-                        USD
+                        IDR
                     </div>
-                    <input id="usd_price" type="text" class="form-control" name="usd_price" value="{{ $pricing->usd_price }}" style="text-align: right" required autofocus>
+                    <input id="early_price" type="text" class="form-control" name="early_price" value="{{ $pricing->early_price }}" style="text-align: right" required autofocus>
                 </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="early_price" class="col-md-4 control-label">Early Date Expired</label>
+
+            <div class="col-md-6">
+                <input id="early_date_until" type="text" class="form-control" name="early_date_until" value="{{ $pricing->early_date_until->format("Y-m-d") }}" required>
             </div>
         </div>
 
@@ -60,7 +67,7 @@
 
         <div class="form-group">
             <div class="col-md-6 col-md-offset-4">
-                {{ Form::select('occupation', \App\Helper\Constant::OCCUPATION, [$pricing->occupation] ,["id" => "occupation","class" => "form-control select2-single", "required"]) }}
+                {{ Form::select('occupation', \App\Helper\Constant::OCCUPATION, \App\Helper\Constant::OCCUPATION_R[$pricing->occupation] ,["id" => "occupation","class" => "form-control select2-single", "required"]) }}
             </div>
         </div>
 
@@ -90,6 +97,11 @@
             e.preventDefault();
 
             $("#newevent").trigger('submit');
+        });
+
+        $("#early_date_until").datepicker({
+            format: 'yyyy-mm-dd',
+            todayHighlight: true,
         });
 
 

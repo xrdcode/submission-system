@@ -28,12 +28,17 @@
                                                     <table width="90%">
                                                         <tbody>
                                                         <tr>
+                                                            <td colspan="2">
+                                                                <strong>{{ $submission->title }}</strong>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
                                                             <td>{{ $submission->submission_event->parent->name }} | {{ $submission->submission_event->name }}</td>
                                                             <td align="right">
-                                                                @if($submission->user->personal_data->islocal != 0)
-                                                                    IDR {{ $submission->payment_submission->pricing->price }}
+                                                                @if(\Carbon\Carbon::now() < $pricing->early_date_until)
+                                                                    Rp. {{ \App\Helper\AppHelper::formatCurrency($pricing->early_price,".")  }} - Early
                                                                 @else
-                                                                    USD {{ $submission->payment_submission->pricing->usd_price }}
+                                                                    Rp. {{ \App\Helper\AppHelper::formatCurrency($pricing->price,".") }} - Normal
                                                                 @endif
                                                             </td>
                                                         </tr>
@@ -43,10 +48,30 @@
                                             </tr>
                                             </tbody>
                                         </table>
+                                        <p style="font-family:Avenir,Helvetica,sans-serif; color:#74787E; font-size:16px; line-height:1.5em; margin-top:0; text-align:left">For early bird price, please upload the transfer receipt before {{ $pricing->early_date_until->format('l jS \\of F Y') }}</p>
                                         <p style="font-family:Avenir,Helvetica,sans-serif; color:#74787E; font-size:16px; line-height:1.5em; margin-top:0; text-align:left">Please make payment to the following account number:</p>
                                         <table>
                                             <tbody>
-
+                                                <tr>
+                                                    <td>Bank</td>
+                                                    <td>:</td>
+                                                    <td>Mandiri</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Number</td>
+                                                    <td>:</td>
+                                                    <td>0060007797339</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Holder Name</td>
+                                                    <td>:</td>
+                                                    <td>Yuliatri Sastrawijaya</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Swift/BIC</td>
+                                                    <td>:</td>
+                                                    <td>BMRIIDJA</td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </td>

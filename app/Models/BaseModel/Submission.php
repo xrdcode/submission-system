@@ -61,8 +61,14 @@ class Submission extends Model
             ->get();
         $tmp = [];
         foreach ($price as $p) {
-            if($p->pricing_type->name == $filter)
-                $tmp[$p->id] = "{$p->pricing_type->name} | $isstudent | IDR {$p->price} | USD {$p->usd_price}";
+            if($p->pricing_type->name == $filter) {
+                if (Carbon::now() < $p->early_date_until) {
+                    $tmp[$p->id] = "{$p->pricing_type->name} | $isstudent | IDR {$p->early_price} ";
+                } else {
+                    $tmp[$p->id] = "{$p->pricing_type->name} | $isstudent | IDR {$p->price}";
+                }
+            }
+
         }
         return $tmp;
     }

@@ -2,6 +2,7 @@
 
 namespace App\Models\BaseModel;
 
+use App\Helper\AppHelper;
 use App\Helper\Constant;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -145,8 +146,16 @@ class SubmissionEvent extends Model
         $price = $this->pricings;
         $tmp = [];
         foreach ($price as $p) {
-            if($p->pricing_type->name == "Publication")
-                $tmp[$p->id] = "{$p->title} | IDR {$p->price} | USD {$p->usd_price}";
+            $early =  !empty($p->early_price) ? AppHelper::formatCurrency($p->early_price, ".") : 0;
+            $price = AppHelper::formatCurrency($p->price,".");
+            if($p->pricing_type->name == "Publication") {
+                if (Carbon::now() < $p->early_date_until) {
+                    $tmp[$p->id] = "{$p->title} | Rp. {$early} - Early";
+                } else {
+                    $tmp[$p->id] = "{$p->title} | Rp. {$price} - Normal";
+                }
+            }
+
         }
         return $tmp;
     }
@@ -157,8 +166,16 @@ class SubmissionEvent extends Model
         $price = $this->pricings;
         $tmp = [];
         foreach ($price as $p) {
-            if($p->pricing_type->name = "Workshop")
-                $tmp[$p->id] = "{$p->title} | IDR {$p->price} | USD {$p->usd_price}";
+            $early =  !empty($p->early_price) ? AppHelper::formatCurrency($p->early_price, ".") : 0;
+            $price = AppHelper::formatCurrency($p->price,".");
+            if($p->pricing_type->name = "Workshop") {
+                if (Carbon::now() < $p->early_date_until) {
+                    $tmp[$p->id] = "{$p->title} | Rp. {$early} - Early";
+                } else {
+                    $tmp[$p->id] = "{$p->title} | Rp. {$price} - Normal";
+                }
+            }
+
         }
         return $tmp;
     }

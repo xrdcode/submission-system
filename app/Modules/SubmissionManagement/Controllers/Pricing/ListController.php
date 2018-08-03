@@ -10,6 +10,7 @@ namespace App\Modules\SubmissionManagement\Controllers\Pricing;
 
 
 
+use App\Helper\AppHelper;
 use App\Models\BaseModel\Pricing;
 use App\Http\Controllers\Controller;
 use App\Modules\SubmissionManagement\Models\PricingType;
@@ -31,7 +32,7 @@ class ListController extends Controller
 
 
     public function DTPricing() {
-        $pricing = Pricing::select(["id","price","title","occupation", "submission_event_id", "pricing_type_id","usd_price","isparticipant", "created_by", "updated_by"])->with(['submission_event','pricing_type','createdby', 'updatedby']);
+        $pricing = Pricing::select(["id","price","title","occupation", "submission_event_id", "pricing_type_id","early_price","isparticipant", "created_by", "updated_by"])->with(['submission_event','pricing_type','createdby', 'updatedby']);
         $dt = Datatables::of($pricing);
         $dt->addColumn('action', function($p) {
             $btn = HtmlHelper::linkButton("Edit",route('admin.pricing.edit', $p->id),"btn-xs btn-info btn-edit","", "glyphicon-edit");
@@ -44,14 +45,16 @@ class ListController extends Controller
         });
 
         $dt->editColumn('price', function($p) {
-           return "IDR {$p->price} | USD {$p->usd_price}";
+            $early =  !empty($p->early_price) ? AppHelper::formatCurrency($p->early_price, ".") : 0;
+            $price = AppHelper::formatCurrency($p->price,".");
+           return "Rp. {$early} - Early <br/> Rp. {$price} - Normal";
         });
 
         $dt->editColumn('isparticipant', function($p) {
            return $p->isparticipant ? "Participant" : "Non-Participant";
         });
 
-        $dt->rawColumns(["name", "action"]);
+        $dt->rawColumns(["name", "action","price"]);
         return $dt->make(true);
     }
 

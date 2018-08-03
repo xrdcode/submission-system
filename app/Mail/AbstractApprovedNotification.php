@@ -32,6 +32,11 @@ class AbstractApprovedNotification extends Mailable
     public function build()
     {
         $submission = $this->submision;
-        return $this->view('email.abstract', compact('submission'));
+        $user = $submission->user->personal_data->student == 0 ? "Non-Student" : "Student";
+        $submission_type = $submission->submission_type_id == 1 ? "Presenter" : "Non Presenter"; // 1 presenter or 2 not presenter
+        $pricing = $submission->submission_event->pricings()
+            ->where("title","LIKE", "{$submission_type}%")
+            ->where("occupation","=",$user)->first();
+        return $this->view('email.abstract', ["submission" => $submission, "pricing" => $pricing]);
     }
 }

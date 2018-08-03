@@ -8,10 +8,13 @@
 
 namespace App\Modules\User\Controllers\Payment;
 
+use App\Helper\AppHelper;
 use App\Helper\HtmlHelper;
 use App\Http\Controllers\Controller;
+use App\Models\BaseModel\PaymentSubmission;
 use App\Models\BaseModel\Submission;
 use App\Models\BaseModel\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Validator;
@@ -24,18 +27,9 @@ class PaymentController extends Controller
         return view("User::payment.index", $this->data);
     }
 
-    public function non_participant_index() {
-        $this->data['header'] = "Non Participant";
-        return view("User::payment.nonparticipant", $this->data);
-    }
-
-    public function non_participant_apply() {
-        return view("User::payment.applynonparticipant");
-    }
-
     public function DTWaitingPayment() {
         $submission = User::findOrFail(Auth::id())->submissions();
-        $submission->where('approved','=', 1)->has('payment_submission')->with(['workstate','payment_submission.pricing']);
+        $submission->where('approved','=', 1)->with(['workstate']);
 
         $dt = Datatables::of($submission);
 
@@ -49,6 +43,31 @@ class PaymentController extends Controller
             $btn .= "<br><br>";
             $btn .= HtmlHelper::linkButton('Reupload', route('user.conference.abstractreupload', $s->id), 'btn-xs btn-primary','target="_blank"', "glyphicon-upload");
             return $btn;
+        });
+
+        $dt->addColumn('price', function ($s) {
+            $user = $s->user->personal_data->student == 0 ? "Non-Student" : "Student";
+            $submission_type = $s->submission_type_id == 1 ? "Presenter" : "Non Presenter"; // 1 presenter or 2 not presenter
+            $pricing = $s->submission_event->pricings()
+                ->where("title","LIKE", "{$submission_type}%")
+                ->where("occupation","=",$user)
+                ->orderBy("price", "desc")->first();
+            if(!empty($s->payment_submission)) {
+                switch ($s->payment_submission->price_copy) {
+                    case $pricing->price:
+                        return "Rp." . AppHelper::formatCurrency($s->payment_submission->price_copy) . " - Normal";
+                    case $pricing->early_price:
+                        return "Rp." . AppHelper::formatCurrency($s->payment_submission->price_copy) . " - Early";
+                    default:
+                        return "Rp." . AppHelper::formatCurrency($s->payment_submission->price_copy);
+                }
+            }
+
+            if (Carbon::now() < $pricing->early_date_until) {
+                return "Rp. " . AppHelper::formatCurrency($pricing->early_price, ".") . " - Early";
+            } else {
+                return "Rp." . AppHelper::formatCurrency($pricing->price, ".") . " - Normal";
+            }
         });
 
         $dt->addColumn("confirm", function($s) {
@@ -80,7 +99,7 @@ class PaymentController extends Controller
         $data = [
             'class'     => 'modal-sm',
             'action'    => route('user.payment.save', $id),
-            'p'         => User::find(Auth::id())->submissions()->findOrFail($id)->payment_submission
+            'p'         => User::find(Auth::id())->submissions()->findOrFail($id)
         ];
 
         return view('User::payment.confirmation', $data);
@@ -95,12 +114,33 @@ class PaymentController extends Controller
         if($validator->passes()) {
             $uploadedfile = $request->file('file');
             $path = $uploadedfile->store('public/confirmtrx');
-            $ps = Auth::user()->submissions()->findOrFail($request->id)->payment_submission;
-            $old = $ps->file;
-            $ps->file = $path ;
-            $ps->update();
-            if(!empty($old))
-                unlink(public_path(Storage::url($old)));
+            $submission = Auth::user()->submissions()->findOrFail($request->id);
+            $ps = $submission->payment_submission;
+            if (empty($ps)) {
+                $user = $submission->user->personal_data->student == 0 ? "Non-Student" : "Student";
+                $submission_type = $submission->submission_type_id == 1 ? "Presenter" : "Non Presenter"; // 1 presenter or 2 not presenter
+                $pricing = $submission->submission_event->pricings()
+                    ->where("title","LIKE", "{$submission_type}%")
+                    ->where("occupation","=",$user)
+                    ->orderBy("price", "desc")->first();
+
+                if(empty($pricing)) {
+                    return response()->json(['data' => $request->all(),'errors' => 'Price Not Found'], 200);
+                }
+
+                $ps = new PaymentSubmission();
+                $ps->file = $path;
+                $ps->pricing()->associate($pricing);
+                $ps->submission()->associate($submission);
+                $ps->price_copy = $pricing->price;
+                $ps->save();
+            } else {
+                $old = $ps->file;
+                $ps->file = $path ;
+                $ps->update();
+                if(!empty($old))
+                    unlink(public_path(Storage::url($old)));
+            }
             return response()->json(['success' => true]);
         } else {
             return response()->json(['data' => $request->all(),'errors' => $validator->getMessageBag()->toArray()], 200);

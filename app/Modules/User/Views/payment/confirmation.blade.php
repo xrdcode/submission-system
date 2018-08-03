@@ -15,7 +15,7 @@
                 </label>
                 <input type="text" class="form-control" required readonly>
             </div>
-            <input type="hidden" name="submission_id" value="{{ $p->submission_id }}" readonly>
+            <input type="hidden" name="submission_id" value="{{ $p->id }}" readonly>
         </div>
     </form>
 @endsection

@@ -68,7 +68,7 @@
                     { title: 'Participant',data: 'isparticipant', searchable: false},
                     { title: 'Price For',data: 'occupation', searchable: false},
                     { title: 'Price',data: 'price', class: "force-wrap"},
-                    { title: 'Created By',data: 'createdby.name'},
+                    // { title: 'Created By',data: 'createdby.name'},
                     { title: 'Updated By',data: 'updatedby.name'},
                     { data: 'action', orderable: false, searchable: false, class: "force-wrap-1"}
                 ]

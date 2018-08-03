@@ -26,7 +26,7 @@
                         }
                     },
                     { title: 'Title',data: 'title', name: 'title', class: 'force-wrap'},
-                    { title: 'Price',data: 'payment_submission.pricing.price', name: 'title', class: 'force-wrap', orderable: false, searchable: false},
+                    { title: 'Price',data: 'price', name: 'price', class: 'force-wrap', orderable: false, searchable: false},
                     { title: '', data: 'confirm', orderable: false, searchable: false},
                 ]
 
