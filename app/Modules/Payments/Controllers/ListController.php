@@ -98,7 +98,7 @@ class ListController extends Controller
     public function DTWs() {
         $gp = GeneralPayment::select(["id","submission_event_id","verified","notes","workstate_id","user_id","pricing_id","file"])
             ->whereHas('user', function($q) {
-                $q->where('deleted', 1);
+                $q->where('deleted', 0);
             })->with(['submission_event','pricing','workstate','user']);
 
         $dt = Datatables::of($gp);
