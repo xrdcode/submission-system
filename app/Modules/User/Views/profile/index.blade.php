@@ -37,7 +37,7 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label">Participant:</label>
-                    {{ Form::select('student', [0 => 'Non-Student', 1 => 'Student'], $user->student,['class' => 'form-control select2-single']) }}
+                    {{ Form::select('student', [0 => 'Non-Student', 1 => 'Student'], isset($user->personal_data) ? $user->personal_data->student : "",['class' => 'form-control select2-single']) }}
                 </div>
                 <div class="form-group">
                     <label class="control-label">Country:</label>
