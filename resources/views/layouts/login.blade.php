@@ -52,6 +52,11 @@
 <div class="content">
     @yield("content")
 </div>
+<div class="question-alert text-center"> <p> <b> Any Questions? </b> </p> </div>
+<div class="further-info text-center">
+	<p> Should you have any inquiries please do not hesitate to contact our team : Atikah +6285742999918 or atikahap[dot]yes[at]gmail[dot]com
+	</p>
+</div>
 <div class="clearfix"></div>
 <footer class="footer site-footer login-footer">
     <div class="container">
