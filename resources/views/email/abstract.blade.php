@@ -46,7 +46,21 @@
                                         <p style="font-family:Avenir,Helvetica,sans-serif; color:#74787E; font-size:16px; line-height:1.5em; margin-top:0; text-align:left">Please make payment to the following account number:</p>
                                         <table>
                                             <tbody>
-
+                                            <tr>
+                                                <td>Bank</td>
+                                                <td>:</td>
+                                                <td>BTN</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Number</td>
+                                                <td>:</td>
+                                                <td>9 3941 000936518011</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Holder Name</td>
+                                                <td>:</td>
+                                                <td>SMIC2018-FMIPA</td>
+                                            </tr>
                                             </tbody>
                                         </table>
                                     </td>
