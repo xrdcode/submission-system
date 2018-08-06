@@ -32,7 +32,7 @@
                         <textarea required="" class="form-control" placeholder="Abstract" rows="10" cols="30" id="description" name="abstract"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="file">Abstract File (.PDF, .DOCX)</label>
+                        <label for="file">Abstract File (.DOC, .DOCX)</label>
                         <div class="input-group">
                             <label class="input-group-btn">
                     <span class="btn btn-primary">

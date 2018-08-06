@@ -65,7 +65,7 @@ class MainController extends Controller
             return Validator::make($request->all(), [
                 'title'                 => 'required|string|max:255|unique:submissions,title',
                 'abstract'              => 'required|string',
-                'file'                  => 'required|file|mimes:pdf,doc,docx|max:2048',
+                'file'                  => 'required|file|mimes:doc,docx|max:2048',
                 'submission_event_id'   => 'required|numeric',
                 'publication_id'        => 'required|numeric'
             ]);
@@ -73,7 +73,7 @@ class MainController extends Controller
             return Validator::make($request->all(), [
                 'title'                 => 'required|string|max:255|unique:submissions,title',
                 'abstract'              => 'required|string',
-                'file'                  => 'required|file|mimes:pdf,doc,docx|max:2048',
+                'file'                  => 'required|file|mimes:doc,docx|max:2048',
                 'submission_event_id'   => 'required|numeric',
                 'submission_type_id'    => 'required|numeric',
             ]);
