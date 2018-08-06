@@ -36,7 +36,7 @@
                         <div class="input-group">
                             <label class="input-group-btn">
                     <span class="btn btn-primary">
-                        Browse&hellip; <input name="file" type="file" accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style="display: none;">
+                        Browse&hellip; <input name="file" type="file" style="display: none;">
                     </span>
                             </label>
                             <input type="text" class="form-control" required readonly>
