@@ -81,7 +81,6 @@ class ListController extends Controller
                 "pricings.title",
                 "personal_datas.institution"]);
 
-
         $dt = Datatables::of($ws);
 
         return $dt->make(true);
