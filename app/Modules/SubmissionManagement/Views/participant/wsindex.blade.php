@@ -63,9 +63,12 @@
                             return meta.row + meta.settings._iDisplayStart + 1;
                         }
                     },
-                    { title: 'Name',data: 'name'},
-                    { title: 'Workshop',data: 'title'},
-                    { title: 'Payment Status',data: 'verified', class:'force-wrap'},
+                    { title: 'Name',data: 'name', name:"users.name"},
+                    { title: 'Email',data: 'email', name:"users.email"},
+                    { title: 'Phone',data: 'phone', name:"users.phone"},
+                    { title: 'Institution',data: 'title', name:"personal_datas.institution"},
+                    { title: 'Workshop',data: 'title', name:"pricings.title"},
+                    { title: 'Payment Status',data: 'verified', searchable: false, class:'force-wrap', orderable: false},
                 ]
 
             });

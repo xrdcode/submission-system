@@ -40,7 +40,7 @@ class ListController extends Controller
 
     public function DT() {
         if (Auth::user()->hasRole("UserManagement-Edit")) {
-            $users = User::query()->has("personal_data")->with(["personal_data"]);
+            $users = User::query()->with(["personal_data"]);
         } else {
             $users = User::where("deleted",0)->with(["personal_data"]);
         }
@@ -72,14 +72,17 @@ class ListController extends Controller
         $ws = GeneralPayment::query()
             ->join("users","users.id","=","general_payments.user_id")
             ->join("pricings","pricings.id","=","general_payments.pricing_id")
-            ->select(["general_payments.*","users.name","pricings.title"]);
+            ->join("personal_datas", "personal_datas.user_id","=","users.id")
+            ->select([
+                "general_payments.verified",
+                "users.name",
+                "users.email",
+                "users.phone",
+                "pricings.title",
+                "personal_datas.institution"]);
 
 
         $dt = Datatables::of($ws);
-
-        $dt->editColumn('verified', function($w) {
-            return $w->verified == 1 ? "Paid" : "Not Paid";
-        });
 
         return $dt->make(true);
     }
