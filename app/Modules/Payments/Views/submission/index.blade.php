@@ -44,8 +44,8 @@
                 scrollX: true,
                 ajax: '{!! route('admin.payment.submission.dt') !!}',
                 columns: [
-                    { title: 'id', data: 'id'},
-                    { title: 'User',data: 'user.name', orderable: false, searchable: false},
+                    { title: 'id', data: 'id', name: "submission.id"},
+                    { title: 'User',data: 'user.name', name:"user.name"},
                     { title: 'Title',data: 'title', class: 'force-wrap'},
                     { title: 'Add Payment',data: 'payment', orderable: false, searchable: false},
                     // { data: 'action', orderable: false, searchable: false}

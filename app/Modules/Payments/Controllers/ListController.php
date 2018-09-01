@@ -44,18 +44,26 @@ class ListController extends Controller
     }
 
     public function DT() {
-        $submission = Submission::where('approved','=',1)
-            ->whereHas('submission_event', function($q) {
-                $q->where('valid_from','<=', Carbon::now())
-                    ->where('valid_thru','>=', Carbon::now());
-            })->whereHas('user', function($q) {
-                $q->where('deleted', 0);
-            })
-            ->has('payment_submission')->with(['payment_submission.pricing','submission_event','submission_type','user']);
+        $submission = Submission::join("submission_events as se", "se.id","=", "submissions.submission_event_id")
+            ->join("users","users.id","=","submissions.user_id")
+            ->join("payment_submissions as ps","ps.submission_id","=","submissions.id")
+            ->join("submission_types as st", "st.id","=","submissions.submission_type_id")
+            ->select([
+                "submissions.id",
+                "submissions.title",
+                "submissions.user_id",
+                "submissions.submission_event_id",
+                "submissions.approved",
+                "se.name as event",
+                "users.name",
+                "st.name as type"
+            ])->where("submissions.approved","=",1)
+            ->where('se.valid_from','<=', Carbon::now())
+            ->where('se.valid_thru','>=', Carbon::now());
 
         $dt = Datatables::of($submission);
 
-        $dt->editColumn('payment_submission.verified', function($s){
+        $dt->editColumn('verified', function($s){
             if(!$s->payment_submission->verified && !empty($s->payment_submission->file)) {
                 $row  = HtmlHelper::createTag("i",["click-edit"],["title"=>"click to change"], $s->payment_submission->verified ? "Verified" : "Not Yet");
                 $list = [1 => 'Approved', 0 => 'Not yet'];
@@ -96,10 +104,24 @@ class ListController extends Controller
     }
 
     public function DTWs() {
-        $gp = GeneralPayment::select(["id","submission_event_id","verified","notes","workstate_id","user_id","pricing_id","file"])
-            ->whereHas('user', function($q) {
-                $q->where('deleted', 0);
-            })->with(['submission_event','pricing','workstate','user']);
+        $gp = GeneralPayment::join("submission_events as se", "se.id","=","general_payments.submission_event_id")
+            ->join("users", "users.id", "=","general_payments.user_id")
+            ->join("workstates", "workstates.id", "=", "general_payments.workstate_id")
+            ->join("pricings as p","p.id", "=","general_payments.pricing_id")
+            ->select([
+                "general_payments.id",
+                "general_payments.submission_event_id",
+                "general_payments.verified",
+                "general_payments.notes",
+                "general_payments.workstate_id",
+                "general_payments.user_id",
+                "general_payments.pricing_id",
+                "general_payments.file",
+                "workstates.name as state",
+                "p.title",
+                "users.name"
+                ])
+            ->where("users.deleted", "=", 0);
 
         $dt = Datatables::of($gp);
 

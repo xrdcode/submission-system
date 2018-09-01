@@ -54,12 +54,12 @@
                             return meta.row + meta.settings._iDisplayStart + 1;
                         }
                     },
-                    { title: 'Event',data: 'submission_event.name', orderable: false, searchable: false},
+                    { title: 'Event',data: 'event', name:"se.name", orderable: false, searchable: false},
                     { title: 'Title',data: 'title', class: 'force-wrap'},
-                    { title: 'User',data: 'user.name'},
-                    { title: 'Submission Type',data: 'submission_type.name', orderable: false},
-                    { title: 'Receipt',data: 'receipt', orderable: false},
-                    { title: 'Verified',data: 'payment_submission.verified', orderable: false},
+                    { title: 'User',data: 'name', name:"users.name"},
+                    { title: 'Submission Type',data: 'type', orderable: false, name: "st.name"},
+                    { title: 'Receipt',data: 'receipt', orderable: false, searchable: "false"},
+                    { title: 'Verified',data: 'verified', orderable: false, searchable: "false"},
                 ]
 
             });
@@ -76,10 +76,10 @@
                             return meta.row + meta.settings._iDisplayStart + 1;
                         }
                 },
-                    { title: 'Workshop',data: 'pricing.title', orderable: false},
-                    { title: 'Name',data: 'user.name', orderable: false},
-                    { title: 'Receipt',data: 'receipt', orderable: false},
-                    { title: 'Progress',data: 'workstate.name', orderable: false},
+                    { title: 'Workshop',data: 'title', orderable: false, name: "p.title"},
+                    { title: 'Name',data: 'name', orderable: false, name: "users.name"},
+                    { title: 'Receipt',data: 'receipt', orderable: false, searchable: false},
+                    { title: 'Progress',data: 'state', orderable: false, searchable: false},
                     { title: 'Status',data: 'verified', searchable: false},
                 ]
 
