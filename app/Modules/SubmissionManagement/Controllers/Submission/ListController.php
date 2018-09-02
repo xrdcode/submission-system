@@ -51,6 +51,8 @@ class ListController extends Controller
                 "submission_types.name as type_name",
                 "submission_events.name as event_name",
                 "users.name as user_name",
+                "submissions.publication_id",
+                "submissions.submission_id"
             ]);
 
         $datatable = Datatables::of($submission)
@@ -64,6 +66,7 @@ class ListController extends Controller
                     if(empty($s->publication)) {
                         $row .= "<br/>" . HtmlHelper::createTag('a',['btn btn-xs btn-default btn-modal'],['href' => route('admin.submission.assignpub', $s->id), "style" => "margin-top: 5px"],'Send to <br/> Publication');
                     } else {
+                        $row .= "<br>";
                         $row .= HtmlHelper::createTag("span",[],["style" => "font-size: 10px !important"], $s->publication->payment_submission->pricing->title);
                     }
                 }
@@ -108,14 +111,14 @@ class ListController extends Controller
             return $btn;
         });
 
-        $datatable->addColumn('publication', function($s) {
-            $btn = "";
-            if(empty($s->publication)) {
-                $btn .= HtmlHelper::createTag('a',['btn btn-xs btn-default btn-modal'],['href' => route('admin.submission.assignpub', $s->id)],'Send to Publication');
-                return $btn;
-            }
-            return $s->publication->payment_submission->pricing->title;
-        });
+//        $datatable->addColumn('publication', function($s) {
+//            $btn = "";
+//            if(empty($s->publication)) {
+//                $btn .= HtmlHelper::createTag('a',['btn btn-xs btn-default btn-modal'],['href' => route('admin.submission.assignpub', $s->id)],'Send to Publication');
+//                return $btn;
+//            }
+//            return $s->publication->payment_submission->pricing->title;
+//        });
 
         $datatable->addColumn('file_paper', function($s) {
             if(!empty($s->file_paper)) {

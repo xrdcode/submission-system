@@ -57,9 +57,9 @@ class ListController extends Controller
                 "se.name as event",
                 "users.name",
                 "st.name as type"
-            ])->where("submissions.approved","=",1)
-            ->where('se.valid_from','<=', Carbon::now())
-            ->where('se.valid_thru','>=', Carbon::now());
+            ])
+            ->where("submissions.approved","=",1)
+            ->where("users.deleted","=", 0);
 
         $dt = Datatables::of($submission);
 
