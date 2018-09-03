@@ -66,7 +66,7 @@
                     { title: 'Name',data: 'name', name:"users.name"},
                     { title: 'Email',data: 'email', name:"users.email"},
                     { title: 'Phone',data: 'phone', name:"users.phone"},
-                    { title: 'Institution',data: 'title', name:"personal_datas.institution"},
+                    { title: 'Institution',data: 'institution', name:"personal_datas.institution"},
                     { title: 'Workshop',data: 'title', name:"pricings.title"},
                     { title: 'Payment Status',data: 'verified', searchable: false, class:'force-wrap', orderable: false},
                 ]
