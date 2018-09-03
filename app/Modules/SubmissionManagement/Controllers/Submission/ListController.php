@@ -59,11 +59,11 @@ class ListController extends Controller
                     $data = [];
                     $i = 0;
                     foreach ($submission as $sub) {
+                        $data[$i]["ID"] = $sub->id;
                         $data[$i]["Event"] = $sub->event_name;
                         $data[$i]["Title"] = $sub->title;
                         $data[$i]["User"] = $sub->user_name;
                         $data[$i]["Type"] = $sub->type_name;
-                        $data[$i]["Abstract"] = $sub->abstract;
                         $data[$i]["Abstract Link"] = url($sub->abstractfile);
                         $data[$i]["FeedBack"] = $sub->feedback;
                         $data[$i]["Approved"] = $sub->approved == 1 ? "Yes" : "Not Yet";
