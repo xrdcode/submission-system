@@ -3,6 +3,9 @@
 @section("content")
     <div class="container-fluid">
         <div class="row">
+
+        </div>
+        <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -43,6 +46,15 @@
                 serverSide: true,
                 scrollX: true,
                 ajax: '{!! route('admin.submission.dt') !!}',
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        text: 'Export',
+                        action: function ( e, dt, node, config ) {
+                            location.href = '{{ route("admin.submission") }}?export=1'
+                        }
+                    }
+                ],
                 columns: [
                     {
                         title: 'No',

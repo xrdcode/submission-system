@@ -14,8 +14,10 @@ use App\Models\BaseModel\Submission;
 use App\Models\BaseModel\Workstate;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Excel;
 use Yajra\Datatables\Datatables;
 
 class ListController extends Controller
@@ -25,9 +27,54 @@ class ListController extends Controller
         $this->middleware('role:SubmissionManagement-View');
     }
 
-    public function index() {
-        $list = Submission::all();
-        return view('SubmissionManagement::submission.index', ['list' => $list]);
+    public function index(Request $request) {
+
+        if ($request->get("export") == 1) {
+            return App::make("excel")->create("Submission Review", function($x) {
+                $x->sheet("Submission", function($s) {
+                    $submission = Submission::query()
+                        ->join("submission_events","submission_events.id", "=","submissions.submission_event_id")
+                        ->join("users","users.id","=","submissions.user_id")
+                        ->join("submission_types","submission_types.id","=","submissions.submission_type_id")
+                        ->select([
+                            "submissions.id",
+                            "submissions.title",
+                            "submissions.abstract",
+                            "submissions.abstractfile",
+                            "submissions.user_id",
+                            "submissions.workstate_id",
+                            "submissions.submission_event_id",
+                            "submissions.submission_type_id",
+                            "submissions.approved",
+                            "submissions.feedback",
+                            "submissions.submission_id",
+                            "submissions.file_paper_id",
+                            "submission_types.name as type_name",
+                            "submission_events.name as event_name",
+                            "users.name as user_name",
+                            "submissions.publication_id",
+                            "submissions.submission_id"
+                        ])->get();
+
+                    $data = [];
+                    $i = 0;
+                    foreach ($submission as $sub) {
+                        $data[$i]["Event"] = $sub->event_name;
+                        $data[$i]["Title"] = $sub->title;
+                        $data[$i]["User"] = $sub->user_name;
+                        $data[$i]["Type"] = $sub->type_name;
+                        $data[$i]["Abstract"] = $sub->abstract;
+                        $data[$i]["Abstract Link"] = url($sub->abstractfile);
+                        $data[$i]["FeedBack"] = $sub->feedback;
+                        $data[$i]["Approved"] = $sub->approved == 1 ? "Yes" : "Not Yet";
+                        $i++;
+                    }
+
+                    $s->fromArray($data);
+                });
+            })->download();
+        }
+        return view('SubmissionManagement::submission.index');
     }
 
     public function DT(Request $request) {
