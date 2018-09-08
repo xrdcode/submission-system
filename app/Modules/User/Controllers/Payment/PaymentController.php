@@ -89,7 +89,7 @@ class PaymentController extends Controller
     public function uploadConfirmation(Request $request) {
         $validator = Validator::make($request->all(), [
             'submission_id' => 'required|numeric|exists:submissions,id',
-            'file'   => 'required|file|mimes:jpeg,jpg,png|max:500'
+            'file'   => 'required|file|mimes:jpeg,jpg,png,pdf,doc,docx|max:10240'
         ]);
 
         if($validator->passes()) {

@@ -64,13 +64,13 @@ class ListController extends Controller
         $dt = Datatables::of($submission);
 
         $dt->editColumn('verified', function($s){
-            if(!$s->payment_submission->verified && !empty($s->payment_submission->file)) {
+//            if(!$s->payment_submission->verified && !empty($s->payment_submission->file)) {
                 $row  = HtmlHelper::createTag("i",["click-edit"],["title"=>"click to change"], $s->payment_submission->verified ? "Verified" : "Not Yet");
                 $list = [1 => 'Approved', 0 => 'Not yet'];
                 $row .= HtmlHelper::selectList($list, $s->verified, "verified", "form-control hide-n-seek", ["data-action" => route('admin.payment.verify', $s->id), "data-id" => $s->id, "style" => "display:none"]);
-            } else {
-                $row  = HtmlHelper::createTag("i",[],[], $s->payment_submission->verified ? "Verified" : "Not Yet");
-            }
+//            } else {
+//                $row  = HtmlHelper::createTag("i",[],[], $s->payment_submission->verified ? "Verified" : "Not Yet");
+//            }
             return $row;
         });
 
@@ -133,13 +133,13 @@ class ListController extends Controller
         });
 
         $dt->editColumn('verified', function($gp) {
-            if(!$gp->isPaid() && !empty($gp->file)) {
+//            if(!$gp->isPaid() && !empty($gp->file)) {
                 $row  = HtmlHelper::createTag("i",["click-edit"],["title"=>"click to change"], $gp->verified);
                 $list = GeneralPayment::VERIFIED;
                 $row .= HtmlHelper::selectList($list, GeneralPayment::VERIFIED_R[$gp->verified], "verified", "form-control hide-n-seek", ["data-action" => route('admin.payment.wsverify', $gp->id), "data-id" => $gp->id, "style" => "display:none"]);
-            } else {
-                $row  = HtmlHelper::createTag("i",[],[], $gp->verified);
-            }
+//            } else {
+//                $row  = HtmlHelper::createTag("i",[],[], $gp->verified);
+//            }
             return $row;
         });
 
