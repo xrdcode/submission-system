@@ -31,7 +31,7 @@ class PapersController extends Controller
     public function upload(Request $request, $id) {
         $validator = Validator::make($request->all(), [
             'submission_id' => 'required|numeric|',
-            'file'  => 'required|file|mimes:doc,docx|max:500'
+            'file'  => 'required|file|mimes:doc,docx|max:20480'
         ]);
 
         if($validator->passes()) {
@@ -61,7 +61,6 @@ class PapersController extends Controller
                 if(!empty($old))
                     unlink(public_path(Storage::url($old)));
             }
-
 
             return response()->json(['success' => true]);
         } else {
