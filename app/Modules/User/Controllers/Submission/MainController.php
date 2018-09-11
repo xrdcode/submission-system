@@ -186,7 +186,15 @@ class MainController extends Controller
             return $s->submission_event->parent->name . " | " . $s->submission_event->name;
         });
 
-        $datatable->rawColumns(['file_abstract','action']);
+        $datatable->editColumn('feedback', function($s) {
+            if ($s->feedback != "") {
+                return HtmlHelper::linkButton("Download Feedback", route("user.conference.feedback", $s->id), "btn-xs btn-info","","glyphicon-download");
+            } else {
+                return "Feedback isn't available";
+            }
+        });
+
+        $datatable->rawColumns(['file_abstract','action','feedback']);
 
         return $datatable->make(true);
     }

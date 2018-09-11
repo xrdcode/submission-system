@@ -46,6 +46,7 @@ Route::group(['prefix' => 'user/conference', 'as' => 'user.conference', 'namespa
     //Papers
     Route::get('/{id}/upload', 'PapersController@index')->name('.upload');
     Route::post('/{id}/upload', 'PapersController@upload')->name('.doupload');
+    Route::get('/{id}/feedback', 'PapersController@getFeedback')->name('.feedback');
 });
 
 Route::group(['prefix' => 'user/publication', 'as' => 'user.publication', 'namespace' => 'App\Modules\User\Controllers\Submission', 'middleware' => ['web','auth','profile_complete']], function() {

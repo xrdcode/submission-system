@@ -12,6 +12,7 @@ use App\Helper\Constant;
 use App\Http\Controllers\Controller;
 use App\Models\BaseModel\FilePaper;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Validator;
@@ -66,7 +67,19 @@ class PapersController extends Controller
         } else {
             return response()->json(['data' => $request->all(),'errors' => $validator->getMessageBag()->toArray()], 200);
         }
+    }
 
+    public function getFeedback($id) {
+        $submission = Auth::user()->submissions->find($id);
+        $body = $submission->feedback;
 
+        $name = $submission->title . "_feedback.txt";
+
+        $headers = [
+            'Content-type'        => 'plain/txt',
+            'Content-Disposition' => "attachment; filename=\"{$name}\"",
+        ];
+
+        return response()->make($body, 200, $headers);
     }
 }
